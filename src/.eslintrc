@@ -1,0 +1,63 @@
+{
+	"extends": [
+		"airbnb",
+		"airbnb/hooks",
+		"plugin:@typescript-eslint/recommended",
+		"prettier",
+		"plugin:prettier/recommended"
+	],
+	"plugins": [
+		"@typescript-eslint",
+		"react",
+		"prettier",
+		"simple-import-sort",
+		"sort-keys-fix"
+	],
+	"parser": "@typescript-eslint/parser",
+	"parserOptions": {
+		"ecmaFeatures": {
+			"jsx": true
+		},
+		"ecmaVersion": 2018,
+		"sourceType": "module",
+		"project": "./tsconfig.json"
+	},
+	"rules": {
+		"react/jsx-filename-extension": [
+			"warn",
+			{
+				"extensions": [".ts", ".tsx"]
+			}
+		],
+		"prettier/prettier": [
+			"warn",
+			{
+				"arrowParens": "avoid",
+				"endOfLine": "auto",
+				"singleQuote": true,
+				"trailingComma": "es5",
+				"useTabs": true
+			}
+		],
+		"@typescript-eslint/ban-ts-comment": "off",
+		"@typescript-eslint/no-shadow": "warn",
+		"@typescript-eslint/no-use-before-define": "warn",
+		"consistent-return": "off",
+		"curly": ["warn", "multi", "consistent"],
+		"import/extensions": "off",
+		"import/no-unresolved": "off",
+		"import/prefer-default-export": "off",
+		"no-alert": "off",
+		"no-param-reassign": "off",
+		"no-shadow": "off",
+		"no-underscore-dangle": "off",
+		"no-use-before-define": "off",
+		"prefer-arrow-callback": "warn",
+		"react/jsx-props-no-spreading": "off",
+		"react/prop-types": "off",
+		"simple-import-sort/exports": "warn",
+		"simple-import-sort/imports": "warn",
+		"sort-keys-fix/sort-keys-fix": "warn",
+		"no-console": "off"
+	}
+}

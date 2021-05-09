@@ -1,0 +1,97 @@
+type ChatRoom @model {
+	chatRoomUsers: [ChatRoomUser]!
+		@connection(keyName: "byChatRoom", fields: ["id"])
+	id: ID!
+	maxUsers: Int!
+	messages: [Message]! @connection(keyName: "byChatRoom", fields: ["id"])
+	name: String!
+}
+
+type ChatRoomUser
+	@model
+	@key(name: "byUser", fields: ["userId"], queryField: "chatRoomUsersByUser")
+	@key(
+		name: "byChatRoom"
+		fields: ["chatRoomId"]
+		queryField: "chatRoomUsersByChatRoom"
+	) {
+	chatRoom: ChatRoom! @connection(fields: ["chatRoomId"])
+	chatRoomId: ID!
+	id: ID!
+	isModerator: Boolean!
+	user: User! @connection(fields: ["userId"])
+	userId: ID!
+}
+
+type Contact
+	@model
+	@key(
+		name: "byFollower"
+		fields: ["followerId"]
+		queryField: "contactsByFollower"
+	)
+	@key(
+		name: "byFollowee"
+		fields: ["followeeId"]
+		queryField: "contactsByFollowee"
+	) {
+	followee: User! @connection(fields: ["followeeId"])
+	followeeId: ID!
+	follower: User! @connection(fields: ["followerId"])
+	followerId: ID!
+	id: ID!
+}
+
+type Message
+	@model
+	@key(
+		name: "byChatRoom"
+		fields: ["chatRoomId", "createdAt"]
+		queryField: "messagesByChatRoom"
+	) {
+	chatRoom: ChatRoom! @connection(fields: ["chatRoomId"])
+	chatRoomId: ID!
+	content: String!
+	createdAt: String!
+	id: ID!
+	type: String!
+	user: User! @connection(fields: ["userId"])
+	userId: ID!
+}
+
+type User @model {
+	avatar: String!
+	bio: String!
+	chatRoomUsers: [ChatRoomUser]! @connection(keyName: "byUser", fields: ["id"])
+	displayName: String!
+	followees: [Contact]! @connection(keyName: "byFollower", fields: ["id"])
+	followers: [Contact]! @connection(keyName: "byFollowee", fields: ["id"])
+	id: ID!
+	name: String!
+	status: String!
+}
+
+type Subscription {
+	onCreateChatRoomUserByUserId(userId: ID!): ChatRoomUser
+		@aws_subscribe(mutations: ["createChatRoomUser"])
+	onDeleteChatRoomUserByUserId(userId: ID!): ChatRoomUser
+		@aws_subscribe(mutations: ["deleteChatRoomUser"])
+
+	onCreateChatRoomUserByChatRoomId(chatRoomId: ID!): ChatRoomUser
+		@aws_subscribe(mutations: ["createChatRoomUser"])
+	onDeleteChatRoomUserByChatRoomId(chatRoomId: ID!): ChatRoomUser
+		@aws_subscribe(mutations: ["deleteChatRoomUser"])
+
+	onCreateContactByFolloweeId(followeeId: ID!): Contact
+		@aws_subscribe(mutations: ["createContact"])
+	onDeleteContactByFolloweeId(followeeId: ID!): Contact
+		@aws_subscribe(mutations: ["deleteContact"])
+
+	onCreateContactByFollowerId(followerId: ID!): Contact
+		@aws_subscribe(mutations: ["createContact"])
+	onDeleteContactByFollowerId(followerId: ID!): Contact
+		@aws_subscribe(mutations: ["deleteContact"])
+
+	onCreateMessageByChatRoomId(chatRoomId: ID!): Message
+		@aws_subscribe(mutations: ["createMessage"])
+}

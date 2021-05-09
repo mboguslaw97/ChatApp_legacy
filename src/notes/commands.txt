@@ -1,0 +1,12 @@
+npm [build, lint, start]
+
+git rebase -i HEAD~2
+
+ACTION = [configure console mock push status update]
+CATEGORY = [api auth codegen storage]
+amplify ACTION
+amplify CATEGORY ACTION
+
+To see a list of commands:
+  amplify
+  amplify CATEGORY
