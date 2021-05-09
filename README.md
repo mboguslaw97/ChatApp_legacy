@@ -1,2 +1,4 @@
 # Group Chat App
-App to create, browse, and join public group chats. This app was made with Expo, TypeScript, React-Native, GraphQL, and AWS Amplify. Husky ensures quality code with ESLint and Prettier on commit.
+Create, browse, and join both private and public group chats! Coming soon to Android and IOS!
+
+Made with Expo, React-Native, TypeScript, and AWS Amplify, Cognito User Pools, AppSync, DynamoDB, and S3.
