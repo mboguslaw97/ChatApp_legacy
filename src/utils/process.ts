@@ -72,9 +72,6 @@ export const processMessage = async (
 ): Promise<Message | undefined> => {
 	if (message?.user) await processUser(message.user);
 	if (message?.chatRoom) await processChatRoom(message.chatRoom);
-	// TODO: What is this?
-	// Default message.type is text
-	if (message && !message.type) message.type = MessageType.Text;
 	if (message?.type === MessageType.Image)
 		message.content = await fetchFile(message.content);
 	return message;

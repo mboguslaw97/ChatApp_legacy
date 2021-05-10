@@ -2,53 +2,73 @@ import { GraphQLResult } from '@aws-amplify/api';
 import { API, graphqlOperation } from 'aws-amplify';
 
 import * as APIt from '../../../API';
-import { ChatRoom, ChatRoomUser, Contact, User } from '../../../global/types';
+import {
+	ChatRoom,
+	ChatRoomUser,
+	Contact,
+	Message,
+	MessageType,
+	User,
+} from '../../../global/types';
 import * as GQL from '../../../graphql/mutations';
 import { storeImage } from '../../storage';
 import * as CustomGQL from './graphql';
 
-const factory = <T, S>(key: keyof typeof GQL, gql?: string) => async (
-	input: S
-) => {
-	type GqlPromise = Promise<GraphQLResult<{ [key: string]: T }>>;
-	const { data } = await (API.graphql(
-		graphqlOperation(gql ?? GQL[key], { input })
-	) as GqlPromise);
-	if (data && data[key]) return data[key];
-	throw Error('Invalid response');
+type Args<S> = {
+	gql?: string;
+	key: keyof typeof GQL;
+	process?: (x: S) => Promise<void>;
 };
 
-export const createChatRoom = factory<ChatRoom, APIt.CreateChatRoomInput>(
-	'createChatRoom'
-);
+const factory =
+	<T, S>(args: Args<S>) =>
+	async (input: S) => {
+		const { gql, key, process } = args;
+		if (process) await process(input);
+		type GqlPromise = Promise<GraphQLResult<{ [key: string]: T }>>;
+		const { data } = await (API.graphql(
+			graphqlOperation(gql ?? GQL[key], { input })
+		) as GqlPromise);
+		if (data && data[key]) return data[key];
+		throw Error('Invalid response');
+	};
+
+export const createChatRoom = factory<ChatRoom, APIt.CreateChatRoomInput>({
+	key: 'createChatRoom',
+});
 
 export const createChatRoomUser = factory<
 	ChatRoomUser,
 	APIt.CreateChatRoomUserInput
->('createChatRoomUser', CustomGQL.createChatRoomUser);
+>({ gql: CustomGQL.createChatRoomUser, key: 'createChatRoomUser' });
 
-export const createContact = factory<Contact, APIt.CreateContactInput>(
-	'createContact'
-);
+export const createContact = factory<Contact, APIt.CreateContactInput>({
+	key: 'createContact',
+});
 
-// TODO: Create this function with factory
-export const createMessage = async (
-	input: APIt.CreateMessageInput
-): Promise<void> => {
-	if (input.type === 'image') input.content = await storeImage(input.content);
-	if (!input.content) throw new Error('content is undefined');
-	await API.graphql(graphqlOperation(CustomGQL.createMessage, { input }));
-};
+export const createMessage = factory<Message, APIt.CreateMessageInput>({
+	gql: CustomGQL.createMessage,
+	key: 'createMessage',
+	process: async input => {
+		if (input.type === MessageType.Image)
+			input.content = await storeImage(input.content);
+		if (!input.content) throw new Error('content is undefined');
+	},
+});
 
-export const createUser = factory<User, APIt.CreateUserInput>('createUser');
+export const createUser = factory<User, APIt.CreateUserInput>({
+	key: 'createUser',
+});
 
 export const deleteChatRoomUser = factory<
 	ChatRoomUser,
 	APIt.DeleteChatRoomUserInput
->('deleteChatRoomUser');
+>({ key: 'deleteChatRoomUser' });
 
-export const deleteContact = factory<Contact, APIt.DeleteContactInput>(
-	'deleteContact'
-);
+export const deleteContact = factory<Contact, APIt.DeleteContactInput>({
+	key: 'deleteContact',
+});
 
-export const updateUser = factory<User, APIt.UpdateUserInput>('updateUser');
+export const updateUser = factory<User, APIt.UpdateUserInput>({
+	key: 'updateUser',
+});

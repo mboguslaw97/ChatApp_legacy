@@ -10,7 +10,6 @@ import {
 	processContact,
 	processMessage,
 } from '../../process';
-import { getChatRoomUser } from '../queries';
 import * as CustomGQL from './graphql';
 
 type Args<T> = {
@@ -22,38 +21,31 @@ type Args<T> = {
 type Payload<T> = { value: GraphQLResult<{ [key: string]: T | undefined }> };
 type Subscription = { unsubscribe: () => void };
 
-const factory = <T, S>(args: Args<T>) => (
-	callback: (result: T) => void,
-	vars: S
-): Subscription | undefined => {
-	const { gql, key, process } = args;
-	const subscription = API.graphql(graphqlOperation(gql ?? GQL[key], vars));
-	if (!(subscription instanceof Observable)) return;
-	return subscription.subscribe({
-		next: async (payload: Payload<T>) => {
-			const { data, errors } = payload.value;
-			if (errors) console.warn(errors);
-			if (!data) return;
-			let result = data[key];
-			if (process) result = await process(result);
-			if (!result) return;
-			callback(result);
-		},
-	});
-};
+const factory =
+	<T, S>(args: Args<T>) =>
+	(callback: (result: T) => void, vars: S): Subscription | undefined => {
+		const { gql, key, process } = args;
+		const subscription = API.graphql(graphqlOperation(gql ?? GQL[key], vars));
+		if (!(subscription instanceof Observable)) return;
+		return subscription.subscribe({
+			next: async (payload: Payload<T>) => {
+				const { data, errors } = payload.value;
+				if (errors) console.warn(errors);
+				if (!data) return;
+				let result = data[key];
+				if (process) result = await process(result);
+				if (!result) return;
+				callback(result);
+			},
+		});
+	};
 
-// TODO: copy onCreateChatRoomUserByUserId
 export const onCreateChatRoomUserByChatRoomId = factory<
 	ChatRoomUser,
 	APIt.OnCreateChatRoomUserByChatRoomIdSubscriptionVariables
 >({
 	key: 'onCreateChatRoomUserByChatRoomId',
-	process: async chatRoomUser => {
-		if (!chatRoomUser) return;
-		const chatRoomUserFull = await getChatRoomUser(chatRoomUser.id);
-		if (!chatRoomUserFull) return;
-		return processChatRoomUser(chatRoomUserFull);
-	},
+	process: processChatRoomUser,
 });
 
 export const onCreateChatRoomUserByUserId = factory<

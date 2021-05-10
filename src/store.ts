@@ -62,13 +62,6 @@ const slice = createSlice({
 				if (!messages.items) messages.items = [];
 				messages.items.push(action.payload);
 			});
-			// TODO: Not needed?
-			// state.browseChatRooms.forEach(chatRoom => {
-			// 	if (chatRoom.id !== action.payload.chatRoomId) return;
-			// 	const { messages } = chatRoom;
-			// 	if (!messages.items) messages.items = [];
-			// 	messages.items.push(action.payload);
-			// });
 		},
 		deleteChatRoomUser: (
 			state: ReduxStore,
@@ -81,15 +74,17 @@ const slice = createSlice({
 		},
 		deleteFollowee: (state: ReduxStore, action: { payload: Contact }) => {
 			const contact = action.payload;
-			state.currentUser.followees.items = state.currentUser.followees.items.filter(
-				followee => followee.id !== contact.id
-			);
+			state.currentUser.followees.items =
+				state.currentUser.followees.items.filter(
+					followee => followee.id !== contact.id
+				);
 		},
 		deleteFollower: (state: ReduxStore, action: { payload: Contact }) => {
 			const contact = action.payload;
-			state.currentUser.followers.items = state.currentUser.followers.items.filter(
-				follower => follower.id !== contact.id
-			);
+			state.currentUser.followers.items =
+				state.currentUser.followers.items.filter(
+					follower => follower.id !== contact.id
+				);
 		},
 		setBrowseChatRooms: (
 			state: ReduxStore,

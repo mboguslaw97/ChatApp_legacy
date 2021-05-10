@@ -33,7 +33,7 @@ const Container: React.FC = () => {
 
 			if (!user) {
 				await createUser({
-					avatar: 'default-avatars/72cfc72f-5008-420d-aec6-2d4d15a8f512.png',
+					avatar: 'avatars/72cfc72f-5008-420d-aec6-2d4d15a8f512.png',
 					bio: 'Just joined ChatApp!',
 					displayName: userAuth.username,
 					id: userId,
@@ -43,9 +43,6 @@ const Container: React.FC = () => {
 				user = await getUser(getUserGql, userId);
 			}
 
-			// TODO: Is this a race condition?
-			// Must be dispatched before setting browseChatRooms
-			// because we filter out rooms currentUser is in
 			if (user) {
 				user.email = userAuth.attributes.email;
 				user.phone = userAuth.attributes.phone_number;
@@ -102,11 +99,11 @@ const Container: React.FC = () => {
 					.map(chatRoomUser => chatRoomUser.chatRoomId)
 			)
 		);
-		const subscriptions = chatRoomIds.map(chatRoomId => [
+		const subscriptions = chatRoomIds.map(chatRoomId =>
 			API.onCreateMessage(message => dispatch(Actions.createMessage(message)), {
 				chatRoomId,
-			}),
-		]);
+			})
+		);
 		return () =>
 			subscriptions.forEach(
 				subscription => subscription && subscription.unsubscribe()

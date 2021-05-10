@@ -5,11 +5,12 @@ export type ValueOf<T> = T[keyof T];
 
 export const asyncForEach = async <T>(
 	array: T[],
-	callback: (x: T, i: number, l: T[]) => Promise<void>
+	callback: (x: T) => Promise<void>
 ): Promise<void> => {
-	// TODO: Optimize
-	// eslint-disable-next-line no-await-in-loop
-	for (let i = 0; i < array.length; i += 1) await callback(array[i], i, array);
+	// TODO: Remove comments once sure this works
+	// xeslint-disable-next-line no-await-in-loop
+	// for (let i = 0; i < array.length; i += 1) await callback(array[i], i, array);
+	await Promise.all(array.map(callback));
 };
 
 export const formatHandler = (name: string | undefined): string =>
@@ -36,7 +37,7 @@ export const range = (
 	return result;
 };
 
-// TODO: Do I still need this?
+// TODO: Lambda should delete chatroom if no users left?
 export const leaveChatRoom = (
 	chatRoom: ChatRoom,
 	currentUserId: string

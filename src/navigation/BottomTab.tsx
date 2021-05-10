@@ -1,4 +1,4 @@
-import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React from 'react';
 
@@ -18,7 +18,7 @@ const Tab = createBottomTabNavigator();
 
 const BottomTab: React.FC = () => {
 	return (
-		<Tab.Navigator>
+		<Tab.Navigator tabBarOptions={{ showLabel: false }}>
 			<Tab.Screen
 				name="Chats"
 				component={ChatsStack}
@@ -40,7 +40,8 @@ const BottomTab: React.FC = () => {
 				component={BrowseStack}
 				options={{
 					tabBarIcon: ({ color, size }: TabBarIconProps) => (
-						<MaterialIcons name="library-books" size={size} color={color} />
+						// <MaterialIcons name="library-books" size={size} color={color} />
+						<MaterialCommunityIcons name="magnify" size={size} color={color} />
 					),
 				}}
 			/>

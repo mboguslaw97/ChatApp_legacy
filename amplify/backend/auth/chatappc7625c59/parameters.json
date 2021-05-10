@@ -1,6 +1,6 @@
 {
     "identityPoolName": "chatappc7625c59_identitypool_c7625c59",
-    "allowUnauthenticatedIdentities": false,
+    "allowUnauthenticatedIdentities": true,
     "resourceNameTruncated": "chatapc7625c59",
     "userPoolName": "chatappc7625c59_userpool_c7625c59",
     "autoVerifiedAttributes": [

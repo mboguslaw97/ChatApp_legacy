@@ -1,3 +1,5 @@
+import 'react-native-get-random-values';
+
 import { Storage } from 'aws-amplify';
 import * as ImagePicker from 'expo-image-picker';
 import { Platform } from 'react-native';
@@ -5,8 +7,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 const typeRequestMap = {
 	camera: ImagePicker.requestCameraPermissionsAsync,
-	// TODO: fix depreciation below
-	'camera roll': ImagePicker.requestCameraRollPermissionsAsync,
+	'camera roll': ImagePicker.requestMediaLibraryPermissionsAsync,
 };
 
 const requestPermissionAsync = async (

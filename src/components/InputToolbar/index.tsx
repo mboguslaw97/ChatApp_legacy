@@ -67,7 +67,7 @@ const InputToolbar: React.FC<Props> = ({
 				content,
 				type,
 				userId: currentUserId,
-			}).catch(() => showDanger(dangerMessage));
+			}).catch(error => showDanger(dangerMessage, error));
 		else showDanger(dangerMessage);
 
 		setText('');
