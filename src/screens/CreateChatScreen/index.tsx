@@ -12,7 +12,6 @@ import { User } from '../../global/types';
 import { CreateChatScreenProps } from '../../navigation/types';
 import { ReduxStore } from '../../store';
 import { createChatRoom, createChatRoomUser } from '../../utils/api/mutations';
-import { showDanger } from '../../utils/notifications';
 import createStyleSheet from './styles';
 
 const CreateChatScreen: React.FC<CreateChatScreenProps> = ({ navigation }) => {
@@ -51,8 +50,7 @@ const CreateChatScreen: React.FC<CreateChatScreenProps> = ({ navigation }) => {
 									navigation.navigate('ChatRoomScreen', {
 										chatRoomId: chatRoomUser.chatRoomId,
 									});
-								})
-								.catch(() => showDanger('Failed to create chat room!'));
+								});
 						}}
 					/>
 				</View>

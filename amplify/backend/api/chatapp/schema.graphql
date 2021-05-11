@@ -1,6 +1,7 @@
-type ChatRoom @model {
-	chatRoomUsers: [ChatRoomUser]!
-		@connection(keyName: "byChatRoom", fields: ["id"])
+type ChatRoom 
+	@model
+	@auth(rules: [{ allow: owner, operations: [create, delete, update] }]) {
+	chatRoomUsers: [ChatRoomUser]! @connection(keyName: "byChatRoom", fields: ["id"])
 	id: ID!
 	maxUsers: Int!
 	messages: [Message]! @connection(keyName: "byChatRoom", fields: ["id"])
@@ -34,7 +35,8 @@ type Contact
 		name: "byFollowee"
 		fields: ["followeeId"]
 		queryField: "contactsByFollowee"
-	) {
+	)
+	@auth(rules: [{ allow: owner, operations: [create, delete, update] }]) {
 	followee: User! @connection(fields: ["followeeId"])
 	followeeId: ID!
 	follower: User! @connection(fields: ["followerId"])
@@ -48,7 +50,8 @@ type Message
 		name: "byChatRoom"
 		fields: ["chatRoomId", "createdAt"]
 		queryField: "messagesByChatRoom"
-	) {
+	) 
+	@auth(rules: [{ allow: owner, operations: [create, delete, update] }]) {
 	chatRoom: ChatRoom! @connection(fields: ["chatRoomId"])
 	chatRoomId: ID!
 	content: String!
@@ -59,7 +62,9 @@ type Message
 	userId: ID!
 }
 
-type User @model {
+type User 
+	@model
+	@auth(rules: [{ allow: owner, operations: [create, delete, update] }]) {
 	avatar: String!
 	bio: String!
 	chatRoomUsers: [ChatRoomUser]! @connection(keyName: "byUser", fields: ["id"])

@@ -21,7 +21,7 @@ import { ReduxStore } from '../../store';
 import { updateUser } from '../../utils/api/mutations';
 import { getUser } from '../../utils/api/queries';
 import { formatHandler } from '../../utils/helper';
-import { showDanger, showSuccess } from '../../utils/notifications';
+import { showSuccess } from '../../utils/notifications';
 import { storeImage } from '../../utils/storage';
 import createStyleSheet from './styles';
 
@@ -75,9 +75,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation, route }) => {
 			if (avatar !== user?.avatar && avatar)
 				input.avatar = await storeImage(avatar);
 
-			updateUser(input)
-				.then(() => showSuccess('Profile saved!'))
-				.catch(() => showDanger('Failed to save!'));
+			updateUser(input).then(() => showSuccess('Profile saved!'));
 		};
 
 		navigation.setOptions({

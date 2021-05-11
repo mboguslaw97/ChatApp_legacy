@@ -36,9 +36,8 @@ const ListItemUser: React.FC<Props> = ({ user, onPress }) => {
 		return state.currentUser.followees.items;
 	});
 
-	const [followeeContact, setFolloweeContact] = useState<Contact | undefined>(
-		undefined
-	);
+	const [followeeContact, setFolloweeContact] =
+		useState<Contact | undefined>(undefined);
 
 	useEffect(() => {
 		setFolloweeContact(

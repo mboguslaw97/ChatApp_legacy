@@ -8,7 +8,6 @@ import { GlobalStyles } from '../../global/styles';
 import { MessageType } from '../../global/types';
 import { ReduxStore } from '../../store';
 import { createChatRoomUser, createMessage } from '../../utils/api/mutations';
-import { showDanger } from '../../utils/notifications';
 import BottomSheetCamera from '../BottomSheetCamera';
 import ButtonIcon from '../ButtonIcon';
 import MyButton from '../MyButton';
@@ -60,15 +59,13 @@ const InputToolbar: React.FC<Props> = ({
 			type = MessageType.Image;
 		}
 
-		const dangerMessage = 'Failed to send message!';
 		if (content && type)
 			createMessage({
 				chatRoomId,
 				content,
 				type,
 				userId: currentUserId,
-			}).catch(error => showDanger(dangerMessage, error));
-		else showDanger(dangerMessage);
+			});
 
 		setText('');
 		setImage('');

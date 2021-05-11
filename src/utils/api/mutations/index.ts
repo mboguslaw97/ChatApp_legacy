@@ -11,6 +11,7 @@ import {
 	User,
 } from '../../../global/types';
 import * as GQL from '../../../graphql/mutations';
+import { showDanger } from '../../notifications';
 import { storeImage } from '../../storage';
 import * as CustomGQL from './graphql';
 
@@ -30,6 +31,7 @@ const factory =
 			graphqlOperation(gql ?? GQL[key], { input })
 		) as GqlPromise);
 		if (data && data[key]) return data[key];
+		showDanger('There was an error processing your request');
 		throw Error('Invalid response');
 	};
 

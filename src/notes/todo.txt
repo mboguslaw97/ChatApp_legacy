@@ -1,29 +1,22 @@
-The following types do not have '@auth' enabled. Consider using @auth with @model
-- ChatRoom
-- ChatRoomUser
-- Message
-- User
-Learn more about @auth here: https://docs.amplify.aws/cli/graphql-transformer/auth
-
-Notifications
-Ads
 Cache images
-Don't wait for subscription to update redux state
-  Update state immediately
-  Provide onFail callback to undo state change and display error message
-Notify user of errors
+Notifications
 Sort browse chat rooms
 Search feature
+Query pagination
 Support the dev
+Encrypt messages
+Limit size of messages
+Send videos
+Ads
 Better message timestamps
 Invite friends to new chat
 Add friend on profile screen
 Create dm
 Add hashtags to post
 Invite friend to room
-Query pagination
-Custom login page
+Message reactions
 Settings page
+Custom login page
 Android textinput KeyboardAvoidingView
 
 Maybe:
