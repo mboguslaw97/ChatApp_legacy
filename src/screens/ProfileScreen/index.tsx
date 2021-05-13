@@ -107,7 +107,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation, route }) => {
 	return (
 		<>
 			<View style={styles.container}>
-				<MyImage source={{ uri: avatar }} style={styles.avatar} />
+				<MyImage source={{ s3Key: avatar }} style={styles.avatar} />
 				<Text style={styles.name}>{formatHandler(user?.name)}</Text>
 				{userIsCurrentUser && (
 					<ContainerList>

@@ -43,6 +43,7 @@ const ButtonIcon: React.FC<Props> = ({
 
 	return (
 		<TouchableOpacity onPress={onPress} style={style}>
+			{/* @ts-ignore */}
 			<IconClass {...iconProps} />
 		</TouchableOpacity>
 	);

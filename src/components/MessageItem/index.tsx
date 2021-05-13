@@ -53,7 +53,7 @@ const MessageItem: React.FC<Props> = ({ message }) => {
 				<View style={styles.containerLeft}>
 					<TouchableOpacity onPress={onPressAvatar}>
 						<MyImage
-							source={{ uri: message.user.avatar }}
+							source={{ s3Key: message.user.avatar }}
 							style={styles.avatar}
 						/>
 					</TouchableOpacity>
@@ -90,7 +90,7 @@ const MessageItem: React.FC<Props> = ({ message }) => {
 				{message.type === MessageType.Image && (
 					<TouchableOpacity onPress={onPressContent}>
 						<MyImage
-							source={{ uri: message.content }}
+							source={{ s3Key: message.content }}
 							style={globalStyles.image}
 						/>
 					</TouchableOpacity>

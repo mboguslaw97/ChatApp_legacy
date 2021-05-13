@@ -1,12 +1,11 @@
-Cache images
-Notifications
+Speed up chatroom with lots of images
 Sort browse chat rooms
-Search feature
 Query pagination
 Support the dev
 Encrypt messages
 Limit size of messages
 Send videos
+Notifications
 Ads
 Better message timestamps
 Invite friends to new chat
@@ -14,6 +13,7 @@ Add friend on profile screen
 Create dm
 Add hashtags to post
 Invite friend to room
+Search feature
 Message reactions
 Settings page
 Custom login page

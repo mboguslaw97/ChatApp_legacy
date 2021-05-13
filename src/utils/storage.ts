@@ -1,8 +1,11 @@
 import 'react-native-get-random-values';
 
 import { Storage } from 'aws-amplify';
+import * as FileSystem from 'expo-file-system';
 import * as ImagePicker from 'expo-image-picker';
 import { Platform } from 'react-native';
+// @ts-ignore
+import shorthash from 'shorthash';
 import { v4 as uuidv4 } from 'uuid';
 
 const typeRequestMap = {
@@ -36,19 +39,35 @@ export const pickImage = async (
 		allowsEditing: true,
 		mediaTypes: ImagePicker.MediaTypeOptions.Images,
 	});
-	if (!result.cancelled) return result.uri;
-	return '';
+	if (result.cancelled) return '';
+	return result.uri;
 };
 
+const getPath = (key: string) =>
+	`${FileSystem.cacheDirectory}${shorthash.unique(key)}`;
+
+// TODO: What happens when image is pushed out of cash?
 export const fetchFile = async (key: string): Promise<string> => {
-	return (await Storage.get(key)) as string;
+	const path = getPath(key);
+	return FileSystem.getInfoAsync(path).then(image => {
+		if (image.exists) return image.uri;
+		return Storage.get(key)
+			.then(url => FileSystem.downloadAsync(url as string, path))
+			.then(newImage => newImage.uri);
+	});
 };
 
 export const storeImage = async (uri: string): Promise<string> => {
-	const response = await fetch(uri);
-	const blob = await response.blob();
-	const { key } = (await Storage.put(`${uuidv4()}.png`, blob, {
-		contentType: 'image/png',
-	})) as { key: string };
-	return key;
+	return fetch(uri)
+		.then(response => response.blob())
+		.then(
+			blob =>
+				Storage.put(`${uuidv4()}.png`, blob, {
+					contentType: 'image/png',
+				}) as Promise<{ key: string }>
+		)
+		.then(({ key }) => {
+			FileSystem.copyAsync({ from: uri, to: getPath(key) });
+			return key;
+		});
 };

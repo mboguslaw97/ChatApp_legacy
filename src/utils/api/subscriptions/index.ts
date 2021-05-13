@@ -5,11 +5,6 @@ import Observable from 'zen-observable';
 import * as APIt from '../../../API';
 import { ChatRoomUser, Contact, Message } from '../../../global/types';
 import * as GQL from '../../../graphql/subscriptions';
-import {
-	processChatRoomUser,
-	processContact,
-	processMessage,
-} from '../../process';
 import * as CustomGQL from './graphql';
 
 type Args<T> = {
@@ -24,7 +19,7 @@ type Subscription = { unsubscribe: () => void };
 const factory =
 	<T, S>(args: Args<T>) =>
 	(callback: (result: T) => void, vars: S): Subscription | undefined => {
-		const { gql, key, process } = args;
+		const { gql, key } = args;
 		const subscription = API.graphql(graphqlOperation(gql ?? GQL[key], vars));
 		if (!(subscription instanceof Observable)) return;
 		return subscription.subscribe({
@@ -32,8 +27,8 @@ const factory =
 				const { data, errors } = payload.value;
 				if (errors) console.warn(errors);
 				if (!data) return;
-				let result = data[key];
-				if (process) result = await process(result);
+				const result = data[key];
+				// if (process) result = await process(result);
 				if (!result) return;
 				callback(result);
 			},
@@ -45,7 +40,7 @@ export const onCreateChatRoomUserByChatRoomId = factory<
 	APIt.OnCreateChatRoomUserByChatRoomIdSubscriptionVariables
 >({
 	key: 'onCreateChatRoomUserByChatRoomId',
-	process: processChatRoomUser,
+	// process: processChatRoomUser,
 });
 
 export const onCreateChatRoomUserByUserId = factory<
@@ -54,7 +49,7 @@ export const onCreateChatRoomUserByUserId = factory<
 >({
 	gql: CustomGQL.onCreateChatRoomUserByUserId,
 	key: 'onCreateChatRoomUserByUserId',
-	process: processChatRoomUser,
+	// process: processChatRoomUser,
 });
 
 export const onCreateFollowee = factory<
@@ -62,7 +57,7 @@ export const onCreateFollowee = factory<
 	APIt.OnCreateContactByFolloweeIdSubscriptionVariables
 >({
 	key: 'onCreateContactByFolloweeId',
-	process: processContact,
+	// process: processContact,
 });
 
 export const onCreateFollower = factory<
@@ -70,7 +65,7 @@ export const onCreateFollower = factory<
 	APIt.OnCreateContactByFollowerIdSubscriptionVariables
 >({
 	key: 'onCreateContactByFollowerId',
-	process: processContact,
+	// process: processContact,
 });
 
 export const onCreateMessage = factory<
@@ -79,7 +74,7 @@ export const onCreateMessage = factory<
 >({
 	gql: CustomGQL.onCreateMessageByChatRoomId,
 	key: 'onCreateMessageByChatRoomId',
-	process: processMessage,
+	// process: processMessage,
 });
 
 export const onDeleteChatRoomUserByChatRoomId = factory<

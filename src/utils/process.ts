@@ -4,11 +4,9 @@ import {
 	ChatRoomUser,
 	Contact,
 	Message,
-	MessageType,
 	User,
 } from '../global/types';
 import { asyncForEach } from './helper';
-import { fetchFile } from './storage';
 
 export const processChatRoom = async (
 	chatRoom: ChatRoom | undefined
@@ -72,8 +70,8 @@ export const processMessage = async (
 ): Promise<Message | undefined> => {
 	if (message?.user) await processUser(message.user);
 	if (message?.chatRoom) await processChatRoom(message.chatRoom);
-	if (message?.type === MessageType.Image)
-		message.content = await fetchFile(message.content);
+	// if (message?.type === MessageType.Image)
+	// message.content = await fetchFile(message.content);
 	return message;
 };
 
@@ -90,7 +88,7 @@ export const processMessages = async (
 export const processUser = async (
 	user: User | undefined
 ): Promise<User | undefined> => {
-	if (user?.avatar) user.avatar = await fetchFile(user.avatar);
+	// if (user?.avatar) user.avatar = await fetchFile(user.avatar);
 	if (user?.chatRoomUsers?.items)
 		await processChatRoomUsers(user.chatRoomUsers.items);
 	if (user?.followees?.items) await processContacts(user.followees.items);

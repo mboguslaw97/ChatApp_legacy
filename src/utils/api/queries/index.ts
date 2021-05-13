@@ -4,7 +4,6 @@ import { API, graphqlOperation } from 'aws-amplify';
 import * as APIt from '../../../API';
 import { ChatRoomUser, User } from '../../../global/types';
 import { BrowseChatRooms } from '../../../store';
-import { processChatRooms, processUser } from '../../process';
 import * as GQL from './graphql';
 
 export const getChatRoomUser = async (
@@ -27,7 +26,7 @@ export const getUser = async (
 	)) as GraphQLResult<{ getUser: User }>;
 
 	const user = result.data?.getUser;
-	await processUser(user);
+	// await processUser(user);
 	return user;
 };
 
@@ -38,6 +37,6 @@ export const listBrowseChatRooms = async (): Promise<
 		graphqlOperation(GQL.listChatRooms)
 	)) as GraphQLResult<{ listChatRooms: { items: BrowseChatRooms } }>;
 	const browseChatRooms = result.data?.listChatRooms.items;
-	await processChatRooms(browseChatRooms);
+	// await processChatRooms(browseChatRooms);
 	return browseChatRooms;
 };

@@ -30,7 +30,7 @@ const ButtonAvatar: React.FC<Props> = ({ uri, userId }) => {
 			onPress={onPress}
 			// style={globalStyles.headerRightContainer}
 		>
-			<MyImage source={{ uri }} style={globalStyles.avatarSmall} />
+			<MyImage source={{ s3Key: uri }} style={globalStyles.avatarSmall} />
 		</TouchableOpacity>
 	);
 };

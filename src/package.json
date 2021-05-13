@@ -20,6 +20,7 @@
     "aws-amplify": "^3.4.0",
     "aws-amplify-react-native": "^4.3.3",
     "expo": "~41.0.1",
+    "expo-file-system": "~11.0.2",
     "expo-image-picker": "~10.1.4",
     "expo-status-bar": "~1.0.4",
     "moment": "^2.29.1",
@@ -28,6 +29,7 @@
     "react-native": "https://github.com/expo/react-native/archive/sdk-41.0.0.tar.gz",
     "react-native-flash-message": "^0.1.23",
     "react-native-gesture-handler": "~1.10.2",
+    "react-native-get-random-values": "~1.7.0",
     "react-native-image-progress": "^1.1.1",
     "react-native-progress": "^4.1.2",
     "react-native-reanimated": "~2.1.0",
@@ -36,9 +38,9 @@
     "react-native-web": "^0.16.2",
     "react-redux": "^7.2.4",
     "reanimated-bottom-sheet": "^1.0.0-alpha.22",
+    "shorthash": "0.0.2",
     "uuid": "^8.3.2",
-    "zen-observable": "^0.8.15",
-    "react-native-get-random-values": "~1.7.0"
+    "zen-observable": "^0.8.15"
   },
   "devDependencies": {
     "@babel/core": "~7.9.0",

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { ImageProps, StyleSheet } from 'react-native';
 // eslint-disable-next-line
 // @ts-ignore
@@ -10,17 +10,37 @@ import { useSelector } from 'react-redux';
 
 import { Colors } from '../../global/colors';
 import { ReduxStore } from '../../store';
+import { fetchFile } from '../../utils/storage';
 
-const MyImage: React.FC<ImageProps> = props => {
-	const { style } = props;
+interface MyImageProps extends ImageProps {
+	source: {
+		uri?: string;
+		s3Key?: string;
+	};
+}
+
+const MyImage: React.FC<MyImageProps> = props => {
+	const { source, style } = props;
 
 	const colors = useSelector<ReduxStore, Colors>(state => state.colors);
+	const [uri, setUri] = useState<string>();
+
+	useEffect(() => {
+		(async () => {
+			if (source.s3Key) {
+				const tmp = await fetchFile(source.s3Key);
+				setUri(tmp);
+			} else {
+				setUri(source.uri);
+			}
+		})();
+	}, [source]);
 
 	const styleFlat = StyleSheet.flatten(style);
-	const { width } = styleFlat;
-	const { height } = styleFlat;
+	const { width, height } = styleFlat;
 
-	// Squashing bug caused by marings
+	// TODO: What is this?
+	// Squashing bug caused by margins
 	const newStyle = {
 		...styleFlat,
 		margin: 0,
@@ -34,15 +54,18 @@ const MyImage: React.FC<ImageProps> = props => {
 	const indicator =
 		width && width >= 150 && height && height >= 150 ? ProgressBar : undefined;
 
-	return (
+	return uri ? (
 		<Image
 			{...props}
+			source={{ uri }}
 			imageStyle={newStyle}
 			indicator={indicator}
 			indicatorProps={{
 				color: colors.highlight,
 			}}
 		/>
+	) : (
+		<></>
 	);
 };
 

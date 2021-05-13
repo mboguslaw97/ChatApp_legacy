@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
-import { Image, ScrollView, Text, View } from 'react-native';
+import { ScrollView, Text, View } from 'react-native';
 import { useSelector } from 'react-redux';
 
+import MyImage from '../../components/MyImage';
 import { Colors } from '../../global/colors';
 import { GlobalStyles } from '../../global/styles';
 import { MessageType } from '../../global/types';
@@ -35,11 +36,10 @@ const TemplateScreen: React.FC<MessageScreenProps> = ({
 			break;
 		case MessageType.Image:
 			content = (
-				<Image source={{ uri: message.content }} style={styles.image} />
+				<MyImage source={{ s3Key: message.content }} style={styles.image} />
 			);
 			break;
 		default:
-			// eslint-disable-next-line no-console
 			console.warn(`Invalid message type: ${message.type}`);
 	}
 
