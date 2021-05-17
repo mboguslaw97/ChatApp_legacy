@@ -1,6 +1,10 @@
-type ChatRoom 
+type ChatRoom  
 	@model
-	@auth(rules: [{ allow: owner, operations: [create, delete, update] }]) {
+	@auth(rules: [
+		{ allow: owner },
+		{ allow: private, operations: [read] },
+		{ allow: private, provider: iam, operations: [read] }
+	]) {
 	chatRoomUsers: [ChatRoomUser]! @connection(keyName: "byChatRoom", fields: ["id"])
 	id: ID!
 	maxUsers: Int!
@@ -15,7 +19,12 @@ type ChatRoomUser
 		name: "byChatRoom"
 		fields: ["chatRoomId"]
 		queryField: "chatRoomUsersByChatRoom"
-	) {
+	)
+	@auth(rules: [
+		{ allow: owner },
+		{ allow: private, operations: [read] },
+		{ allow: private, provider: iam, operations: [read] }
+	]) {
 	chatRoom: ChatRoom! @connection(fields: ["chatRoomId"])
 	chatRoomId: ID!
 	id: ID!
@@ -64,7 +73,11 @@ type Message
 
 type User 
 	@model
-	@auth(rules: [{ allow: owner, operations: [create, delete, update] }]) {
+	@auth(rules: [
+		{ allow: owner },
+		{ allow: private, operations: [read] },
+		{ allow: private, provider: iam, operations: [read] }
+	]) {
 	avatar: String!
 	bio: String!
 	chatRoomUsers: [ChatRoomUser]! @connection(keyName: "byUser", fields: ["id"])
@@ -73,7 +86,7 @@ type User
 	followers: [Contact]! @connection(keyName: "byFollowee", fields: ["id"])
 	id: ID!
 	name: String!
-	status: String!
+	pushToken: String!
 }
 
 type Subscription {

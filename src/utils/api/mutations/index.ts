@@ -11,7 +11,7 @@ import {
 	User,
 } from '../../../global/types';
 import * as GQL from '../../../graphql/mutations';
-import { showDanger } from '../../notifications';
+import { showDanger } from '../../banner';
 import { storeImage } from '../../storage';
 import * as CustomGQL from './graphql';
 

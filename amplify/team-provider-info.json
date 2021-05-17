@@ -14,6 +14,12 @@
     "categories": {
       "auth": {
         "chatappc7625c59": {}
+      },
+      "function": {
+        "sendPushNotifications": {
+          "deploymentBucketName": "amplify-chatapp-dev-232827-deployment",
+          "s3Key": "amplify-builds/sendPushNotifications-4c4f4138326250474637-build.zip"
+        }
       }
     }
   }

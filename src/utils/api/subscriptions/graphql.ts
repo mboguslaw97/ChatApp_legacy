@@ -40,7 +40,6 @@ export const onCreateChatRoomUserByUserId = /* GraphQL */ `
 							createdAt
 							id
 							name
-							status
 							updatedAt
 						}
 						userId
@@ -60,7 +59,6 @@ export const onCreateChatRoomUserByUserId = /* GraphQL */ `
 				}
 				id
 				name
-				status
 				createdAt
 				updatedAt
 			}

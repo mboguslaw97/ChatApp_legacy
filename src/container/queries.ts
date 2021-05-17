@@ -6,7 +6,7 @@ export const getUser = /* GraphQL */ `
 			displayName
 			id
 			name
-			status
+			pushToken
 			chatRoomUsers {
 				items {
 					id
@@ -54,7 +54,6 @@ export const getUser = /* GraphQL */ `
 						displayName
 						id
 						name
-						status
 						createdAt
 						updatedAt
 					}
@@ -65,7 +64,6 @@ export const getUser = /* GraphQL */ `
 						displayName
 						id
 						name
-						status
 						createdAt
 						updatedAt
 					}
@@ -83,7 +81,6 @@ export const getUser = /* GraphQL */ `
 						displayName
 						id
 						name
-						status
 						createdAt
 						updatedAt
 					}
@@ -94,7 +91,6 @@ export const getUser = /* GraphQL */ `
 						displayName
 						id
 						name
-						status
 						createdAt
 						updatedAt
 					}

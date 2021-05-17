@@ -70,63 +70,14 @@ export type ModelSizeInput = {
 
 export type ChatRoom = {
   __typename: "ChatRoom",
-  chatRoomUsers?: ModelChatRoomUserConnection,
   id?: string,
   maxUsers?: number,
   messages?: ModelMessageConnection,
   name?: string,
   createdAt?: string,
   updatedAt?: string,
-};
-
-export type ModelChatRoomUserConnection = {
-  __typename: "ModelChatRoomUserConnection",
-  items?:  Array<ChatRoomUser | null > | null,
-  nextToken?: string | null,
-};
-
-export type ChatRoomUser = {
-  __typename: "ChatRoomUser",
-  chatRoom?: ChatRoom,
-  chatRoomId?: string,
-  id?: string,
-  isModerator?: boolean,
-  user?: User,
-  userId?: string,
-  createdAt?: string,
-  updatedAt?: string,
-};
-
-export type User = {
-  __typename: "User",
-  avatar?: string,
-  bio?: string,
+  owner?: string | null,
   chatRoomUsers?: ModelChatRoomUserConnection,
-  displayName?: string,
-  followees?: ModelContactConnection,
-  followers?: ModelContactConnection,
-  id?: string,
-  name?: string,
-  status?: string,
-  createdAt?: string,
-  updatedAt?: string,
-};
-
-export type ModelContactConnection = {
-  __typename: "ModelContactConnection",
-  items?:  Array<Contact | null > | null,
-  nextToken?: string | null,
-};
-
-export type Contact = {
-  __typename: "Contact",
-  followee?: User,
-  followeeId?: string,
-  follower?: User,
-  followerId?: string,
-  id?: string,
-  createdAt?: string,
-  updatedAt?: string,
 };
 
 export type ModelMessageConnection = {
@@ -137,15 +88,69 @@ export type ModelMessageConnection = {
 
 export type Message = {
   __typename: "Message",
-  chatRoom?: ChatRoom,
   chatRoomId?: string,
   content?: string,
   createdAt?: string,
   id?: string,
   type?: string,
-  user?: User,
   userId?: string,
   updatedAt?: string,
+  chatRoom?: ChatRoom,
+  owner?: string | null,
+  user?: User,
+};
+
+export type User = {
+  __typename: "User",
+  avatar?: string,
+  bio?: string,
+  displayName?: string,
+  followees?: ModelContactConnection,
+  followers?: ModelContactConnection,
+  id?: string,
+  name?: string,
+  pushToken?: string,
+  createdAt?: string,
+  updatedAt?: string,
+  chatRoomUsers?: ModelChatRoomUserConnection,
+  owner?: string | null,
+};
+
+export type ModelContactConnection = {
+  __typename: "ModelContactConnection",
+  items?:  Array<Contact | null > | null,
+  nextToken?: string | null,
+};
+
+export type Contact = {
+  __typename: "Contact",
+  followeeId?: string,
+  followerId?: string,
+  id?: string,
+  createdAt?: string,
+  updatedAt?: string,
+  owner?: string | null,
+  followee?: User,
+  follower?: User,
+};
+
+export type ModelChatRoomUserConnection = {
+  __typename: "ModelChatRoomUserConnection",
+  items?:  Array<ChatRoomUser | null > | null,
+  nextToken?: string | null,
+};
+
+export type ChatRoomUser = {
+  __typename: "ChatRoomUser",
+  chatRoomId?: string,
+  id?: string,
+  isModerator?: boolean,
+  userId?: string,
+  createdAt?: string,
+  updatedAt?: string,
+  chatRoom?: ChatRoom,
+  owner?: string | null,
+  user?: User,
 };
 
 export type UpdateChatRoomInput = {
@@ -271,7 +276,7 @@ export type CreateUserInput = {
   displayName: string,
   id?: string | null,
   name: string,
-  status: string,
+  pushToken: string,
 };
 
 export type ModelUserConditionInput = {
@@ -279,7 +284,7 @@ export type ModelUserConditionInput = {
   bio?: ModelStringInput | null,
   displayName?: ModelStringInput | null,
   name?: ModelStringInput | null,
-  status?: ModelStringInput | null,
+  pushToken?: ModelStringInput | null,
   and?: Array< ModelUserConditionInput | null > | null,
   or?: Array< ModelUserConditionInput | null > | null,
   not?: ModelUserConditionInput | null,
@@ -291,11 +296,48 @@ export type UpdateUserInput = {
   displayName?: string | null,
   id: string,
   name?: string | null,
-  status?: string | null,
+  pushToken?: string | null,
 };
 
 export type DeleteUserInput = {
   id?: string | null,
+};
+
+export type ModelContactFilterInput = {
+  followeeId?: ModelIDInput | null,
+  followerId?: ModelIDInput | null,
+  id?: ModelIDInput | null,
+  and?: Array< ModelContactFilterInput | null > | null,
+  or?: Array< ModelContactFilterInput | null > | null,
+  not?: ModelContactFilterInput | null,
+};
+
+export type ModelMessageFilterInput = {
+  chatRoomId?: ModelIDInput | null,
+  content?: ModelStringInput | null,
+  createdAt?: ModelStringInput | null,
+  id?: ModelIDInput | null,
+  type?: ModelStringInput | null,
+  userId?: ModelIDInput | null,
+  and?: Array< ModelMessageFilterInput | null > | null,
+  or?: Array< ModelMessageFilterInput | null > | null,
+  not?: ModelMessageFilterInput | null,
+};
+
+export enum ModelSortDirection {
+  ASC = "ASC",
+  DESC = "DESC",
+}
+
+
+export type ModelStringKeyConditionInput = {
+  eq?: string | null,
+  le?: string | null,
+  lt?: string | null,
+  ge?: string | null,
+  gt?: string | null,
+  between?: Array< string | null > | null,
+  beginsWith?: string | null,
 };
 
 export type ModelChatRoomFilterInput = {
@@ -323,34 +365,13 @@ export type ModelChatRoomUserFilterInput = {
   not?: ModelChatRoomUserFilterInput | null,
 };
 
-export type ModelContactFilterInput = {
-  followeeId?: ModelIDInput | null,
-  followerId?: ModelIDInput | null,
-  id?: ModelIDInput | null,
-  and?: Array< ModelContactFilterInput | null > | null,
-  or?: Array< ModelContactFilterInput | null > | null,
-  not?: ModelContactFilterInput | null,
-};
-
-export type ModelMessageFilterInput = {
-  chatRoomId?: ModelIDInput | null,
-  content?: ModelStringInput | null,
-  createdAt?: ModelStringInput | null,
-  id?: ModelIDInput | null,
-  type?: ModelStringInput | null,
-  userId?: ModelIDInput | null,
-  and?: Array< ModelMessageFilterInput | null > | null,
-  or?: Array< ModelMessageFilterInput | null > | null,
-  not?: ModelMessageFilterInput | null,
-};
-
 export type ModelUserFilterInput = {
   avatar?: ModelStringInput | null,
   bio?: ModelStringInput | null,
   displayName?: ModelStringInput | null,
   id?: ModelIDInput | null,
   name?: ModelStringInput | null,
-  status?: ModelStringInput | null,
+  pushToken?: ModelStringInput | null,
   and?: Array< ModelUserFilterInput | null > | null,
   or?: Array< ModelUserFilterInput | null > | null,
   not?: ModelUserFilterInput | null,
@@ -362,22 +383,6 @@ export type ModelUserConnection = {
   nextToken?: string | null,
 };
 
-export enum ModelSortDirection {
-  ASC = "ASC",
-  DESC = "DESC",
-}
-
-
-export type ModelStringKeyConditionInput = {
-  eq?: string | null,
-  le?: string | null,
-  lt?: string | null,
-  ge?: string | null,
-  gt?: string | null,
-  between?: Array< string | null > | null,
-  beginsWith?: string | null,
-};
-
 export type CreateChatRoomMutationVariables = {
   input?: CreateChatRoomInput,
   condition?: ModelChatRoomConditionInput | null,
@@ -386,19 +391,6 @@ export type CreateChatRoomMutationVariables = {
 export type CreateChatRoomMutation = {
   createChatRoom?:  {
     __typename: "ChatRoom",
-    chatRoomUsers?:  {
-      __typename: "ModelChatRoomUserConnection",
-      items?:  Array< {
-        __typename: "ChatRoomUser",
-        chatRoomId: string,
-        id: string,
-        isModerator: boolean,
-        userId: string,
-        createdAt: string,
-        updatedAt: string,
-      } | null > | null,
-      nextToken?: string | null,
-    } | null,
     id: string,
     maxUsers: number,
     messages?:  {
@@ -412,12 +404,28 @@ export type CreateChatRoomMutation = {
         type: string,
         userId: string,
         updatedAt: string,
+        owner?: string | null,
       } | null > | null,
       nextToken?: string | null,
     } | null,
     name: string,
     createdAt: string,
     updatedAt: string,
+    owner?: string | null,
+    chatRoomUsers?:  {
+      __typename: "ModelChatRoomUserConnection",
+      items?:  Array< {
+        __typename: "ChatRoomUser",
+        chatRoomId: string,
+        id: string,
+        isModerator: boolean,
+        userId: string,
+        createdAt: string,
+        updatedAt: string,
+        owner?: string | null,
+      } | null > | null,
+      nextToken?: string | null,
+    } | null,
   } | null,
 };
 
@@ -429,19 +437,6 @@ export type UpdateChatRoomMutationVariables = {
 export type UpdateChatRoomMutation = {
   updateChatRoom?:  {
     __typename: "ChatRoom",
-    chatRoomUsers?:  {
-      __typename: "ModelChatRoomUserConnection",
-      items?:  Array< {
-        __typename: "ChatRoomUser",
-        chatRoomId: string,
-        id: string,
-        isModerator: boolean,
-        userId: string,
-        createdAt: string,
-        updatedAt: string,
-      } | null > | null,
-      nextToken?: string | null,
-    } | null,
     id: string,
     maxUsers: number,
     messages?:  {
@@ -455,12 +450,28 @@ export type UpdateChatRoomMutation = {
         type: string,
         userId: string,
         updatedAt: string,
+        owner?: string | null,
       } | null > | null,
       nextToken?: string | null,
     } | null,
     name: string,
     createdAt: string,
     updatedAt: string,
+    owner?: string | null,
+    chatRoomUsers?:  {
+      __typename: "ModelChatRoomUserConnection",
+      items?:  Array< {
+        __typename: "ChatRoomUser",
+        chatRoomId: string,
+        id: string,
+        isModerator: boolean,
+        userId: string,
+        createdAt: string,
+        updatedAt: string,
+        owner?: string | null,
+      } | null > | null,
+      nextToken?: string | null,
+    } | null,
   } | null,
 };
 
@@ -472,19 +483,6 @@ export type DeleteChatRoomMutationVariables = {
 export type DeleteChatRoomMutation = {
   deleteChatRoom?:  {
     __typename: "ChatRoom",
-    chatRoomUsers?:  {
-      __typename: "ModelChatRoomUserConnection",
-      items?:  Array< {
-        __typename: "ChatRoomUser",
-        chatRoomId: string,
-        id: string,
-        isModerator: boolean,
-        userId: string,
-        createdAt: string,
-        updatedAt: string,
-      } | null > | null,
-      nextToken?: string | null,
-    } | null,
     id: string,
     maxUsers: number,
     messages?:  {
@@ -498,12 +496,28 @@ export type DeleteChatRoomMutation = {
         type: string,
         userId: string,
         updatedAt: string,
+        owner?: string | null,
       } | null > | null,
       nextToken?: string | null,
     } | null,
     name: string,
     createdAt: string,
     updatedAt: string,
+    owner?: string | null,
+    chatRoomUsers?:  {
+      __typename: "ModelChatRoomUserConnection",
+      items?:  Array< {
+        __typename: "ChatRoomUser",
+        chatRoomId: string,
+        id: string,
+        isModerator: boolean,
+        userId: string,
+        createdAt: string,
+        updatedAt: string,
+        owner?: string | null,
+      } | null > | null,
+      nextToken?: string | null,
+    } | null,
   } | null,
 };
 
@@ -515,12 +529,14 @@ export type CreateChatRoomUserMutationVariables = {
 export type CreateChatRoomUserMutation = {
   createChatRoomUser?:  {
     __typename: "ChatRoomUser",
+    chatRoomId: string,
+    id: string,
+    isModerator: boolean,
+    userId: string,
+    createdAt: string,
+    updatedAt: string,
     chatRoom:  {
       __typename: "ChatRoom",
-      chatRoomUsers?:  {
-        __typename: "ModelChatRoomUserConnection",
-        nextToken?: string | null,
-      } | null,
       id: string,
       maxUsers: number,
       messages?:  {
@@ -530,18 +546,17 @@ export type CreateChatRoomUserMutation = {
       name: string,
       createdAt: string,
       updatedAt: string,
-    },
-    chatRoomId: string,
-    id: string,
-    isModerator: boolean,
-    user:  {
-      __typename: "User",
-      avatar: string,
-      bio: string,
+      owner?: string | null,
       chatRoomUsers?:  {
         __typename: "ModelChatRoomUserConnection",
         nextToken?: string | null,
       } | null,
+    },
+    owner?: string | null,
+    user:  {
+      __typename: "User",
+      avatar: string,
+      bio: string,
       displayName: string,
       followees?:  {
         __typename: "ModelContactConnection",
@@ -553,13 +568,15 @@ export type CreateChatRoomUserMutation = {
       } | null,
       id: string,
       name: string,
-      status: string,
+      pushToken: string,
       createdAt: string,
       updatedAt: string,
+      chatRoomUsers?:  {
+        __typename: "ModelChatRoomUserConnection",
+        nextToken?: string | null,
+      } | null,
+      owner?: string | null,
     },
-    userId: string,
-    createdAt: string,
-    updatedAt: string,
   } | null,
 };
 
@@ -571,12 +588,14 @@ export type UpdateChatRoomUserMutationVariables = {
 export type UpdateChatRoomUserMutation = {
   updateChatRoomUser?:  {
     __typename: "ChatRoomUser",
+    chatRoomId: string,
+    id: string,
+    isModerator: boolean,
+    userId: string,
+    createdAt: string,
+    updatedAt: string,
     chatRoom:  {
       __typename: "ChatRoom",
-      chatRoomUsers?:  {
-        __typename: "ModelChatRoomUserConnection",
-        nextToken?: string | null,
-      } | null,
       id: string,
       maxUsers: number,
       messages?:  {
@@ -586,18 +605,17 @@ export type UpdateChatRoomUserMutation = {
       name: string,
       createdAt: string,
       updatedAt: string,
-    },
-    chatRoomId: string,
-    id: string,
-    isModerator: boolean,
-    user:  {
-      __typename: "User",
-      avatar: string,
-      bio: string,
+      owner?: string | null,
       chatRoomUsers?:  {
         __typename: "ModelChatRoomUserConnection",
         nextToken?: string | null,
       } | null,
+    },
+    owner?: string | null,
+    user:  {
+      __typename: "User",
+      avatar: string,
+      bio: string,
       displayName: string,
       followees?:  {
         __typename: "ModelContactConnection",
@@ -609,13 +627,15 @@ export type UpdateChatRoomUserMutation = {
       } | null,
       id: string,
       name: string,
-      status: string,
+      pushToken: string,
       createdAt: string,
       updatedAt: string,
+      chatRoomUsers?:  {
+        __typename: "ModelChatRoomUserConnection",
+        nextToken?: string | null,
+      } | null,
+      owner?: string | null,
     },
-    userId: string,
-    createdAt: string,
-    updatedAt: string,
   } | null,
 };
 
@@ -627,12 +647,14 @@ export type DeleteChatRoomUserMutationVariables = {
 export type DeleteChatRoomUserMutation = {
   deleteChatRoomUser?:  {
     __typename: "ChatRoomUser",
+    chatRoomId: string,
+    id: string,
+    isModerator: boolean,
+    userId: string,
+    createdAt: string,
+    updatedAt: string,
     chatRoom:  {
       __typename: "ChatRoom",
-      chatRoomUsers?:  {
-        __typename: "ModelChatRoomUserConnection",
-        nextToken?: string | null,
-      } | null,
       id: string,
       maxUsers: number,
       messages?:  {
@@ -642,18 +664,17 @@ export type DeleteChatRoomUserMutation = {
       name: string,
       createdAt: string,
       updatedAt: string,
-    },
-    chatRoomId: string,
-    id: string,
-    isModerator: boolean,
-    user:  {
-      __typename: "User",
-      avatar: string,
-      bio: string,
+      owner?: string | null,
       chatRoomUsers?:  {
         __typename: "ModelChatRoomUserConnection",
         nextToken?: string | null,
       } | null,
+    },
+    owner?: string | null,
+    user:  {
+      __typename: "User",
+      avatar: string,
+      bio: string,
       displayName: string,
       followees?:  {
         __typename: "ModelContactConnection",
@@ -665,13 +686,15 @@ export type DeleteChatRoomUserMutation = {
       } | null,
       id: string,
       name: string,
-      status: string,
+      pushToken: string,
       createdAt: string,
       updatedAt: string,
+      chatRoomUsers?:  {
+        __typename: "ModelChatRoomUserConnection",
+        nextToken?: string | null,
+      } | null,
+      owner?: string | null,
     },
-    userId: string,
-    createdAt: string,
-    updatedAt: string,
   } | null,
 };
 
@@ -683,57 +706,60 @@ export type CreateContactMutationVariables = {
 export type CreateContactMutation = {
   createContact?:  {
     __typename: "Contact",
-    followee:  {
-      __typename: "User",
-      avatar: string,
-      bio: string,
-      chatRoomUsers?:  {
-        __typename: "ModelChatRoomUserConnection",
-        nextToken?: string | null,
-      } | null,
-      displayName: string,
-      followees?:  {
-        __typename: "ModelContactConnection",
-        nextToken?: string | null,
-      } | null,
-      followers?:  {
-        __typename: "ModelContactConnection",
-        nextToken?: string | null,
-      } | null,
-      id: string,
-      name: string,
-      status: string,
-      createdAt: string,
-      updatedAt: string,
-    },
     followeeId: string,
-    follower:  {
-      __typename: "User",
-      avatar: string,
-      bio: string,
-      chatRoomUsers?:  {
-        __typename: "ModelChatRoomUserConnection",
-        nextToken?: string | null,
-      } | null,
-      displayName: string,
-      followees?:  {
-        __typename: "ModelContactConnection",
-        nextToken?: string | null,
-      } | null,
-      followers?:  {
-        __typename: "ModelContactConnection",
-        nextToken?: string | null,
-      } | null,
-      id: string,
-      name: string,
-      status: string,
-      createdAt: string,
-      updatedAt: string,
-    },
     followerId: string,
     id: string,
     createdAt: string,
     updatedAt: string,
+    owner?: string | null,
+    followee:  {
+      __typename: "User",
+      avatar: string,
+      bio: string,
+      displayName: string,
+      followees?:  {
+        __typename: "ModelContactConnection",
+        nextToken?: string | null,
+      } | null,
+      followers?:  {
+        __typename: "ModelContactConnection",
+        nextToken?: string | null,
+      } | null,
+      id: string,
+      name: string,
+      pushToken: string,
+      createdAt: string,
+      updatedAt: string,
+      chatRoomUsers?:  {
+        __typename: "ModelChatRoomUserConnection",
+        nextToken?: string | null,
+      } | null,
+      owner?: string | null,
+    },
+    follower:  {
+      __typename: "User",
+      avatar: string,
+      bio: string,
+      displayName: string,
+      followees?:  {
+        __typename: "ModelContactConnection",
+        nextToken?: string | null,
+      } | null,
+      followers?:  {
+        __typename: "ModelContactConnection",
+        nextToken?: string | null,
+      } | null,
+      id: string,
+      name: string,
+      pushToken: string,
+      createdAt: string,
+      updatedAt: string,
+      chatRoomUsers?:  {
+        __typename: "ModelChatRoomUserConnection",
+        nextToken?: string | null,
+      } | null,
+      owner?: string | null,
+    },
   } | null,
 };
 
@@ -745,57 +771,60 @@ export type UpdateContactMutationVariables = {
 export type UpdateContactMutation = {
   updateContact?:  {
     __typename: "Contact",
-    followee:  {
-      __typename: "User",
-      avatar: string,
-      bio: string,
-      chatRoomUsers?:  {
-        __typename: "ModelChatRoomUserConnection",
-        nextToken?: string | null,
-      } | null,
-      displayName: string,
-      followees?:  {
-        __typename: "ModelContactConnection",
-        nextToken?: string | null,
-      } | null,
-      followers?:  {
-        __typename: "ModelContactConnection",
-        nextToken?: string | null,
-      } | null,
-      id: string,
-      name: string,
-      status: string,
-      createdAt: string,
-      updatedAt: string,
-    },
     followeeId: string,
-    follower:  {
-      __typename: "User",
-      avatar: string,
-      bio: string,
-      chatRoomUsers?:  {
-        __typename: "ModelChatRoomUserConnection",
-        nextToken?: string | null,
-      } | null,
-      displayName: string,
-      followees?:  {
-        __typename: "ModelContactConnection",
-        nextToken?: string | null,
-      } | null,
-      followers?:  {
-        __typename: "ModelContactConnection",
-        nextToken?: string | null,
-      } | null,
-      id: string,
-      name: string,
-      status: string,
-      createdAt: string,
-      updatedAt: string,
-    },
     followerId: string,
     id: string,
     createdAt: string,
     updatedAt: string,
+    owner?: string | null,
+    followee:  {
+      __typename: "User",
+      avatar: string,
+      bio: string,
+      displayName: string,
+      followees?:  {
+        __typename: "ModelContactConnection",
+        nextToken?: string | null,
+      } | null,
+      followers?:  {
+        __typename: "ModelContactConnection",
+        nextToken?: string | null,
+      } | null,
+      id: string,
+      name: string,
+      pushToken: string,
+      createdAt: string,
+      updatedAt: string,
+      chatRoomUsers?:  {
+        __typename: "ModelChatRoomUserConnection",
+        nextToken?: string | null,
+      } | null,
+      owner?: string | null,
+    },
+    follower:  {
+      __typename: "User",
+      avatar: string,
+      bio: string,
+      displayName: string,
+      followees?:  {
+        __typename: "ModelContactConnection",
+        nextToken?: string | null,
+      } | null,
+      followers?:  {
+        __typename: "ModelContactConnection",
+        nextToken?: string | null,
+      } | null,
+      id: string,
+      name: string,
+      pushToken: string,
+      createdAt: string,
+      updatedAt: string,
+      chatRoomUsers?:  {
+        __typename: "ModelChatRoomUserConnection",
+        nextToken?: string | null,
+      } | null,
+      owner?: string | null,
+    },
   } | null,
 };
 
@@ -807,57 +836,60 @@ export type DeleteContactMutationVariables = {
 export type DeleteContactMutation = {
   deleteContact?:  {
     __typename: "Contact",
-    followee:  {
-      __typename: "User",
-      avatar: string,
-      bio: string,
-      chatRoomUsers?:  {
-        __typename: "ModelChatRoomUserConnection",
-        nextToken?: string | null,
-      } | null,
-      displayName: string,
-      followees?:  {
-        __typename: "ModelContactConnection",
-        nextToken?: string | null,
-      } | null,
-      followers?:  {
-        __typename: "ModelContactConnection",
-        nextToken?: string | null,
-      } | null,
-      id: string,
-      name: string,
-      status: string,
-      createdAt: string,
-      updatedAt: string,
-    },
     followeeId: string,
-    follower:  {
-      __typename: "User",
-      avatar: string,
-      bio: string,
-      chatRoomUsers?:  {
-        __typename: "ModelChatRoomUserConnection",
-        nextToken?: string | null,
-      } | null,
-      displayName: string,
-      followees?:  {
-        __typename: "ModelContactConnection",
-        nextToken?: string | null,
-      } | null,
-      followers?:  {
-        __typename: "ModelContactConnection",
-        nextToken?: string | null,
-      } | null,
-      id: string,
-      name: string,
-      status: string,
-      createdAt: string,
-      updatedAt: string,
-    },
     followerId: string,
     id: string,
     createdAt: string,
     updatedAt: string,
+    owner?: string | null,
+    followee:  {
+      __typename: "User",
+      avatar: string,
+      bio: string,
+      displayName: string,
+      followees?:  {
+        __typename: "ModelContactConnection",
+        nextToken?: string | null,
+      } | null,
+      followers?:  {
+        __typename: "ModelContactConnection",
+        nextToken?: string | null,
+      } | null,
+      id: string,
+      name: string,
+      pushToken: string,
+      createdAt: string,
+      updatedAt: string,
+      chatRoomUsers?:  {
+        __typename: "ModelChatRoomUserConnection",
+        nextToken?: string | null,
+      } | null,
+      owner?: string | null,
+    },
+    follower:  {
+      __typename: "User",
+      avatar: string,
+      bio: string,
+      displayName: string,
+      followees?:  {
+        __typename: "ModelContactConnection",
+        nextToken?: string | null,
+      } | null,
+      followers?:  {
+        __typename: "ModelContactConnection",
+        nextToken?: string | null,
+      } | null,
+      id: string,
+      name: string,
+      pushToken: string,
+      createdAt: string,
+      updatedAt: string,
+      chatRoomUsers?:  {
+        __typename: "ModelChatRoomUserConnection",
+        nextToken?: string | null,
+      } | null,
+      owner?: string | null,
+    },
   } | null,
 };
 
@@ -869,12 +901,15 @@ export type CreateMessageMutationVariables = {
 export type CreateMessageMutation = {
   createMessage?:  {
     __typename: "Message",
+    chatRoomId: string,
+    content: string,
+    createdAt: string,
+    id: string,
+    type: string,
+    userId: string,
+    updatedAt: string,
     chatRoom:  {
       __typename: "ChatRoom",
-      chatRoomUsers?:  {
-        __typename: "ModelChatRoomUserConnection",
-        nextToken?: string | null,
-      } | null,
       id: string,
       maxUsers: number,
       messages?:  {
@@ -884,20 +919,17 @@ export type CreateMessageMutation = {
       name: string,
       createdAt: string,
       updatedAt: string,
-    },
-    chatRoomId: string,
-    content: string,
-    createdAt: string,
-    id: string,
-    type: string,
-    user:  {
-      __typename: "User",
-      avatar: string,
-      bio: string,
+      owner?: string | null,
       chatRoomUsers?:  {
         __typename: "ModelChatRoomUserConnection",
         nextToken?: string | null,
       } | null,
+    },
+    owner?: string | null,
+    user:  {
+      __typename: "User",
+      avatar: string,
+      bio: string,
       displayName: string,
       followees?:  {
         __typename: "ModelContactConnection",
@@ -909,12 +941,15 @@ export type CreateMessageMutation = {
       } | null,
       id: string,
       name: string,
-      status: string,
+      pushToken: string,
       createdAt: string,
       updatedAt: string,
+      chatRoomUsers?:  {
+        __typename: "ModelChatRoomUserConnection",
+        nextToken?: string | null,
+      } | null,
+      owner?: string | null,
     },
-    userId: string,
-    updatedAt: string,
   } | null,
 };
 
@@ -926,12 +961,15 @@ export type UpdateMessageMutationVariables = {
 export type UpdateMessageMutation = {
   updateMessage?:  {
     __typename: "Message",
+    chatRoomId: string,
+    content: string,
+    createdAt: string,
+    id: string,
+    type: string,
+    userId: string,
+    updatedAt: string,
     chatRoom:  {
       __typename: "ChatRoom",
-      chatRoomUsers?:  {
-        __typename: "ModelChatRoomUserConnection",
-        nextToken?: string | null,
-      } | null,
       id: string,
       maxUsers: number,
       messages?:  {
@@ -941,20 +979,17 @@ export type UpdateMessageMutation = {
       name: string,
       createdAt: string,
       updatedAt: string,
-    },
-    chatRoomId: string,
-    content: string,
-    createdAt: string,
-    id: string,
-    type: string,
-    user:  {
-      __typename: "User",
-      avatar: string,
-      bio: string,
+      owner?: string | null,
       chatRoomUsers?:  {
         __typename: "ModelChatRoomUserConnection",
         nextToken?: string | null,
       } | null,
+    },
+    owner?: string | null,
+    user:  {
+      __typename: "User",
+      avatar: string,
+      bio: string,
       displayName: string,
       followees?:  {
         __typename: "ModelContactConnection",
@@ -966,12 +1001,15 @@ export type UpdateMessageMutation = {
       } | null,
       id: string,
       name: string,
-      status: string,
+      pushToken: string,
       createdAt: string,
       updatedAt: string,
+      chatRoomUsers?:  {
+        __typename: "ModelChatRoomUserConnection",
+        nextToken?: string | null,
+      } | null,
+      owner?: string | null,
     },
-    userId: string,
-    updatedAt: string,
   } | null,
 };
 
@@ -983,12 +1021,15 @@ export type DeleteMessageMutationVariables = {
 export type DeleteMessageMutation = {
   deleteMessage?:  {
     __typename: "Message",
+    chatRoomId: string,
+    content: string,
+    createdAt: string,
+    id: string,
+    type: string,
+    userId: string,
+    updatedAt: string,
     chatRoom:  {
       __typename: "ChatRoom",
-      chatRoomUsers?:  {
-        __typename: "ModelChatRoomUserConnection",
-        nextToken?: string | null,
-      } | null,
       id: string,
       maxUsers: number,
       messages?:  {
@@ -998,20 +1039,17 @@ export type DeleteMessageMutation = {
       name: string,
       createdAt: string,
       updatedAt: string,
-    },
-    chatRoomId: string,
-    content: string,
-    createdAt: string,
-    id: string,
-    type: string,
-    user:  {
-      __typename: "User",
-      avatar: string,
-      bio: string,
+      owner?: string | null,
       chatRoomUsers?:  {
         __typename: "ModelChatRoomUserConnection",
         nextToken?: string | null,
       } | null,
+    },
+    owner?: string | null,
+    user:  {
+      __typename: "User",
+      avatar: string,
+      bio: string,
       displayName: string,
       followees?:  {
         __typename: "ModelContactConnection",
@@ -1023,12 +1061,15 @@ export type DeleteMessageMutation = {
       } | null,
       id: string,
       name: string,
-      status: string,
+      pushToken: string,
       createdAt: string,
       updatedAt: string,
+      chatRoomUsers?:  {
+        __typename: "ModelChatRoomUserConnection",
+        nextToken?: string | null,
+      } | null,
+      owner?: string | null,
     },
-    userId: string,
-    updatedAt: string,
   } | null,
 };
 
@@ -1042,19 +1083,6 @@ export type CreateUserMutation = {
     __typename: "User",
     avatar: string,
     bio: string,
-    chatRoomUsers?:  {
-      __typename: "ModelChatRoomUserConnection",
-      items?:  Array< {
-        __typename: "ChatRoomUser",
-        chatRoomId: string,
-        id: string,
-        isModerator: boolean,
-        userId: string,
-        createdAt: string,
-        updatedAt: string,
-      } | null > | null,
-      nextToken?: string | null,
-    } | null,
     displayName: string,
     followees?:  {
       __typename: "ModelContactConnection",
@@ -1065,6 +1093,7 @@ export type CreateUserMutation = {
         id: string,
         createdAt: string,
         updatedAt: string,
+        owner?: string | null,
       } | null > | null,
       nextToken?: string | null,
     } | null,
@@ -1077,14 +1106,30 @@ export type CreateUserMutation = {
         id: string,
         createdAt: string,
         updatedAt: string,
+        owner?: string | null,
       } | null > | null,
       nextToken?: string | null,
     } | null,
     id: string,
     name: string,
-    status: string,
+    pushToken: string,
     createdAt: string,
     updatedAt: string,
+    chatRoomUsers?:  {
+      __typename: "ModelChatRoomUserConnection",
+      items?:  Array< {
+        __typename: "ChatRoomUser",
+        chatRoomId: string,
+        id: string,
+        isModerator: boolean,
+        userId: string,
+        createdAt: string,
+        updatedAt: string,
+        owner?: string | null,
+      } | null > | null,
+      nextToken?: string | null,
+    } | null,
+    owner?: string | null,
   } | null,
 };
 
@@ -1098,19 +1143,6 @@ export type UpdateUserMutation = {
     __typename: "User",
     avatar: string,
     bio: string,
-    chatRoomUsers?:  {
-      __typename: "ModelChatRoomUserConnection",
-      items?:  Array< {
-        __typename: "ChatRoomUser",
-        chatRoomId: string,
-        id: string,
-        isModerator: boolean,
-        userId: string,
-        createdAt: string,
-        updatedAt: string,
-      } | null > | null,
-      nextToken?: string | null,
-    } | null,
     displayName: string,
     followees?:  {
       __typename: "ModelContactConnection",
@@ -1121,6 +1153,7 @@ export type UpdateUserMutation = {
         id: string,
         createdAt: string,
         updatedAt: string,
+        owner?: string | null,
       } | null > | null,
       nextToken?: string | null,
     } | null,
@@ -1133,14 +1166,30 @@ export type UpdateUserMutation = {
         id: string,
         createdAt: string,
         updatedAt: string,
+        owner?: string | null,
       } | null > | null,
       nextToken?: string | null,
     } | null,
     id: string,
     name: string,
-    status: string,
+    pushToken: string,
     createdAt: string,
     updatedAt: string,
+    chatRoomUsers?:  {
+      __typename: "ModelChatRoomUserConnection",
+      items?:  Array< {
+        __typename: "ChatRoomUser",
+        chatRoomId: string,
+        id: string,
+        isModerator: boolean,
+        userId: string,
+        createdAt: string,
+        updatedAt: string,
+        owner?: string | null,
+      } | null > | null,
+      nextToken?: string | null,
+    } | null,
+    owner?: string | null,
   } | null,
 };
 
@@ -1154,19 +1203,6 @@ export type DeleteUserMutation = {
     __typename: "User",
     avatar: string,
     bio: string,
-    chatRoomUsers?:  {
-      __typename: "ModelChatRoomUserConnection",
-      items?:  Array< {
-        __typename: "ChatRoomUser",
-        chatRoomId: string,
-        id: string,
-        isModerator: boolean,
-        userId: string,
-        createdAt: string,
-        updatedAt: string,
-      } | null > | null,
-      nextToken?: string | null,
-    } | null,
     displayName: string,
     followees?:  {
       __typename: "ModelContactConnection",
@@ -1177,6 +1213,7 @@ export type DeleteUserMutation = {
         id: string,
         createdAt: string,
         updatedAt: string,
+        owner?: string | null,
       } | null > | null,
       nextToken?: string | null,
     } | null,
@@ -1189,24 +1226,15 @@ export type DeleteUserMutation = {
         id: string,
         createdAt: string,
         updatedAt: string,
+        owner?: string | null,
       } | null > | null,
       nextToken?: string | null,
     } | null,
     id: string,
     name: string,
-    status: string,
+    pushToken: string,
     createdAt: string,
     updatedAt: string,
-  } | null,
-};
-
-export type GetChatRoomQueryVariables = {
-  id?: string,
-};
-
-export type GetChatRoomQuery = {
-  getChatRoom?:  {
-    __typename: "ChatRoom",
     chatRoomUsers?:  {
       __typename: "ModelChatRoomUserConnection",
       items?:  Array< {
@@ -1217,153 +1245,11 @@ export type GetChatRoomQuery = {
         userId: string,
         createdAt: string,
         updatedAt: string,
+        owner?: string | null,
       } | null > | null,
       nextToken?: string | null,
     } | null,
-    id: string,
-    maxUsers: number,
-    messages?:  {
-      __typename: "ModelMessageConnection",
-      items?:  Array< {
-        __typename: "Message",
-        chatRoomId: string,
-        content: string,
-        createdAt: string,
-        id: string,
-        type: string,
-        userId: string,
-        updatedAt: string,
-      } | null > | null,
-      nextToken?: string | null,
-    } | null,
-    name: string,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
-export type ListChatRoomsQueryVariables = {
-  filter?: ModelChatRoomFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-};
-
-export type ListChatRoomsQuery = {
-  listChatRooms?:  {
-    __typename: "ModelChatRoomConnection",
-    items?:  Array< {
-      __typename: "ChatRoom",
-      chatRoomUsers?:  {
-        __typename: "ModelChatRoomUserConnection",
-        nextToken?: string | null,
-      } | null,
-      id: string,
-      maxUsers: number,
-      messages?:  {
-        __typename: "ModelMessageConnection",
-        nextToken?: string | null,
-      } | null,
-      name: string,
-      createdAt: string,
-      updatedAt: string,
-    } | null > | null,
-    nextToken?: string | null,
-  } | null,
-};
-
-export type GetChatRoomUserQueryVariables = {
-  id?: string,
-};
-
-export type GetChatRoomUserQuery = {
-  getChatRoomUser?:  {
-    __typename: "ChatRoomUser",
-    chatRoom:  {
-      __typename: "ChatRoom",
-      chatRoomUsers?:  {
-        __typename: "ModelChatRoomUserConnection",
-        nextToken?: string | null,
-      } | null,
-      id: string,
-      maxUsers: number,
-      messages?:  {
-        __typename: "ModelMessageConnection",
-        nextToken?: string | null,
-      } | null,
-      name: string,
-      createdAt: string,
-      updatedAt: string,
-    },
-    chatRoomId: string,
-    id: string,
-    isModerator: boolean,
-    user:  {
-      __typename: "User",
-      avatar: string,
-      bio: string,
-      chatRoomUsers?:  {
-        __typename: "ModelChatRoomUserConnection",
-        nextToken?: string | null,
-      } | null,
-      displayName: string,
-      followees?:  {
-        __typename: "ModelContactConnection",
-        nextToken?: string | null,
-      } | null,
-      followers?:  {
-        __typename: "ModelContactConnection",
-        nextToken?: string | null,
-      } | null,
-      id: string,
-      name: string,
-      status: string,
-      createdAt: string,
-      updatedAt: string,
-    },
-    userId: string,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
-export type ListChatRoomUsersQueryVariables = {
-  filter?: ModelChatRoomUserFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-};
-
-export type ListChatRoomUsersQuery = {
-  listChatRoomUsers?:  {
-    __typename: "ModelChatRoomUserConnection",
-    items?:  Array< {
-      __typename: "ChatRoomUser",
-      chatRoom:  {
-        __typename: "ChatRoom",
-        id: string,
-        maxUsers: number,
-        name: string,
-        createdAt: string,
-        updatedAt: string,
-      },
-      chatRoomId: string,
-      id: string,
-      isModerator: boolean,
-      user:  {
-        __typename: "User",
-        avatar: string,
-        bio: string,
-        displayName: string,
-        id: string,
-        name: string,
-        status: string,
-        createdAt: string,
-        updatedAt: string,
-      },
-      userId: string,
-      createdAt: string,
-      updatedAt: string,
-    } | null > | null,
-    nextToken?: string | null,
+    owner?: string | null,
   } | null,
 };
 
@@ -1374,57 +1260,60 @@ export type GetContactQueryVariables = {
 export type GetContactQuery = {
   getContact?:  {
     __typename: "Contact",
-    followee:  {
-      __typename: "User",
-      avatar: string,
-      bio: string,
-      chatRoomUsers?:  {
-        __typename: "ModelChatRoomUserConnection",
-        nextToken?: string | null,
-      } | null,
-      displayName: string,
-      followees?:  {
-        __typename: "ModelContactConnection",
-        nextToken?: string | null,
-      } | null,
-      followers?:  {
-        __typename: "ModelContactConnection",
-        nextToken?: string | null,
-      } | null,
-      id: string,
-      name: string,
-      status: string,
-      createdAt: string,
-      updatedAt: string,
-    },
     followeeId: string,
-    follower:  {
-      __typename: "User",
-      avatar: string,
-      bio: string,
-      chatRoomUsers?:  {
-        __typename: "ModelChatRoomUserConnection",
-        nextToken?: string | null,
-      } | null,
-      displayName: string,
-      followees?:  {
-        __typename: "ModelContactConnection",
-        nextToken?: string | null,
-      } | null,
-      followers?:  {
-        __typename: "ModelContactConnection",
-        nextToken?: string | null,
-      } | null,
-      id: string,
-      name: string,
-      status: string,
-      createdAt: string,
-      updatedAt: string,
-    },
     followerId: string,
     id: string,
     createdAt: string,
     updatedAt: string,
+    owner?: string | null,
+    followee:  {
+      __typename: "User",
+      avatar: string,
+      bio: string,
+      displayName: string,
+      followees?:  {
+        __typename: "ModelContactConnection",
+        nextToken?: string | null,
+      } | null,
+      followers?:  {
+        __typename: "ModelContactConnection",
+        nextToken?: string | null,
+      } | null,
+      id: string,
+      name: string,
+      pushToken: string,
+      createdAt: string,
+      updatedAt: string,
+      chatRoomUsers?:  {
+        __typename: "ModelChatRoomUserConnection",
+        nextToken?: string | null,
+      } | null,
+      owner?: string | null,
+    },
+    follower:  {
+      __typename: "User",
+      avatar: string,
+      bio: string,
+      displayName: string,
+      followees?:  {
+        __typename: "ModelContactConnection",
+        nextToken?: string | null,
+      } | null,
+      followers?:  {
+        __typename: "ModelContactConnection",
+        nextToken?: string | null,
+      } | null,
+      id: string,
+      name: string,
+      pushToken: string,
+      createdAt: string,
+      updatedAt: string,
+      chatRoomUsers?:  {
+        __typename: "ModelChatRoomUserConnection",
+        nextToken?: string | null,
+      } | null,
+      owner?: string | null,
+    },
   } | null,
 };
 
@@ -1439,6 +1328,12 @@ export type ListContactsQuery = {
     __typename: "ModelContactConnection",
     items?:  Array< {
       __typename: "Contact",
+      followeeId: string,
+      followerId: string,
+      id: string,
+      createdAt: string,
+      updatedAt: string,
+      owner?: string | null,
       followee:  {
         __typename: "User",
         avatar: string,
@@ -1446,11 +1341,11 @@ export type ListContactsQuery = {
         displayName: string,
         id: string,
         name: string,
-        status: string,
+        pushToken: string,
         createdAt: string,
         updatedAt: string,
+        owner?: string | null,
       },
-      followeeId: string,
       follower:  {
         __typename: "User",
         avatar: string,
@@ -1458,14 +1353,11 @@ export type ListContactsQuery = {
         displayName: string,
         id: string,
         name: string,
-        status: string,
+        pushToken: string,
         createdAt: string,
         updatedAt: string,
+        owner?: string | null,
       },
-      followerId: string,
-      id: string,
-      createdAt: string,
-      updatedAt: string,
     } | null > | null,
     nextToken?: string | null,
   } | null,
@@ -1478,12 +1370,15 @@ export type GetMessageQueryVariables = {
 export type GetMessageQuery = {
   getMessage?:  {
     __typename: "Message",
+    chatRoomId: string,
+    content: string,
+    createdAt: string,
+    id: string,
+    type: string,
+    userId: string,
+    updatedAt: string,
     chatRoom:  {
       __typename: "ChatRoom",
-      chatRoomUsers?:  {
-        __typename: "ModelChatRoomUserConnection",
-        nextToken?: string | null,
-      } | null,
       id: string,
       maxUsers: number,
       messages?:  {
@@ -1493,20 +1388,17 @@ export type GetMessageQuery = {
       name: string,
       createdAt: string,
       updatedAt: string,
-    },
-    chatRoomId: string,
-    content: string,
-    createdAt: string,
-    id: string,
-    type: string,
-    user:  {
-      __typename: "User",
-      avatar: string,
-      bio: string,
+      owner?: string | null,
       chatRoomUsers?:  {
         __typename: "ModelChatRoomUserConnection",
         nextToken?: string | null,
       } | null,
+    },
+    owner?: string | null,
+    user:  {
+      __typename: "User",
+      avatar: string,
+      bio: string,
       displayName: string,
       followees?:  {
         __typename: "ModelContactConnection",
@@ -1518,12 +1410,15 @@ export type GetMessageQuery = {
       } | null,
       id: string,
       name: string,
-      status: string,
+      pushToken: string,
       createdAt: string,
       updatedAt: string,
+      chatRoomUsers?:  {
+        __typename: "ModelChatRoomUserConnection",
+        nextToken?: string | null,
+      } | null,
+      owner?: string | null,
     },
-    userId: string,
-    updatedAt: string,
   } | null,
 };
 
@@ -1538,141 +1433,13 @@ export type ListMessagesQuery = {
     __typename: "ModelMessageConnection",
     items?:  Array< {
       __typename: "Message",
-      chatRoom:  {
-        __typename: "ChatRoom",
-        id: string,
-        maxUsers: number,
-        name: string,
-        createdAt: string,
-        updatedAt: string,
-      },
       chatRoomId: string,
       content: string,
       createdAt: string,
       id: string,
       type: string,
-      user:  {
-        __typename: "User",
-        avatar: string,
-        bio: string,
-        displayName: string,
-        id: string,
-        name: string,
-        status: string,
-        createdAt: string,
-        updatedAt: string,
-      },
       userId: string,
       updatedAt: string,
-    } | null > | null,
-    nextToken?: string | null,
-  } | null,
-};
-
-export type GetUserQueryVariables = {
-  id?: string,
-};
-
-export type GetUserQuery = {
-  getUser?:  {
-    __typename: "User",
-    avatar: string,
-    bio: string,
-    chatRoomUsers?:  {
-      __typename: "ModelChatRoomUserConnection",
-      items?:  Array< {
-        __typename: "ChatRoomUser",
-        chatRoomId: string,
-        id: string,
-        isModerator: boolean,
-        userId: string,
-        createdAt: string,
-        updatedAt: string,
-      } | null > | null,
-      nextToken?: string | null,
-    } | null,
-    displayName: string,
-    followees?:  {
-      __typename: "ModelContactConnection",
-      items?:  Array< {
-        __typename: "Contact",
-        followeeId: string,
-        followerId: string,
-        id: string,
-        createdAt: string,
-        updatedAt: string,
-      } | null > | null,
-      nextToken?: string | null,
-    } | null,
-    followers?:  {
-      __typename: "ModelContactConnection",
-      items?:  Array< {
-        __typename: "Contact",
-        followeeId: string,
-        followerId: string,
-        id: string,
-        createdAt: string,
-        updatedAt: string,
-      } | null > | null,
-      nextToken?: string | null,
-    } | null,
-    id: string,
-    name: string,
-    status: string,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
-export type ListUsersQueryVariables = {
-  filter?: ModelUserFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-};
-
-export type ListUsersQuery = {
-  listUsers?:  {
-    __typename: "ModelUserConnection",
-    items?:  Array< {
-      __typename: "User",
-      avatar: string,
-      bio: string,
-      chatRoomUsers?:  {
-        __typename: "ModelChatRoomUserConnection",
-        nextToken?: string | null,
-      } | null,
-      displayName: string,
-      followees?:  {
-        __typename: "ModelContactConnection",
-        nextToken?: string | null,
-      } | null,
-      followers?:  {
-        __typename: "ModelContactConnection",
-        nextToken?: string | null,
-      } | null,
-      id: string,
-      name: string,
-      status: string,
-      createdAt: string,
-      updatedAt: string,
-    } | null > | null,
-    nextToken?: string | null,
-  } | null,
-};
-
-export type ChatRoomUsersByUserQueryVariables = {
-  userId?: string | null,
-  sortDirection?: ModelSortDirection | null,
-  filter?: ModelChatRoomUserFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-};
-
-export type ChatRoomUsersByUserQuery = {
-  chatRoomUsersByUser?:  {
-    __typename: "ModelChatRoomUserConnection",
-    items?:  Array< {
-      __typename: "ChatRoomUser",
       chatRoom:  {
         __typename: "ChatRoom",
         id: string,
@@ -1680,10 +1447,9 @@ export type ChatRoomUsersByUserQuery = {
         name: string,
         createdAt: string,
         updatedAt: string,
+        owner?: string | null,
       },
-      chatRoomId: string,
-      id: string,
-      isModerator: boolean,
+      owner?: string | null,
       user:  {
         __typename: "User",
         avatar: string,
@@ -1691,56 +1457,11 @@ export type ChatRoomUsersByUserQuery = {
         displayName: string,
         id: string,
         name: string,
-        status: string,
+        pushToken: string,
         createdAt: string,
         updatedAt: string,
+        owner?: string | null,
       },
-      userId: string,
-      createdAt: string,
-      updatedAt: string,
-    } | null > | null,
-    nextToken?: string | null,
-  } | null,
-};
-
-export type ChatRoomUsersByChatRoomQueryVariables = {
-  chatRoomId?: string | null,
-  sortDirection?: ModelSortDirection | null,
-  filter?: ModelChatRoomUserFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-};
-
-export type ChatRoomUsersByChatRoomQuery = {
-  chatRoomUsersByChatRoom?:  {
-    __typename: "ModelChatRoomUserConnection",
-    items?:  Array< {
-      __typename: "ChatRoomUser",
-      chatRoom:  {
-        __typename: "ChatRoom",
-        id: string,
-        maxUsers: number,
-        name: string,
-        createdAt: string,
-        updatedAt: string,
-      },
-      chatRoomId: string,
-      id: string,
-      isModerator: boolean,
-      user:  {
-        __typename: "User",
-        avatar: string,
-        bio: string,
-        displayName: string,
-        id: string,
-        name: string,
-        status: string,
-        createdAt: string,
-        updatedAt: string,
-      },
-      userId: string,
-      createdAt: string,
-      updatedAt: string,
     } | null > | null,
     nextToken?: string | null,
   } | null,
@@ -1759,6 +1480,12 @@ export type ContactsByFollowerQuery = {
     __typename: "ModelContactConnection",
     items?:  Array< {
       __typename: "Contact",
+      followeeId: string,
+      followerId: string,
+      id: string,
+      createdAt: string,
+      updatedAt: string,
+      owner?: string | null,
       followee:  {
         __typename: "User",
         avatar: string,
@@ -1766,11 +1493,11 @@ export type ContactsByFollowerQuery = {
         displayName: string,
         id: string,
         name: string,
-        status: string,
+        pushToken: string,
         createdAt: string,
         updatedAt: string,
+        owner?: string | null,
       },
-      followeeId: string,
       follower:  {
         __typename: "User",
         avatar: string,
@@ -1778,14 +1505,11 @@ export type ContactsByFollowerQuery = {
         displayName: string,
         id: string,
         name: string,
-        status: string,
+        pushToken: string,
         createdAt: string,
         updatedAt: string,
+        owner?: string | null,
       },
-      followerId: string,
-      id: string,
-      createdAt: string,
-      updatedAt: string,
     } | null > | null,
     nextToken?: string | null,
   } | null,
@@ -1804,6 +1528,12 @@ export type ContactsByFolloweeQuery = {
     __typename: "ModelContactConnection",
     items?:  Array< {
       __typename: "Contact",
+      followeeId: string,
+      followerId: string,
+      id: string,
+      createdAt: string,
+      updatedAt: string,
+      owner?: string | null,
       followee:  {
         __typename: "User",
         avatar: string,
@@ -1811,11 +1541,11 @@ export type ContactsByFolloweeQuery = {
         displayName: string,
         id: string,
         name: string,
-        status: string,
+        pushToken: string,
         createdAt: string,
         updatedAt: string,
+        owner?: string | null,
       },
-      followeeId: string,
       follower:  {
         __typename: "User",
         avatar: string,
@@ -1823,14 +1553,11 @@ export type ContactsByFolloweeQuery = {
         displayName: string,
         id: string,
         name: string,
-        status: string,
+        pushToken: string,
         createdAt: string,
         updatedAt: string,
+        owner?: string | null,
       },
-      followerId: string,
-      id: string,
-      createdAt: string,
-      updatedAt: string,
     } | null > | null,
     nextToken?: string | null,
   } | null,
@@ -1850,6 +1577,13 @@ export type MessagesByChatRoomQuery = {
     __typename: "ModelMessageConnection",
     items?:  Array< {
       __typename: "Message",
+      chatRoomId: string,
+      content: string,
+      createdAt: string,
+      id: string,
+      type: string,
+      userId: string,
+      updatedAt: string,
       chatRoom:  {
         __typename: "ChatRoom",
         id: string,
@@ -1857,12 +1591,9 @@ export type MessagesByChatRoomQuery = {
         name: string,
         createdAt: string,
         updatedAt: string,
+        owner?: string | null,
       },
-      chatRoomId: string,
-      content: string,
-      createdAt: string,
-      id: string,
-      type: string,
+      owner?: string | null,
       user:  {
         __typename: "User",
         avatar: string,
@@ -1870,12 +1601,376 @@ export type MessagesByChatRoomQuery = {
         displayName: string,
         id: string,
         name: string,
-        status: string,
+        pushToken: string,
         createdAt: string,
         updatedAt: string,
+        owner?: string | null,
       },
-      userId: string,
+    } | null > | null,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type GetChatRoomQueryVariables = {
+  id?: string,
+};
+
+export type GetChatRoomQuery = {
+  getChatRoom?:  {
+    __typename: "ChatRoom",
+    id: string,
+    maxUsers: number,
+    messages?:  {
+      __typename: "ModelMessageConnection",
+      items?:  Array< {
+        __typename: "Message",
+        chatRoomId: string,
+        content: string,
+        createdAt: string,
+        id: string,
+        type: string,
+        userId: string,
+        updatedAt: string,
+        owner?: string | null,
+      } | null > | null,
+      nextToken?: string | null,
+    } | null,
+    name: string,
+    createdAt: string,
+    updatedAt: string,
+    owner?: string | null,
+    chatRoomUsers?:  {
+      __typename: "ModelChatRoomUserConnection",
+      items?:  Array< {
+        __typename: "ChatRoomUser",
+        chatRoomId: string,
+        id: string,
+        isModerator: boolean,
+        userId: string,
+        createdAt: string,
+        updatedAt: string,
+        owner?: string | null,
+      } | null > | null,
+      nextToken?: string | null,
+    } | null,
+  } | null,
+};
+
+export type ListChatRoomsQueryVariables = {
+  filter?: ModelChatRoomFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListChatRoomsQuery = {
+  listChatRooms?:  {
+    __typename: "ModelChatRoomConnection",
+    items?:  Array< {
+      __typename: "ChatRoom",
+      id: string,
+      maxUsers: number,
+      messages?:  {
+        __typename: "ModelMessageConnection",
+        nextToken?: string | null,
+      } | null,
+      name: string,
+      createdAt: string,
       updatedAt: string,
+      owner?: string | null,
+      chatRoomUsers?:  {
+        __typename: "ModelChatRoomUserConnection",
+        nextToken?: string | null,
+      } | null,
+    } | null > | null,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type GetChatRoomUserQueryVariables = {
+  id?: string,
+};
+
+export type GetChatRoomUserQuery = {
+  getChatRoomUser?:  {
+    __typename: "ChatRoomUser",
+    chatRoomId: string,
+    id: string,
+    isModerator: boolean,
+    userId: string,
+    createdAt: string,
+    updatedAt: string,
+    chatRoom:  {
+      __typename: "ChatRoom",
+      id: string,
+      maxUsers: number,
+      messages?:  {
+        __typename: "ModelMessageConnection",
+        nextToken?: string | null,
+      } | null,
+      name: string,
+      createdAt: string,
+      updatedAt: string,
+      owner?: string | null,
+      chatRoomUsers?:  {
+        __typename: "ModelChatRoomUserConnection",
+        nextToken?: string | null,
+      } | null,
+    },
+    owner?: string | null,
+    user:  {
+      __typename: "User",
+      avatar: string,
+      bio: string,
+      displayName: string,
+      followees?:  {
+        __typename: "ModelContactConnection",
+        nextToken?: string | null,
+      } | null,
+      followers?:  {
+        __typename: "ModelContactConnection",
+        nextToken?: string | null,
+      } | null,
+      id: string,
+      name: string,
+      pushToken: string,
+      createdAt: string,
+      updatedAt: string,
+      chatRoomUsers?:  {
+        __typename: "ModelChatRoomUserConnection",
+        nextToken?: string | null,
+      } | null,
+      owner?: string | null,
+    },
+  } | null,
+};
+
+export type ListChatRoomUsersQueryVariables = {
+  filter?: ModelChatRoomUserFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListChatRoomUsersQuery = {
+  listChatRoomUsers?:  {
+    __typename: "ModelChatRoomUserConnection",
+    items?:  Array< {
+      __typename: "ChatRoomUser",
+      chatRoomId: string,
+      id: string,
+      isModerator: boolean,
+      userId: string,
+      createdAt: string,
+      updatedAt: string,
+      chatRoom:  {
+        __typename: "ChatRoom",
+        id: string,
+        maxUsers: number,
+        name: string,
+        createdAt: string,
+        updatedAt: string,
+        owner?: string | null,
+      },
+      owner?: string | null,
+      user:  {
+        __typename: "User",
+        avatar: string,
+        bio: string,
+        displayName: string,
+        id: string,
+        name: string,
+        pushToken: string,
+        createdAt: string,
+        updatedAt: string,
+        owner?: string | null,
+      },
+    } | null > | null,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type ChatRoomUsersByUserQueryVariables = {
+  userId?: string | null,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelChatRoomUserFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ChatRoomUsersByUserQuery = {
+  chatRoomUsersByUser?:  {
+    __typename: "ModelChatRoomUserConnection",
+    items?:  Array< {
+      __typename: "ChatRoomUser",
+      chatRoomId: string,
+      id: string,
+      isModerator: boolean,
+      userId: string,
+      createdAt: string,
+      updatedAt: string,
+      chatRoom:  {
+        __typename: "ChatRoom",
+        id: string,
+        maxUsers: number,
+        name: string,
+        createdAt: string,
+        updatedAt: string,
+        owner?: string | null,
+      },
+      owner?: string | null,
+      user:  {
+        __typename: "User",
+        avatar: string,
+        bio: string,
+        displayName: string,
+        id: string,
+        name: string,
+        pushToken: string,
+        createdAt: string,
+        updatedAt: string,
+        owner?: string | null,
+      },
+    } | null > | null,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type ChatRoomUsersByChatRoomQueryVariables = {
+  chatRoomId?: string | null,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelChatRoomUserFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ChatRoomUsersByChatRoomQuery = {
+  chatRoomUsersByChatRoom?:  {
+    __typename: "ModelChatRoomUserConnection",
+    items?:  Array< {
+      __typename: "ChatRoomUser",
+      chatRoomId: string,
+      id: string,
+      isModerator: boolean,
+      userId: string,
+      createdAt: string,
+      updatedAt: string,
+      chatRoom:  {
+        __typename: "ChatRoom",
+        id: string,
+        maxUsers: number,
+        name: string,
+        createdAt: string,
+        updatedAt: string,
+        owner?: string | null,
+      },
+      owner?: string | null,
+      user:  {
+        __typename: "User",
+        avatar: string,
+        bio: string,
+        displayName: string,
+        id: string,
+        name: string,
+        pushToken: string,
+        createdAt: string,
+        updatedAt: string,
+        owner?: string | null,
+      },
+    } | null > | null,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type GetUserQueryVariables = {
+  id?: string,
+};
+
+export type GetUserQuery = {
+  getUser?:  {
+    __typename: "User",
+    avatar: string,
+    bio: string,
+    displayName: string,
+    followees?:  {
+      __typename: "ModelContactConnection",
+      items?:  Array< {
+        __typename: "Contact",
+        followeeId: string,
+        followerId: string,
+        id: string,
+        createdAt: string,
+        updatedAt: string,
+        owner?: string | null,
+      } | null > | null,
+      nextToken?: string | null,
+    } | null,
+    followers?:  {
+      __typename: "ModelContactConnection",
+      items?:  Array< {
+        __typename: "Contact",
+        followeeId: string,
+        followerId: string,
+        id: string,
+        createdAt: string,
+        updatedAt: string,
+        owner?: string | null,
+      } | null > | null,
+      nextToken?: string | null,
+    } | null,
+    id: string,
+    name: string,
+    pushToken: string,
+    createdAt: string,
+    updatedAt: string,
+    chatRoomUsers?:  {
+      __typename: "ModelChatRoomUserConnection",
+      items?:  Array< {
+        __typename: "ChatRoomUser",
+        chatRoomId: string,
+        id: string,
+        isModerator: boolean,
+        userId: string,
+        createdAt: string,
+        updatedAt: string,
+        owner?: string | null,
+      } | null > | null,
+      nextToken?: string | null,
+    } | null,
+    owner?: string | null,
+  } | null,
+};
+
+export type ListUsersQueryVariables = {
+  filter?: ModelUserFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListUsersQuery = {
+  listUsers?:  {
+    __typename: "ModelUserConnection",
+    items?:  Array< {
+      __typename: "User",
+      avatar: string,
+      bio: string,
+      displayName: string,
+      followees?:  {
+        __typename: "ModelContactConnection",
+        nextToken?: string | null,
+      } | null,
+      followers?:  {
+        __typename: "ModelContactConnection",
+        nextToken?: string | null,
+      } | null,
+      id: string,
+      name: string,
+      pushToken: string,
+      createdAt: string,
+      updatedAt: string,
+      chatRoomUsers?:  {
+        __typename: "ModelChatRoomUserConnection",
+        nextToken?: string | null,
+      } | null,
+      owner?: string | null,
     } | null > | null,
     nextToken?: string | null,
   } | null,
@@ -1888,12 +1983,14 @@ export type OnCreateChatRoomUserByUserIdSubscriptionVariables = {
 export type OnCreateChatRoomUserByUserIdSubscription = {
   onCreateChatRoomUserByUserId?:  {
     __typename: "ChatRoomUser",
+    chatRoomId: string,
+    id: string,
+    isModerator: boolean,
+    userId: string,
+    createdAt: string,
+    updatedAt: string,
     chatRoom:  {
       __typename: "ChatRoom",
-      chatRoomUsers?:  {
-        __typename: "ModelChatRoomUserConnection",
-        nextToken?: string | null,
-      } | null,
       id: string,
       maxUsers: number,
       messages?:  {
@@ -1903,18 +2000,17 @@ export type OnCreateChatRoomUserByUserIdSubscription = {
       name: string,
       createdAt: string,
       updatedAt: string,
-    },
-    chatRoomId: string,
-    id: string,
-    isModerator: boolean,
-    user:  {
-      __typename: "User",
-      avatar: string,
-      bio: string,
+      owner?: string | null,
       chatRoomUsers?:  {
         __typename: "ModelChatRoomUserConnection",
         nextToken?: string | null,
       } | null,
+    },
+    owner?: string | null,
+    user:  {
+      __typename: "User",
+      avatar: string,
+      bio: string,
       displayName: string,
       followees?:  {
         __typename: "ModelContactConnection",
@@ -1926,13 +2022,15 @@ export type OnCreateChatRoomUserByUserIdSubscription = {
       } | null,
       id: string,
       name: string,
-      status: string,
+      pushToken: string,
       createdAt: string,
       updatedAt: string,
+      chatRoomUsers?:  {
+        __typename: "ModelChatRoomUserConnection",
+        nextToken?: string | null,
+      } | null,
+      owner?: string | null,
     },
-    userId: string,
-    createdAt: string,
-    updatedAt: string,
   } | null,
 };
 
@@ -1943,12 +2041,14 @@ export type OnDeleteChatRoomUserByUserIdSubscriptionVariables = {
 export type OnDeleteChatRoomUserByUserIdSubscription = {
   onDeleteChatRoomUserByUserId?:  {
     __typename: "ChatRoomUser",
+    chatRoomId: string,
+    id: string,
+    isModerator: boolean,
+    userId: string,
+    createdAt: string,
+    updatedAt: string,
     chatRoom:  {
       __typename: "ChatRoom",
-      chatRoomUsers?:  {
-        __typename: "ModelChatRoomUserConnection",
-        nextToken?: string | null,
-      } | null,
       id: string,
       maxUsers: number,
       messages?:  {
@@ -1958,18 +2058,17 @@ export type OnDeleteChatRoomUserByUserIdSubscription = {
       name: string,
       createdAt: string,
       updatedAt: string,
-    },
-    chatRoomId: string,
-    id: string,
-    isModerator: boolean,
-    user:  {
-      __typename: "User",
-      avatar: string,
-      bio: string,
+      owner?: string | null,
       chatRoomUsers?:  {
         __typename: "ModelChatRoomUserConnection",
         nextToken?: string | null,
       } | null,
+    },
+    owner?: string | null,
+    user:  {
+      __typename: "User",
+      avatar: string,
+      bio: string,
       displayName: string,
       followees?:  {
         __typename: "ModelContactConnection",
@@ -1981,13 +2080,15 @@ export type OnDeleteChatRoomUserByUserIdSubscription = {
       } | null,
       id: string,
       name: string,
-      status: string,
+      pushToken: string,
       createdAt: string,
       updatedAt: string,
+      chatRoomUsers?:  {
+        __typename: "ModelChatRoomUserConnection",
+        nextToken?: string | null,
+      } | null,
+      owner?: string | null,
     },
-    userId: string,
-    createdAt: string,
-    updatedAt: string,
   } | null,
 };
 
@@ -1998,12 +2099,14 @@ export type OnCreateChatRoomUserByChatRoomIdSubscriptionVariables = {
 export type OnCreateChatRoomUserByChatRoomIdSubscription = {
   onCreateChatRoomUserByChatRoomId?:  {
     __typename: "ChatRoomUser",
+    chatRoomId: string,
+    id: string,
+    isModerator: boolean,
+    userId: string,
+    createdAt: string,
+    updatedAt: string,
     chatRoom:  {
       __typename: "ChatRoom",
-      chatRoomUsers?:  {
-        __typename: "ModelChatRoomUserConnection",
-        nextToken?: string | null,
-      } | null,
       id: string,
       maxUsers: number,
       messages?:  {
@@ -2013,18 +2116,17 @@ export type OnCreateChatRoomUserByChatRoomIdSubscription = {
       name: string,
       createdAt: string,
       updatedAt: string,
-    },
-    chatRoomId: string,
-    id: string,
-    isModerator: boolean,
-    user:  {
-      __typename: "User",
-      avatar: string,
-      bio: string,
+      owner?: string | null,
       chatRoomUsers?:  {
         __typename: "ModelChatRoomUserConnection",
         nextToken?: string | null,
       } | null,
+    },
+    owner?: string | null,
+    user:  {
+      __typename: "User",
+      avatar: string,
+      bio: string,
       displayName: string,
       followees?:  {
         __typename: "ModelContactConnection",
@@ -2036,13 +2138,15 @@ export type OnCreateChatRoomUserByChatRoomIdSubscription = {
       } | null,
       id: string,
       name: string,
-      status: string,
+      pushToken: string,
       createdAt: string,
       updatedAt: string,
+      chatRoomUsers?:  {
+        __typename: "ModelChatRoomUserConnection",
+        nextToken?: string | null,
+      } | null,
+      owner?: string | null,
     },
-    userId: string,
-    createdAt: string,
-    updatedAt: string,
   } | null,
 };
 
@@ -2053,12 +2157,14 @@ export type OnDeleteChatRoomUserByChatRoomIdSubscriptionVariables = {
 export type OnDeleteChatRoomUserByChatRoomIdSubscription = {
   onDeleteChatRoomUserByChatRoomId?:  {
     __typename: "ChatRoomUser",
+    chatRoomId: string,
+    id: string,
+    isModerator: boolean,
+    userId: string,
+    createdAt: string,
+    updatedAt: string,
     chatRoom:  {
       __typename: "ChatRoom",
-      chatRoomUsers?:  {
-        __typename: "ModelChatRoomUserConnection",
-        nextToken?: string | null,
-      } | null,
       id: string,
       maxUsers: number,
       messages?:  {
@@ -2068,18 +2174,17 @@ export type OnDeleteChatRoomUserByChatRoomIdSubscription = {
       name: string,
       createdAt: string,
       updatedAt: string,
-    },
-    chatRoomId: string,
-    id: string,
-    isModerator: boolean,
-    user:  {
-      __typename: "User",
-      avatar: string,
-      bio: string,
+      owner?: string | null,
       chatRoomUsers?:  {
         __typename: "ModelChatRoomUserConnection",
         nextToken?: string | null,
       } | null,
+    },
+    owner?: string | null,
+    user:  {
+      __typename: "User",
+      avatar: string,
+      bio: string,
       displayName: string,
       followees?:  {
         __typename: "ModelContactConnection",
@@ -2091,13 +2196,15 @@ export type OnDeleteChatRoomUserByChatRoomIdSubscription = {
       } | null,
       id: string,
       name: string,
-      status: string,
+      pushToken: string,
       createdAt: string,
       updatedAt: string,
+      chatRoomUsers?:  {
+        __typename: "ModelChatRoomUserConnection",
+        nextToken?: string | null,
+      } | null,
+      owner?: string | null,
     },
-    userId: string,
-    createdAt: string,
-    updatedAt: string,
   } | null,
 };
 
@@ -2108,57 +2215,60 @@ export type OnCreateContactByFolloweeIdSubscriptionVariables = {
 export type OnCreateContactByFolloweeIdSubscription = {
   onCreateContactByFolloweeId?:  {
     __typename: "Contact",
-    followee:  {
-      __typename: "User",
-      avatar: string,
-      bio: string,
-      chatRoomUsers?:  {
-        __typename: "ModelChatRoomUserConnection",
-        nextToken?: string | null,
-      } | null,
-      displayName: string,
-      followees?:  {
-        __typename: "ModelContactConnection",
-        nextToken?: string | null,
-      } | null,
-      followers?:  {
-        __typename: "ModelContactConnection",
-        nextToken?: string | null,
-      } | null,
-      id: string,
-      name: string,
-      status: string,
-      createdAt: string,
-      updatedAt: string,
-    },
     followeeId: string,
-    follower:  {
-      __typename: "User",
-      avatar: string,
-      bio: string,
-      chatRoomUsers?:  {
-        __typename: "ModelChatRoomUserConnection",
-        nextToken?: string | null,
-      } | null,
-      displayName: string,
-      followees?:  {
-        __typename: "ModelContactConnection",
-        nextToken?: string | null,
-      } | null,
-      followers?:  {
-        __typename: "ModelContactConnection",
-        nextToken?: string | null,
-      } | null,
-      id: string,
-      name: string,
-      status: string,
-      createdAt: string,
-      updatedAt: string,
-    },
     followerId: string,
     id: string,
     createdAt: string,
     updatedAt: string,
+    owner?: string | null,
+    followee:  {
+      __typename: "User",
+      avatar: string,
+      bio: string,
+      displayName: string,
+      followees?:  {
+        __typename: "ModelContactConnection",
+        nextToken?: string | null,
+      } | null,
+      followers?:  {
+        __typename: "ModelContactConnection",
+        nextToken?: string | null,
+      } | null,
+      id: string,
+      name: string,
+      pushToken: string,
+      createdAt: string,
+      updatedAt: string,
+      chatRoomUsers?:  {
+        __typename: "ModelChatRoomUserConnection",
+        nextToken?: string | null,
+      } | null,
+      owner?: string | null,
+    },
+    follower:  {
+      __typename: "User",
+      avatar: string,
+      bio: string,
+      displayName: string,
+      followees?:  {
+        __typename: "ModelContactConnection",
+        nextToken?: string | null,
+      } | null,
+      followers?:  {
+        __typename: "ModelContactConnection",
+        nextToken?: string | null,
+      } | null,
+      id: string,
+      name: string,
+      pushToken: string,
+      createdAt: string,
+      updatedAt: string,
+      chatRoomUsers?:  {
+        __typename: "ModelChatRoomUserConnection",
+        nextToken?: string | null,
+      } | null,
+      owner?: string | null,
+    },
   } | null,
 };
 
@@ -2169,57 +2279,60 @@ export type OnDeleteContactByFolloweeIdSubscriptionVariables = {
 export type OnDeleteContactByFolloweeIdSubscription = {
   onDeleteContactByFolloweeId?:  {
     __typename: "Contact",
-    followee:  {
-      __typename: "User",
-      avatar: string,
-      bio: string,
-      chatRoomUsers?:  {
-        __typename: "ModelChatRoomUserConnection",
-        nextToken?: string | null,
-      } | null,
-      displayName: string,
-      followees?:  {
-        __typename: "ModelContactConnection",
-        nextToken?: string | null,
-      } | null,
-      followers?:  {
-        __typename: "ModelContactConnection",
-        nextToken?: string | null,
-      } | null,
-      id: string,
-      name: string,
-      status: string,
-      createdAt: string,
-      updatedAt: string,
-    },
     followeeId: string,
-    follower:  {
-      __typename: "User",
-      avatar: string,
-      bio: string,
-      chatRoomUsers?:  {
-        __typename: "ModelChatRoomUserConnection",
-        nextToken?: string | null,
-      } | null,
-      displayName: string,
-      followees?:  {
-        __typename: "ModelContactConnection",
-        nextToken?: string | null,
-      } | null,
-      followers?:  {
-        __typename: "ModelContactConnection",
-        nextToken?: string | null,
-      } | null,
-      id: string,
-      name: string,
-      status: string,
-      createdAt: string,
-      updatedAt: string,
-    },
     followerId: string,
     id: string,
     createdAt: string,
     updatedAt: string,
+    owner?: string | null,
+    followee:  {
+      __typename: "User",
+      avatar: string,
+      bio: string,
+      displayName: string,
+      followees?:  {
+        __typename: "ModelContactConnection",
+        nextToken?: string | null,
+      } | null,
+      followers?:  {
+        __typename: "ModelContactConnection",
+        nextToken?: string | null,
+      } | null,
+      id: string,
+      name: string,
+      pushToken: string,
+      createdAt: string,
+      updatedAt: string,
+      chatRoomUsers?:  {
+        __typename: "ModelChatRoomUserConnection",
+        nextToken?: string | null,
+      } | null,
+      owner?: string | null,
+    },
+    follower:  {
+      __typename: "User",
+      avatar: string,
+      bio: string,
+      displayName: string,
+      followees?:  {
+        __typename: "ModelContactConnection",
+        nextToken?: string | null,
+      } | null,
+      followers?:  {
+        __typename: "ModelContactConnection",
+        nextToken?: string | null,
+      } | null,
+      id: string,
+      name: string,
+      pushToken: string,
+      createdAt: string,
+      updatedAt: string,
+      chatRoomUsers?:  {
+        __typename: "ModelChatRoomUserConnection",
+        nextToken?: string | null,
+      } | null,
+      owner?: string | null,
+    },
   } | null,
 };
 
@@ -2230,57 +2343,60 @@ export type OnCreateContactByFollowerIdSubscriptionVariables = {
 export type OnCreateContactByFollowerIdSubscription = {
   onCreateContactByFollowerId?:  {
     __typename: "Contact",
-    followee:  {
-      __typename: "User",
-      avatar: string,
-      bio: string,
-      chatRoomUsers?:  {
-        __typename: "ModelChatRoomUserConnection",
-        nextToken?: string | null,
-      } | null,
-      displayName: string,
-      followees?:  {
-        __typename: "ModelContactConnection",
-        nextToken?: string | null,
-      } | null,
-      followers?:  {
-        __typename: "ModelContactConnection",
-        nextToken?: string | null,
-      } | null,
-      id: string,
-      name: string,
-      status: string,
-      createdAt: string,
-      updatedAt: string,
-    },
     followeeId: string,
-    follower:  {
-      __typename: "User",
-      avatar: string,
-      bio: string,
-      chatRoomUsers?:  {
-        __typename: "ModelChatRoomUserConnection",
-        nextToken?: string | null,
-      } | null,
-      displayName: string,
-      followees?:  {
-        __typename: "ModelContactConnection",
-        nextToken?: string | null,
-      } | null,
-      followers?:  {
-        __typename: "ModelContactConnection",
-        nextToken?: string | null,
-      } | null,
-      id: string,
-      name: string,
-      status: string,
-      createdAt: string,
-      updatedAt: string,
-    },
     followerId: string,
     id: string,
     createdAt: string,
     updatedAt: string,
+    owner?: string | null,
+    followee:  {
+      __typename: "User",
+      avatar: string,
+      bio: string,
+      displayName: string,
+      followees?:  {
+        __typename: "ModelContactConnection",
+        nextToken?: string | null,
+      } | null,
+      followers?:  {
+        __typename: "ModelContactConnection",
+        nextToken?: string | null,
+      } | null,
+      id: string,
+      name: string,
+      pushToken: string,
+      createdAt: string,
+      updatedAt: string,
+      chatRoomUsers?:  {
+        __typename: "ModelChatRoomUserConnection",
+        nextToken?: string | null,
+      } | null,
+      owner?: string | null,
+    },
+    follower:  {
+      __typename: "User",
+      avatar: string,
+      bio: string,
+      displayName: string,
+      followees?:  {
+        __typename: "ModelContactConnection",
+        nextToken?: string | null,
+      } | null,
+      followers?:  {
+        __typename: "ModelContactConnection",
+        nextToken?: string | null,
+      } | null,
+      id: string,
+      name: string,
+      pushToken: string,
+      createdAt: string,
+      updatedAt: string,
+      chatRoomUsers?:  {
+        __typename: "ModelChatRoomUserConnection",
+        nextToken?: string | null,
+      } | null,
+      owner?: string | null,
+    },
   } | null,
 };
 
@@ -2291,57 +2407,60 @@ export type OnDeleteContactByFollowerIdSubscriptionVariables = {
 export type OnDeleteContactByFollowerIdSubscription = {
   onDeleteContactByFollowerId?:  {
     __typename: "Contact",
-    followee:  {
-      __typename: "User",
-      avatar: string,
-      bio: string,
-      chatRoomUsers?:  {
-        __typename: "ModelChatRoomUserConnection",
-        nextToken?: string | null,
-      } | null,
-      displayName: string,
-      followees?:  {
-        __typename: "ModelContactConnection",
-        nextToken?: string | null,
-      } | null,
-      followers?:  {
-        __typename: "ModelContactConnection",
-        nextToken?: string | null,
-      } | null,
-      id: string,
-      name: string,
-      status: string,
-      createdAt: string,
-      updatedAt: string,
-    },
     followeeId: string,
-    follower:  {
-      __typename: "User",
-      avatar: string,
-      bio: string,
-      chatRoomUsers?:  {
-        __typename: "ModelChatRoomUserConnection",
-        nextToken?: string | null,
-      } | null,
-      displayName: string,
-      followees?:  {
-        __typename: "ModelContactConnection",
-        nextToken?: string | null,
-      } | null,
-      followers?:  {
-        __typename: "ModelContactConnection",
-        nextToken?: string | null,
-      } | null,
-      id: string,
-      name: string,
-      status: string,
-      createdAt: string,
-      updatedAt: string,
-    },
     followerId: string,
     id: string,
     createdAt: string,
     updatedAt: string,
+    owner?: string | null,
+    followee:  {
+      __typename: "User",
+      avatar: string,
+      bio: string,
+      displayName: string,
+      followees?:  {
+        __typename: "ModelContactConnection",
+        nextToken?: string | null,
+      } | null,
+      followers?:  {
+        __typename: "ModelContactConnection",
+        nextToken?: string | null,
+      } | null,
+      id: string,
+      name: string,
+      pushToken: string,
+      createdAt: string,
+      updatedAt: string,
+      chatRoomUsers?:  {
+        __typename: "ModelChatRoomUserConnection",
+        nextToken?: string | null,
+      } | null,
+      owner?: string | null,
+    },
+    follower:  {
+      __typename: "User",
+      avatar: string,
+      bio: string,
+      displayName: string,
+      followees?:  {
+        __typename: "ModelContactConnection",
+        nextToken?: string | null,
+      } | null,
+      followers?:  {
+        __typename: "ModelContactConnection",
+        nextToken?: string | null,
+      } | null,
+      id: string,
+      name: string,
+      pushToken: string,
+      createdAt: string,
+      updatedAt: string,
+      chatRoomUsers?:  {
+        __typename: "ModelChatRoomUserConnection",
+        nextToken?: string | null,
+      } | null,
+      owner?: string | null,
+    },
   } | null,
 };
 
@@ -2352,178 +2471,15 @@ export type OnCreateMessageByChatRoomIdSubscriptionVariables = {
 export type OnCreateMessageByChatRoomIdSubscription = {
   onCreateMessageByChatRoomId?:  {
     __typename: "Message",
-    chatRoom:  {
-      __typename: "ChatRoom",
-      chatRoomUsers?:  {
-        __typename: "ModelChatRoomUserConnection",
-        nextToken?: string | null,
-      } | null,
-      id: string,
-      maxUsers: number,
-      messages?:  {
-        __typename: "ModelMessageConnection",
-        nextToken?: string | null,
-      } | null,
-      name: string,
-      createdAt: string,
-      updatedAt: string,
-    },
     chatRoomId: string,
     content: string,
     createdAt: string,
     id: string,
     type: string,
-    user:  {
-      __typename: "User",
-      avatar: string,
-      bio: string,
-      chatRoomUsers?:  {
-        __typename: "ModelChatRoomUserConnection",
-        nextToken?: string | null,
-      } | null,
-      displayName: string,
-      followees?:  {
-        __typename: "ModelContactConnection",
-        nextToken?: string | null,
-      } | null,
-      followers?:  {
-        __typename: "ModelContactConnection",
-        nextToken?: string | null,
-      } | null,
-      id: string,
-      name: string,
-      status: string,
-      createdAt: string,
-      updatedAt: string,
-    },
     userId: string,
     updatedAt: string,
-  } | null,
-};
-
-export type OnCreateChatRoomSubscription = {
-  onCreateChatRoom?:  {
-    __typename: "ChatRoom",
-    chatRoomUsers?:  {
-      __typename: "ModelChatRoomUserConnection",
-      items?:  Array< {
-        __typename: "ChatRoomUser",
-        chatRoomId: string,
-        id: string,
-        isModerator: boolean,
-        userId: string,
-        createdAt: string,
-        updatedAt: string,
-      } | null > | null,
-      nextToken?: string | null,
-    } | null,
-    id: string,
-    maxUsers: number,
-    messages?:  {
-      __typename: "ModelMessageConnection",
-      items?:  Array< {
-        __typename: "Message",
-        chatRoomId: string,
-        content: string,
-        createdAt: string,
-        id: string,
-        type: string,
-        userId: string,
-        updatedAt: string,
-      } | null > | null,
-      nextToken?: string | null,
-    } | null,
-    name: string,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
-export type OnUpdateChatRoomSubscription = {
-  onUpdateChatRoom?:  {
-    __typename: "ChatRoom",
-    chatRoomUsers?:  {
-      __typename: "ModelChatRoomUserConnection",
-      items?:  Array< {
-        __typename: "ChatRoomUser",
-        chatRoomId: string,
-        id: string,
-        isModerator: boolean,
-        userId: string,
-        createdAt: string,
-        updatedAt: string,
-      } | null > | null,
-      nextToken?: string | null,
-    } | null,
-    id: string,
-    maxUsers: number,
-    messages?:  {
-      __typename: "ModelMessageConnection",
-      items?:  Array< {
-        __typename: "Message",
-        chatRoomId: string,
-        content: string,
-        createdAt: string,
-        id: string,
-        type: string,
-        userId: string,
-        updatedAt: string,
-      } | null > | null,
-      nextToken?: string | null,
-    } | null,
-    name: string,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
-export type OnDeleteChatRoomSubscription = {
-  onDeleteChatRoom?:  {
-    __typename: "ChatRoom",
-    chatRoomUsers?:  {
-      __typename: "ModelChatRoomUserConnection",
-      items?:  Array< {
-        __typename: "ChatRoomUser",
-        chatRoomId: string,
-        id: string,
-        isModerator: boolean,
-        userId: string,
-        createdAt: string,
-        updatedAt: string,
-      } | null > | null,
-      nextToken?: string | null,
-    } | null,
-    id: string,
-    maxUsers: number,
-    messages?:  {
-      __typename: "ModelMessageConnection",
-      items?:  Array< {
-        __typename: "Message",
-        chatRoomId: string,
-        content: string,
-        createdAt: string,
-        id: string,
-        type: string,
-        userId: string,
-        updatedAt: string,
-      } | null > | null,
-      nextToken?: string | null,
-    } | null,
-    name: string,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
-export type OnCreateChatRoomUserSubscription = {
-  onCreateChatRoomUser?:  {
-    __typename: "ChatRoomUser",
     chatRoom:  {
       __typename: "ChatRoom",
-      chatRoomUsers?:  {
-        __typename: "ModelChatRoomUserConnection",
-        nextToken?: string | null,
-      } | null,
       id: string,
       maxUsers: number,
       messages?:  {
@@ -2533,18 +2489,17 @@ export type OnCreateChatRoomUserSubscription = {
       name: string,
       createdAt: string,
       updatedAt: string,
-    },
-    chatRoomId: string,
-    id: string,
-    isModerator: boolean,
-    user:  {
-      __typename: "User",
-      avatar: string,
-      bio: string,
+      owner?: string | null,
       chatRoomUsers?:  {
         __typename: "ModelChatRoomUserConnection",
         nextToken?: string | null,
       } | null,
+    },
+    owner?: string | null,
+    user:  {
+      __typename: "User",
+      avatar: string,
+      bio: string,
       displayName: string,
       followees?:  {
         __typename: "ModelContactConnection",
@@ -2556,298 +2511,210 @@ export type OnCreateChatRoomUserSubscription = {
       } | null,
       id: string,
       name: string,
-      status: string,
+      pushToken: string,
       createdAt: string,
       updatedAt: string,
-    },
-    userId: string,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
-export type OnUpdateChatRoomUserSubscription = {
-  onUpdateChatRoomUser?:  {
-    __typename: "ChatRoomUser",
-    chatRoom:  {
-      __typename: "ChatRoom",
       chatRoomUsers?:  {
         __typename: "ModelChatRoomUserConnection",
         nextToken?: string | null,
       } | null,
-      id: string,
-      maxUsers: number,
-      messages?:  {
-        __typename: "ModelMessageConnection",
-        nextToken?: string | null,
-      } | null,
-      name: string,
-      createdAt: string,
-      updatedAt: string,
+      owner?: string | null,
     },
-    chatRoomId: string,
-    id: string,
-    isModerator: boolean,
-    user:  {
-      __typename: "User",
-      avatar: string,
-      bio: string,
-      chatRoomUsers?:  {
-        __typename: "ModelChatRoomUserConnection",
-        nextToken?: string | null,
-      } | null,
-      displayName: string,
-      followees?:  {
-        __typename: "ModelContactConnection",
-        nextToken?: string | null,
-      } | null,
-      followers?:  {
-        __typename: "ModelContactConnection",
-        nextToken?: string | null,
-      } | null,
-      id: string,
-      name: string,
-      status: string,
-      createdAt: string,
-      updatedAt: string,
-    },
-    userId: string,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
-export type OnDeleteChatRoomUserSubscription = {
-  onDeleteChatRoomUser?:  {
-    __typename: "ChatRoomUser",
-    chatRoom:  {
-      __typename: "ChatRoom",
-      chatRoomUsers?:  {
-        __typename: "ModelChatRoomUserConnection",
-        nextToken?: string | null,
-      } | null,
-      id: string,
-      maxUsers: number,
-      messages?:  {
-        __typename: "ModelMessageConnection",
-        nextToken?: string | null,
-      } | null,
-      name: string,
-      createdAt: string,
-      updatedAt: string,
-    },
-    chatRoomId: string,
-    id: string,
-    isModerator: boolean,
-    user:  {
-      __typename: "User",
-      avatar: string,
-      bio: string,
-      chatRoomUsers?:  {
-        __typename: "ModelChatRoomUserConnection",
-        nextToken?: string | null,
-      } | null,
-      displayName: string,
-      followees?:  {
-        __typename: "ModelContactConnection",
-        nextToken?: string | null,
-      } | null,
-      followers?:  {
-        __typename: "ModelContactConnection",
-        nextToken?: string | null,
-      } | null,
-      id: string,
-      name: string,
-      status: string,
-      createdAt: string,
-      updatedAt: string,
-    },
-    userId: string,
-    createdAt: string,
-    updatedAt: string,
   } | null,
 };
 
 export type OnCreateContactSubscription = {
   onCreateContact?:  {
     __typename: "Contact",
-    followee:  {
-      __typename: "User",
-      avatar: string,
-      bio: string,
-      chatRoomUsers?:  {
-        __typename: "ModelChatRoomUserConnection",
-        nextToken?: string | null,
-      } | null,
-      displayName: string,
-      followees?:  {
-        __typename: "ModelContactConnection",
-        nextToken?: string | null,
-      } | null,
-      followers?:  {
-        __typename: "ModelContactConnection",
-        nextToken?: string | null,
-      } | null,
-      id: string,
-      name: string,
-      status: string,
-      createdAt: string,
-      updatedAt: string,
-    },
     followeeId: string,
-    follower:  {
-      __typename: "User",
-      avatar: string,
-      bio: string,
-      chatRoomUsers?:  {
-        __typename: "ModelChatRoomUserConnection",
-        nextToken?: string | null,
-      } | null,
-      displayName: string,
-      followees?:  {
-        __typename: "ModelContactConnection",
-        nextToken?: string | null,
-      } | null,
-      followers?:  {
-        __typename: "ModelContactConnection",
-        nextToken?: string | null,
-      } | null,
-      id: string,
-      name: string,
-      status: string,
-      createdAt: string,
-      updatedAt: string,
-    },
     followerId: string,
     id: string,
     createdAt: string,
     updatedAt: string,
+    owner?: string | null,
+    followee:  {
+      __typename: "User",
+      avatar: string,
+      bio: string,
+      displayName: string,
+      followees?:  {
+        __typename: "ModelContactConnection",
+        nextToken?: string | null,
+      } | null,
+      followers?:  {
+        __typename: "ModelContactConnection",
+        nextToken?: string | null,
+      } | null,
+      id: string,
+      name: string,
+      pushToken: string,
+      createdAt: string,
+      updatedAt: string,
+      chatRoomUsers?:  {
+        __typename: "ModelChatRoomUserConnection",
+        nextToken?: string | null,
+      } | null,
+      owner?: string | null,
+    },
+    follower:  {
+      __typename: "User",
+      avatar: string,
+      bio: string,
+      displayName: string,
+      followees?:  {
+        __typename: "ModelContactConnection",
+        nextToken?: string | null,
+      } | null,
+      followers?:  {
+        __typename: "ModelContactConnection",
+        nextToken?: string | null,
+      } | null,
+      id: string,
+      name: string,
+      pushToken: string,
+      createdAt: string,
+      updatedAt: string,
+      chatRoomUsers?:  {
+        __typename: "ModelChatRoomUserConnection",
+        nextToken?: string | null,
+      } | null,
+      owner?: string | null,
+    },
   } | null,
 };
 
 export type OnUpdateContactSubscription = {
   onUpdateContact?:  {
     __typename: "Contact",
-    followee:  {
-      __typename: "User",
-      avatar: string,
-      bio: string,
-      chatRoomUsers?:  {
-        __typename: "ModelChatRoomUserConnection",
-        nextToken?: string | null,
-      } | null,
-      displayName: string,
-      followees?:  {
-        __typename: "ModelContactConnection",
-        nextToken?: string | null,
-      } | null,
-      followers?:  {
-        __typename: "ModelContactConnection",
-        nextToken?: string | null,
-      } | null,
-      id: string,
-      name: string,
-      status: string,
-      createdAt: string,
-      updatedAt: string,
-    },
     followeeId: string,
-    follower:  {
-      __typename: "User",
-      avatar: string,
-      bio: string,
-      chatRoomUsers?:  {
-        __typename: "ModelChatRoomUserConnection",
-        nextToken?: string | null,
-      } | null,
-      displayName: string,
-      followees?:  {
-        __typename: "ModelContactConnection",
-        nextToken?: string | null,
-      } | null,
-      followers?:  {
-        __typename: "ModelContactConnection",
-        nextToken?: string | null,
-      } | null,
-      id: string,
-      name: string,
-      status: string,
-      createdAt: string,
-      updatedAt: string,
-    },
     followerId: string,
     id: string,
     createdAt: string,
     updatedAt: string,
+    owner?: string | null,
+    followee:  {
+      __typename: "User",
+      avatar: string,
+      bio: string,
+      displayName: string,
+      followees?:  {
+        __typename: "ModelContactConnection",
+        nextToken?: string | null,
+      } | null,
+      followers?:  {
+        __typename: "ModelContactConnection",
+        nextToken?: string | null,
+      } | null,
+      id: string,
+      name: string,
+      pushToken: string,
+      createdAt: string,
+      updatedAt: string,
+      chatRoomUsers?:  {
+        __typename: "ModelChatRoomUserConnection",
+        nextToken?: string | null,
+      } | null,
+      owner?: string | null,
+    },
+    follower:  {
+      __typename: "User",
+      avatar: string,
+      bio: string,
+      displayName: string,
+      followees?:  {
+        __typename: "ModelContactConnection",
+        nextToken?: string | null,
+      } | null,
+      followers?:  {
+        __typename: "ModelContactConnection",
+        nextToken?: string | null,
+      } | null,
+      id: string,
+      name: string,
+      pushToken: string,
+      createdAt: string,
+      updatedAt: string,
+      chatRoomUsers?:  {
+        __typename: "ModelChatRoomUserConnection",
+        nextToken?: string | null,
+      } | null,
+      owner?: string | null,
+    },
   } | null,
 };
 
 export type OnDeleteContactSubscription = {
   onDeleteContact?:  {
     __typename: "Contact",
-    followee:  {
-      __typename: "User",
-      avatar: string,
-      bio: string,
-      chatRoomUsers?:  {
-        __typename: "ModelChatRoomUserConnection",
-        nextToken?: string | null,
-      } | null,
-      displayName: string,
-      followees?:  {
-        __typename: "ModelContactConnection",
-        nextToken?: string | null,
-      } | null,
-      followers?:  {
-        __typename: "ModelContactConnection",
-        nextToken?: string | null,
-      } | null,
-      id: string,
-      name: string,
-      status: string,
-      createdAt: string,
-      updatedAt: string,
-    },
     followeeId: string,
-    follower:  {
-      __typename: "User",
-      avatar: string,
-      bio: string,
-      chatRoomUsers?:  {
-        __typename: "ModelChatRoomUserConnection",
-        nextToken?: string | null,
-      } | null,
-      displayName: string,
-      followees?:  {
-        __typename: "ModelContactConnection",
-        nextToken?: string | null,
-      } | null,
-      followers?:  {
-        __typename: "ModelContactConnection",
-        nextToken?: string | null,
-      } | null,
-      id: string,
-      name: string,
-      status: string,
-      createdAt: string,
-      updatedAt: string,
-    },
     followerId: string,
     id: string,
     createdAt: string,
     updatedAt: string,
+    owner?: string | null,
+    followee:  {
+      __typename: "User",
+      avatar: string,
+      bio: string,
+      displayName: string,
+      followees?:  {
+        __typename: "ModelContactConnection",
+        nextToken?: string | null,
+      } | null,
+      followers?:  {
+        __typename: "ModelContactConnection",
+        nextToken?: string | null,
+      } | null,
+      id: string,
+      name: string,
+      pushToken: string,
+      createdAt: string,
+      updatedAt: string,
+      chatRoomUsers?:  {
+        __typename: "ModelChatRoomUserConnection",
+        nextToken?: string | null,
+      } | null,
+      owner?: string | null,
+    },
+    follower:  {
+      __typename: "User",
+      avatar: string,
+      bio: string,
+      displayName: string,
+      followees?:  {
+        __typename: "ModelContactConnection",
+        nextToken?: string | null,
+      } | null,
+      followers?:  {
+        __typename: "ModelContactConnection",
+        nextToken?: string | null,
+      } | null,
+      id: string,
+      name: string,
+      pushToken: string,
+      createdAt: string,
+      updatedAt: string,
+      chatRoomUsers?:  {
+        __typename: "ModelChatRoomUserConnection",
+        nextToken?: string | null,
+      } | null,
+      owner?: string | null,
+    },
   } | null,
 };
 
 export type OnCreateMessageSubscription = {
   onCreateMessage?:  {
     __typename: "Message",
+    chatRoomId: string,
+    content: string,
+    createdAt: string,
+    id: string,
+    type: string,
+    userId: string,
+    updatedAt: string,
     chatRoom:  {
       __typename: "ChatRoom",
-      chatRoomUsers?:  {
-        __typename: "ModelChatRoomUserConnection",
-        nextToken?: string | null,
-      } | null,
       id: string,
       maxUsers: number,
       messages?:  {
@@ -2857,20 +2724,17 @@ export type OnCreateMessageSubscription = {
       name: string,
       createdAt: string,
       updatedAt: string,
-    },
-    chatRoomId: string,
-    content: string,
-    createdAt: string,
-    id: string,
-    type: string,
-    user:  {
-      __typename: "User",
-      avatar: string,
-      bio: string,
+      owner?: string | null,
       chatRoomUsers?:  {
         __typename: "ModelChatRoomUserConnection",
         nextToken?: string | null,
       } | null,
+    },
+    owner?: string | null,
+    user:  {
+      __typename: "User",
+      avatar: string,
+      bio: string,
       displayName: string,
       followees?:  {
         __typename: "ModelContactConnection",
@@ -2882,24 +2746,30 @@ export type OnCreateMessageSubscription = {
       } | null,
       id: string,
       name: string,
-      status: string,
+      pushToken: string,
       createdAt: string,
       updatedAt: string,
+      chatRoomUsers?:  {
+        __typename: "ModelChatRoomUserConnection",
+        nextToken?: string | null,
+      } | null,
+      owner?: string | null,
     },
-    userId: string,
-    updatedAt: string,
   } | null,
 };
 
 export type OnUpdateMessageSubscription = {
   onUpdateMessage?:  {
     __typename: "Message",
+    chatRoomId: string,
+    content: string,
+    createdAt: string,
+    id: string,
+    type: string,
+    userId: string,
+    updatedAt: string,
     chatRoom:  {
       __typename: "ChatRoom",
-      chatRoomUsers?:  {
-        __typename: "ModelChatRoomUserConnection",
-        nextToken?: string | null,
-      } | null,
       id: string,
       maxUsers: number,
       messages?:  {
@@ -2909,20 +2779,17 @@ export type OnUpdateMessageSubscription = {
       name: string,
       createdAt: string,
       updatedAt: string,
-    },
-    chatRoomId: string,
-    content: string,
-    createdAt: string,
-    id: string,
-    type: string,
-    user:  {
-      __typename: "User",
-      avatar: string,
-      bio: string,
+      owner?: string | null,
       chatRoomUsers?:  {
         __typename: "ModelChatRoomUserConnection",
         nextToken?: string | null,
       } | null,
+    },
+    owner?: string | null,
+    user:  {
+      __typename: "User",
+      avatar: string,
+      bio: string,
       displayName: string,
       followees?:  {
         __typename: "ModelContactConnection",
@@ -2934,24 +2801,30 @@ export type OnUpdateMessageSubscription = {
       } | null,
       id: string,
       name: string,
-      status: string,
+      pushToken: string,
       createdAt: string,
       updatedAt: string,
+      chatRoomUsers?:  {
+        __typename: "ModelChatRoomUserConnection",
+        nextToken?: string | null,
+      } | null,
+      owner?: string | null,
     },
-    userId: string,
-    updatedAt: string,
   } | null,
 };
 
 export type OnDeleteMessageSubscription = {
   onDeleteMessage?:  {
     __typename: "Message",
+    chatRoomId: string,
+    content: string,
+    createdAt: string,
+    id: string,
+    type: string,
+    userId: string,
+    updatedAt: string,
     chatRoom:  {
       __typename: "ChatRoom",
-      chatRoomUsers?:  {
-        __typename: "ModelChatRoomUserConnection",
-        nextToken?: string | null,
-      } | null,
       id: string,
       maxUsers: number,
       messages?:  {
@@ -2961,20 +2834,17 @@ export type OnDeleteMessageSubscription = {
       name: string,
       createdAt: string,
       updatedAt: string,
-    },
-    chatRoomId: string,
-    content: string,
-    createdAt: string,
-    id: string,
-    type: string,
-    user:  {
-      __typename: "User",
-      avatar: string,
-      bio: string,
+      owner?: string | null,
       chatRoomUsers?:  {
         __typename: "ModelChatRoomUserConnection",
         nextToken?: string | null,
       } | null,
+    },
+    owner?: string | null,
+    user:  {
+      __typename: "User",
+      avatar: string,
+      bio: string,
       displayName: string,
       followees?:  {
         __typename: "ModelContactConnection",
@@ -2986,12 +2856,300 @@ export type OnDeleteMessageSubscription = {
       } | null,
       id: string,
       name: string,
-      status: string,
+      pushToken: string,
       createdAt: string,
       updatedAt: string,
+      chatRoomUsers?:  {
+        __typename: "ModelChatRoomUserConnection",
+        nextToken?: string | null,
+      } | null,
+      owner?: string | null,
     },
-    userId: string,
+  } | null,
+};
+
+export type OnCreateChatRoomSubscription = {
+  onCreateChatRoom?:  {
+    __typename: "ChatRoom",
+    id: string,
+    maxUsers: number,
+    messages?:  {
+      __typename: "ModelMessageConnection",
+      items?:  Array< {
+        __typename: "Message",
+        chatRoomId: string,
+        content: string,
+        createdAt: string,
+        id: string,
+        type: string,
+        userId: string,
+        updatedAt: string,
+        owner?: string | null,
+      } | null > | null,
+      nextToken?: string | null,
+    } | null,
+    name: string,
+    createdAt: string,
     updatedAt: string,
+    owner?: string | null,
+    chatRoomUsers?:  {
+      __typename: "ModelChatRoomUserConnection",
+      items?:  Array< {
+        __typename: "ChatRoomUser",
+        chatRoomId: string,
+        id: string,
+        isModerator: boolean,
+        userId: string,
+        createdAt: string,
+        updatedAt: string,
+        owner?: string | null,
+      } | null > | null,
+      nextToken?: string | null,
+    } | null,
+  } | null,
+};
+
+export type OnUpdateChatRoomSubscription = {
+  onUpdateChatRoom?:  {
+    __typename: "ChatRoom",
+    id: string,
+    maxUsers: number,
+    messages?:  {
+      __typename: "ModelMessageConnection",
+      items?:  Array< {
+        __typename: "Message",
+        chatRoomId: string,
+        content: string,
+        createdAt: string,
+        id: string,
+        type: string,
+        userId: string,
+        updatedAt: string,
+        owner?: string | null,
+      } | null > | null,
+      nextToken?: string | null,
+    } | null,
+    name: string,
+    createdAt: string,
+    updatedAt: string,
+    owner?: string | null,
+    chatRoomUsers?:  {
+      __typename: "ModelChatRoomUserConnection",
+      items?:  Array< {
+        __typename: "ChatRoomUser",
+        chatRoomId: string,
+        id: string,
+        isModerator: boolean,
+        userId: string,
+        createdAt: string,
+        updatedAt: string,
+        owner?: string | null,
+      } | null > | null,
+      nextToken?: string | null,
+    } | null,
+  } | null,
+};
+
+export type OnDeleteChatRoomSubscription = {
+  onDeleteChatRoom?:  {
+    __typename: "ChatRoom",
+    id: string,
+    maxUsers: number,
+    messages?:  {
+      __typename: "ModelMessageConnection",
+      items?:  Array< {
+        __typename: "Message",
+        chatRoomId: string,
+        content: string,
+        createdAt: string,
+        id: string,
+        type: string,
+        userId: string,
+        updatedAt: string,
+        owner?: string | null,
+      } | null > | null,
+      nextToken?: string | null,
+    } | null,
+    name: string,
+    createdAt: string,
+    updatedAt: string,
+    owner?: string | null,
+    chatRoomUsers?:  {
+      __typename: "ModelChatRoomUserConnection",
+      items?:  Array< {
+        __typename: "ChatRoomUser",
+        chatRoomId: string,
+        id: string,
+        isModerator: boolean,
+        userId: string,
+        createdAt: string,
+        updatedAt: string,
+        owner?: string | null,
+      } | null > | null,
+      nextToken?: string | null,
+    } | null,
+  } | null,
+};
+
+export type OnCreateChatRoomUserSubscription = {
+  onCreateChatRoomUser?:  {
+    __typename: "ChatRoomUser",
+    chatRoomId: string,
+    id: string,
+    isModerator: boolean,
+    userId: string,
+    createdAt: string,
+    updatedAt: string,
+    chatRoom:  {
+      __typename: "ChatRoom",
+      id: string,
+      maxUsers: number,
+      messages?:  {
+        __typename: "ModelMessageConnection",
+        nextToken?: string | null,
+      } | null,
+      name: string,
+      createdAt: string,
+      updatedAt: string,
+      owner?: string | null,
+      chatRoomUsers?:  {
+        __typename: "ModelChatRoomUserConnection",
+        nextToken?: string | null,
+      } | null,
+    },
+    owner?: string | null,
+    user:  {
+      __typename: "User",
+      avatar: string,
+      bio: string,
+      displayName: string,
+      followees?:  {
+        __typename: "ModelContactConnection",
+        nextToken?: string | null,
+      } | null,
+      followers?:  {
+        __typename: "ModelContactConnection",
+        nextToken?: string | null,
+      } | null,
+      id: string,
+      name: string,
+      pushToken: string,
+      createdAt: string,
+      updatedAt: string,
+      chatRoomUsers?:  {
+        __typename: "ModelChatRoomUserConnection",
+        nextToken?: string | null,
+      } | null,
+      owner?: string | null,
+    },
+  } | null,
+};
+
+export type OnUpdateChatRoomUserSubscription = {
+  onUpdateChatRoomUser?:  {
+    __typename: "ChatRoomUser",
+    chatRoomId: string,
+    id: string,
+    isModerator: boolean,
+    userId: string,
+    createdAt: string,
+    updatedAt: string,
+    chatRoom:  {
+      __typename: "ChatRoom",
+      id: string,
+      maxUsers: number,
+      messages?:  {
+        __typename: "ModelMessageConnection",
+        nextToken?: string | null,
+      } | null,
+      name: string,
+      createdAt: string,
+      updatedAt: string,
+      owner?: string | null,
+      chatRoomUsers?:  {
+        __typename: "ModelChatRoomUserConnection",
+        nextToken?: string | null,
+      } | null,
+    },
+    owner?: string | null,
+    user:  {
+      __typename: "User",
+      avatar: string,
+      bio: string,
+      displayName: string,
+      followees?:  {
+        __typename: "ModelContactConnection",
+        nextToken?: string | null,
+      } | null,
+      followers?:  {
+        __typename: "ModelContactConnection",
+        nextToken?: string | null,
+      } | null,
+      id: string,
+      name: string,
+      pushToken: string,
+      createdAt: string,
+      updatedAt: string,
+      chatRoomUsers?:  {
+        __typename: "ModelChatRoomUserConnection",
+        nextToken?: string | null,
+      } | null,
+      owner?: string | null,
+    },
+  } | null,
+};
+
+export type OnDeleteChatRoomUserSubscription = {
+  onDeleteChatRoomUser?:  {
+    __typename: "ChatRoomUser",
+    chatRoomId: string,
+    id: string,
+    isModerator: boolean,
+    userId: string,
+    createdAt: string,
+    updatedAt: string,
+    chatRoom:  {
+      __typename: "ChatRoom",
+      id: string,
+      maxUsers: number,
+      messages?:  {
+        __typename: "ModelMessageConnection",
+        nextToken?: string | null,
+      } | null,
+      name: string,
+      createdAt: string,
+      updatedAt: string,
+      owner?: string | null,
+      chatRoomUsers?:  {
+        __typename: "ModelChatRoomUserConnection",
+        nextToken?: string | null,
+      } | null,
+    },
+    owner?: string | null,
+    user:  {
+      __typename: "User",
+      avatar: string,
+      bio: string,
+      displayName: string,
+      followees?:  {
+        __typename: "ModelContactConnection",
+        nextToken?: string | null,
+      } | null,
+      followers?:  {
+        __typename: "ModelContactConnection",
+        nextToken?: string | null,
+      } | null,
+      id: string,
+      name: string,
+      pushToken: string,
+      createdAt: string,
+      updatedAt: string,
+      chatRoomUsers?:  {
+        __typename: "ModelChatRoomUserConnection",
+        nextToken?: string | null,
+      } | null,
+      owner?: string | null,
+    },
   } | null,
 };
 
@@ -3000,19 +3158,6 @@ export type OnCreateUserSubscription = {
     __typename: "User",
     avatar: string,
     bio: string,
-    chatRoomUsers?:  {
-      __typename: "ModelChatRoomUserConnection",
-      items?:  Array< {
-        __typename: "ChatRoomUser",
-        chatRoomId: string,
-        id: string,
-        isModerator: boolean,
-        userId: string,
-        createdAt: string,
-        updatedAt: string,
-      } | null > | null,
-      nextToken?: string | null,
-    } | null,
     displayName: string,
     followees?:  {
       __typename: "ModelContactConnection",
@@ -3023,6 +3168,7 @@ export type OnCreateUserSubscription = {
         id: string,
         createdAt: string,
         updatedAt: string,
+        owner?: string | null,
       } | null > | null,
       nextToken?: string | null,
     } | null,
@@ -3035,14 +3181,30 @@ export type OnCreateUserSubscription = {
         id: string,
         createdAt: string,
         updatedAt: string,
+        owner?: string | null,
       } | null > | null,
       nextToken?: string | null,
     } | null,
     id: string,
     name: string,
-    status: string,
+    pushToken: string,
     createdAt: string,
     updatedAt: string,
+    chatRoomUsers?:  {
+      __typename: "ModelChatRoomUserConnection",
+      items?:  Array< {
+        __typename: "ChatRoomUser",
+        chatRoomId: string,
+        id: string,
+        isModerator: boolean,
+        userId: string,
+        createdAt: string,
+        updatedAt: string,
+        owner?: string | null,
+      } | null > | null,
+      nextToken?: string | null,
+    } | null,
+    owner?: string | null,
   } | null,
 };
 
@@ -3051,19 +3213,6 @@ export type OnUpdateUserSubscription = {
     __typename: "User",
     avatar: string,
     bio: string,
-    chatRoomUsers?:  {
-      __typename: "ModelChatRoomUserConnection",
-      items?:  Array< {
-        __typename: "ChatRoomUser",
-        chatRoomId: string,
-        id: string,
-        isModerator: boolean,
-        userId: string,
-        createdAt: string,
-        updatedAt: string,
-      } | null > | null,
-      nextToken?: string | null,
-    } | null,
     displayName: string,
     followees?:  {
       __typename: "ModelContactConnection",
@@ -3074,6 +3223,7 @@ export type OnUpdateUserSubscription = {
         id: string,
         createdAt: string,
         updatedAt: string,
+        owner?: string | null,
       } | null > | null,
       nextToken?: string | null,
     } | null,
@@ -3086,14 +3236,30 @@ export type OnUpdateUserSubscription = {
         id: string,
         createdAt: string,
         updatedAt: string,
+        owner?: string | null,
       } | null > | null,
       nextToken?: string | null,
     } | null,
     id: string,
     name: string,
-    status: string,
+    pushToken: string,
     createdAt: string,
     updatedAt: string,
+    chatRoomUsers?:  {
+      __typename: "ModelChatRoomUserConnection",
+      items?:  Array< {
+        __typename: "ChatRoomUser",
+        chatRoomId: string,
+        id: string,
+        isModerator: boolean,
+        userId: string,
+        createdAt: string,
+        updatedAt: string,
+        owner?: string | null,
+      } | null > | null,
+      nextToken?: string | null,
+    } | null,
+    owner?: string | null,
   } | null,
 };
 
@@ -3102,19 +3268,6 @@ export type OnDeleteUserSubscription = {
     __typename: "User",
     avatar: string,
     bio: string,
-    chatRoomUsers?:  {
-      __typename: "ModelChatRoomUserConnection",
-      items?:  Array< {
-        __typename: "ChatRoomUser",
-        chatRoomId: string,
-        id: string,
-        isModerator: boolean,
-        userId: string,
-        createdAt: string,
-        updatedAt: string,
-      } | null > | null,
-      nextToken?: string | null,
-    } | null,
     displayName: string,
     followees?:  {
       __typename: "ModelContactConnection",
@@ -3125,6 +3278,7 @@ export type OnDeleteUserSubscription = {
         id: string,
         createdAt: string,
         updatedAt: string,
+        owner?: string | null,
       } | null > | null,
       nextToken?: string | null,
     } | null,
@@ -3137,13 +3291,29 @@ export type OnDeleteUserSubscription = {
         id: string,
         createdAt: string,
         updatedAt: string,
+        owner?: string | null,
       } | null > | null,
       nextToken?: string | null,
     } | null,
     id: string,
     name: string,
-    status: string,
+    pushToken: string,
     createdAt: string,
     updatedAt: string,
+    chatRoomUsers?:  {
+      __typename: "ModelChatRoomUserConnection",
+      items?:  Array< {
+        __typename: "ChatRoomUser",
+        chatRoomId: string,
+        id: string,
+        isModerator: boolean,
+        userId: string,
+        createdAt: string,
+        updatedAt: string,
+        owner?: string | null,
+      } | null > | null,
+      nextToken?: string | null,
+    } | null,
+    owner?: string | null,
   } | null,
 };

@@ -8,17 +8,6 @@ export const createChatRoom = /* GraphQL */ `
     $condition: ModelChatRoomConditionInput
   ) {
     createChatRoom(input: $input, condition: $condition) {
-      chatRoomUsers {
-        items {
-          chatRoomId
-          id
-          isModerator
-          userId
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
       id
       maxUsers
       messages {
@@ -30,12 +19,26 @@ export const createChatRoom = /* GraphQL */ `
           type
           userId
           updatedAt
+          owner
         }
         nextToken
       }
       name
       createdAt
       updatedAt
+      owner
+      chatRoomUsers {
+        items {
+          chatRoomId
+          id
+          isModerator
+          userId
+          createdAt
+          updatedAt
+          owner
+        }
+        nextToken
+      }
     }
   }
 `;
@@ -45,17 +48,6 @@ export const updateChatRoom = /* GraphQL */ `
     $condition: ModelChatRoomConditionInput
   ) {
     updateChatRoom(input: $input, condition: $condition) {
-      chatRoomUsers {
-        items {
-          chatRoomId
-          id
-          isModerator
-          userId
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
       id
       maxUsers
       messages {
@@ -67,12 +59,26 @@ export const updateChatRoom = /* GraphQL */ `
           type
           userId
           updatedAt
+          owner
         }
         nextToken
       }
       name
       createdAt
       updatedAt
+      owner
+      chatRoomUsers {
+        items {
+          chatRoomId
+          id
+          isModerator
+          userId
+          createdAt
+          updatedAt
+          owner
+        }
+        nextToken
+      }
     }
   }
 `;
@@ -82,17 +88,6 @@ export const deleteChatRoom = /* GraphQL */ `
     $condition: ModelChatRoomConditionInput
   ) {
     deleteChatRoom(input: $input, condition: $condition) {
-      chatRoomUsers {
-        items {
-          chatRoomId
-          id
-          isModerator
-          userId
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
       id
       maxUsers
       messages {
@@ -104,12 +99,26 @@ export const deleteChatRoom = /* GraphQL */ `
           type
           userId
           updatedAt
+          owner
         }
         nextToken
       }
       name
       createdAt
       updatedAt
+      owner
+      chatRoomUsers {
+        items {
+          chatRoomId
+          id
+          isModerator
+          userId
+          createdAt
+          updatedAt
+          owner
+        }
+        nextToken
+      }
     }
   }
 `;
@@ -119,10 +128,13 @@ export const createChatRoomUser = /* GraphQL */ `
     $condition: ModelChatRoomUserConditionInput
   ) {
     createChatRoomUser(input: $input, condition: $condition) {
+      chatRoomId
+      id
+      isModerator
+      userId
+      createdAt
+      updatedAt
       chatRoom {
-        chatRoomUsers {
-          nextToken
-        }
         id
         maxUsers
         messages {
@@ -131,16 +143,15 @@ export const createChatRoomUser = /* GraphQL */ `
         name
         createdAt
         updatedAt
-      }
-      chatRoomId
-      id
-      isModerator
-      user {
-        avatar
-        bio
+        owner
         chatRoomUsers {
           nextToken
         }
+      }
+      owner
+      user {
+        avatar
+        bio
         displayName
         followees {
           nextToken
@@ -150,13 +161,14 @@ export const createChatRoomUser = /* GraphQL */ `
         }
         id
         name
-        status
+        pushToken
         createdAt
         updatedAt
+        chatRoomUsers {
+          nextToken
+        }
+        owner
       }
-      userId
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -166,10 +178,13 @@ export const updateChatRoomUser = /* GraphQL */ `
     $condition: ModelChatRoomUserConditionInput
   ) {
     updateChatRoomUser(input: $input, condition: $condition) {
+      chatRoomId
+      id
+      isModerator
+      userId
+      createdAt
+      updatedAt
       chatRoom {
-        chatRoomUsers {
-          nextToken
-        }
         id
         maxUsers
         messages {
@@ -178,16 +193,15 @@ export const updateChatRoomUser = /* GraphQL */ `
         name
         createdAt
         updatedAt
-      }
-      chatRoomId
-      id
-      isModerator
-      user {
-        avatar
-        bio
+        owner
         chatRoomUsers {
           nextToken
         }
+      }
+      owner
+      user {
+        avatar
+        bio
         displayName
         followees {
           nextToken
@@ -197,13 +211,14 @@ export const updateChatRoomUser = /* GraphQL */ `
         }
         id
         name
-        status
+        pushToken
         createdAt
         updatedAt
+        chatRoomUsers {
+          nextToken
+        }
+        owner
       }
-      userId
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -213,10 +228,13 @@ export const deleteChatRoomUser = /* GraphQL */ `
     $condition: ModelChatRoomUserConditionInput
   ) {
     deleteChatRoomUser(input: $input, condition: $condition) {
+      chatRoomId
+      id
+      isModerator
+      userId
+      createdAt
+      updatedAt
       chatRoom {
-        chatRoomUsers {
-          nextToken
-        }
         id
         maxUsers
         messages {
@@ -225,16 +243,15 @@ export const deleteChatRoomUser = /* GraphQL */ `
         name
         createdAt
         updatedAt
-      }
-      chatRoomId
-      id
-      isModerator
-      user {
-        avatar
-        bio
+        owner
         chatRoomUsers {
           nextToken
         }
+      }
+      owner
+      user {
+        avatar
+        bio
         displayName
         followees {
           nextToken
@@ -244,13 +261,14 @@ export const deleteChatRoomUser = /* GraphQL */ `
         }
         id
         name
-        status
+        pushToken
         createdAt
         updatedAt
+        chatRoomUsers {
+          nextToken
+        }
+        owner
       }
-      userId
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -260,49 +278,52 @@ export const createContact = /* GraphQL */ `
     $condition: ModelContactConditionInput
   ) {
     createContact(input: $input, condition: $condition) {
-      followee {
-        avatar
-        bio
-        chatRoomUsers {
-          nextToken
-        }
-        displayName
-        followees {
-          nextToken
-        }
-        followers {
-          nextToken
-        }
-        id
-        name
-        status
-        createdAt
-        updatedAt
-      }
       followeeId
-      follower {
-        avatar
-        bio
-        chatRoomUsers {
-          nextToken
-        }
-        displayName
-        followees {
-          nextToken
-        }
-        followers {
-          nextToken
-        }
-        id
-        name
-        status
-        createdAt
-        updatedAt
-      }
       followerId
       id
       createdAt
       updatedAt
+      owner
+      followee {
+        avatar
+        bio
+        displayName
+        followees {
+          nextToken
+        }
+        followers {
+          nextToken
+        }
+        id
+        name
+        pushToken
+        createdAt
+        updatedAt
+        chatRoomUsers {
+          nextToken
+        }
+        owner
+      }
+      follower {
+        avatar
+        bio
+        displayName
+        followees {
+          nextToken
+        }
+        followers {
+          nextToken
+        }
+        id
+        name
+        pushToken
+        createdAt
+        updatedAt
+        chatRoomUsers {
+          nextToken
+        }
+        owner
+      }
     }
   }
 `;
@@ -312,49 +333,52 @@ export const updateContact = /* GraphQL */ `
     $condition: ModelContactConditionInput
   ) {
     updateContact(input: $input, condition: $condition) {
-      followee {
-        avatar
-        bio
-        chatRoomUsers {
-          nextToken
-        }
-        displayName
-        followees {
-          nextToken
-        }
-        followers {
-          nextToken
-        }
-        id
-        name
-        status
-        createdAt
-        updatedAt
-      }
       followeeId
-      follower {
-        avatar
-        bio
-        chatRoomUsers {
-          nextToken
-        }
-        displayName
-        followees {
-          nextToken
-        }
-        followers {
-          nextToken
-        }
-        id
-        name
-        status
-        createdAt
-        updatedAt
-      }
       followerId
       id
       createdAt
       updatedAt
+      owner
+      followee {
+        avatar
+        bio
+        displayName
+        followees {
+          nextToken
+        }
+        followers {
+          nextToken
+        }
+        id
+        name
+        pushToken
+        createdAt
+        updatedAt
+        chatRoomUsers {
+          nextToken
+        }
+        owner
+      }
+      follower {
+        avatar
+        bio
+        displayName
+        followees {
+          nextToken
+        }
+        followers {
+          nextToken
+        }
+        id
+        name
+        pushToken
+        createdAt
+        updatedAt
+        chatRoomUsers {
+          nextToken
+        }
+        owner
+      }
     }
   }
 `;
@@ -364,49 +388,52 @@ export const deleteContact = /* GraphQL */ `
     $condition: ModelContactConditionInput
   ) {
     deleteContact(input: $input, condition: $condition) {
-      followee {
-        avatar
-        bio
-        chatRoomUsers {
-          nextToken
-        }
-        displayName
-        followees {
-          nextToken
-        }
-        followers {
-          nextToken
-        }
-        id
-        name
-        status
-        createdAt
-        updatedAt
-      }
       followeeId
-      follower {
-        avatar
-        bio
-        chatRoomUsers {
-          nextToken
-        }
-        displayName
-        followees {
-          nextToken
-        }
-        followers {
-          nextToken
-        }
-        id
-        name
-        status
-        createdAt
-        updatedAt
-      }
       followerId
       id
       createdAt
       updatedAt
+      owner
+      followee {
+        avatar
+        bio
+        displayName
+        followees {
+          nextToken
+        }
+        followers {
+          nextToken
+        }
+        id
+        name
+        pushToken
+        createdAt
+        updatedAt
+        chatRoomUsers {
+          nextToken
+        }
+        owner
+      }
+      follower {
+        avatar
+        bio
+        displayName
+        followees {
+          nextToken
+        }
+        followers {
+          nextToken
+        }
+        id
+        name
+        pushToken
+        createdAt
+        updatedAt
+        chatRoomUsers {
+          nextToken
+        }
+        owner
+      }
     }
   }
 `;
@@ -416,10 +443,14 @@ export const createMessage = /* GraphQL */ `
     $condition: ModelMessageConditionInput
   ) {
     createMessage(input: $input, condition: $condition) {
+      chatRoomId
+      content
+      createdAt
+      id
+      type
+      userId
+      updatedAt
       chatRoom {
-        chatRoomUsers {
-          nextToken
-        }
         id
         maxUsers
         messages {
@@ -428,18 +459,15 @@ export const createMessage = /* GraphQL */ `
         name
         createdAt
         updatedAt
-      }
-      chatRoomId
-      content
-      createdAt
-      id
-      type
-      user {
-        avatar
-        bio
+        owner
         chatRoomUsers {
           nextToken
         }
+      }
+      owner
+      user {
+        avatar
+        bio
         displayName
         followees {
           nextToken
@@ -449,12 +477,14 @@ export const createMessage = /* GraphQL */ `
         }
         id
         name
-        status
+        pushToken
         createdAt
         updatedAt
+        chatRoomUsers {
+          nextToken
+        }
+        owner
       }
-      userId
-      updatedAt
     }
   }
 `;
@@ -464,10 +494,14 @@ export const updateMessage = /* GraphQL */ `
     $condition: ModelMessageConditionInput
   ) {
     updateMessage(input: $input, condition: $condition) {
+      chatRoomId
+      content
+      createdAt
+      id
+      type
+      userId
+      updatedAt
       chatRoom {
-        chatRoomUsers {
-          nextToken
-        }
         id
         maxUsers
         messages {
@@ -476,18 +510,15 @@ export const updateMessage = /* GraphQL */ `
         name
         createdAt
         updatedAt
-      }
-      chatRoomId
-      content
-      createdAt
-      id
-      type
-      user {
-        avatar
-        bio
+        owner
         chatRoomUsers {
           nextToken
         }
+      }
+      owner
+      user {
+        avatar
+        bio
         displayName
         followees {
           nextToken
@@ -497,12 +528,14 @@ export const updateMessage = /* GraphQL */ `
         }
         id
         name
-        status
+        pushToken
         createdAt
         updatedAt
+        chatRoomUsers {
+          nextToken
+        }
+        owner
       }
-      userId
-      updatedAt
     }
   }
 `;
@@ -512,10 +545,14 @@ export const deleteMessage = /* GraphQL */ `
     $condition: ModelMessageConditionInput
   ) {
     deleteMessage(input: $input, condition: $condition) {
+      chatRoomId
+      content
+      createdAt
+      id
+      type
+      userId
+      updatedAt
       chatRoom {
-        chatRoomUsers {
-          nextToken
-        }
         id
         maxUsers
         messages {
@@ -524,18 +561,15 @@ export const deleteMessage = /* GraphQL */ `
         name
         createdAt
         updatedAt
-      }
-      chatRoomId
-      content
-      createdAt
-      id
-      type
-      user {
-        avatar
-        bio
+        owner
         chatRoomUsers {
           nextToken
         }
+      }
+      owner
+      user {
+        avatar
+        bio
         displayName
         followees {
           nextToken
@@ -545,12 +579,14 @@ export const deleteMessage = /* GraphQL */ `
         }
         id
         name
-        status
+        pushToken
         createdAt
         updatedAt
+        chatRoomUsers {
+          nextToken
+        }
+        owner
       }
-      userId
-      updatedAt
     }
   }
 `;
@@ -562,17 +598,6 @@ export const createUser = /* GraphQL */ `
     createUser(input: $input, condition: $condition) {
       avatar
       bio
-      chatRoomUsers {
-        items {
-          chatRoomId
-          id
-          isModerator
-          userId
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
       displayName
       followees {
         items {
@@ -581,6 +606,7 @@ export const createUser = /* GraphQL */ `
           id
           createdAt
           updatedAt
+          owner
         }
         nextToken
       }
@@ -591,14 +617,28 @@ export const createUser = /* GraphQL */ `
           id
           createdAt
           updatedAt
+          owner
         }
         nextToken
       }
       id
       name
-      status
+      pushToken
       createdAt
       updatedAt
+      chatRoomUsers {
+        items {
+          chatRoomId
+          id
+          isModerator
+          userId
+          createdAt
+          updatedAt
+          owner
+        }
+        nextToken
+      }
+      owner
     }
   }
 `;
@@ -610,17 +650,6 @@ export const updateUser = /* GraphQL */ `
     updateUser(input: $input, condition: $condition) {
       avatar
       bio
-      chatRoomUsers {
-        items {
-          chatRoomId
-          id
-          isModerator
-          userId
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
       displayName
       followees {
         items {
@@ -629,6 +658,7 @@ export const updateUser = /* GraphQL */ `
           id
           createdAt
           updatedAt
+          owner
         }
         nextToken
       }
@@ -639,14 +669,28 @@ export const updateUser = /* GraphQL */ `
           id
           createdAt
           updatedAt
+          owner
         }
         nextToken
       }
       id
       name
-      status
+      pushToken
       createdAt
       updatedAt
+      chatRoomUsers {
+        items {
+          chatRoomId
+          id
+          isModerator
+          userId
+          createdAt
+          updatedAt
+          owner
+        }
+        nextToken
+      }
+      owner
     }
   }
 `;
@@ -658,17 +702,6 @@ export const deleteUser = /* GraphQL */ `
     deleteUser(input: $input, condition: $condition) {
       avatar
       bio
-      chatRoomUsers {
-        items {
-          chatRoomId
-          id
-          isModerator
-          userId
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
       displayName
       followees {
         items {
@@ -677,6 +710,7 @@ export const deleteUser = /* GraphQL */ `
           id
           createdAt
           updatedAt
+          owner
         }
         nextToken
       }
@@ -687,14 +721,28 @@ export const deleteUser = /* GraphQL */ `
           id
           createdAt
           updatedAt
+          owner
         }
         nextToken
       }
       id
       name
-      status
+      pushToken
       createdAt
       updatedAt
+      chatRoomUsers {
+        items {
+          chatRoomId
+          id
+          isModerator
+          userId
+          createdAt
+          updatedAt
+          owner
+        }
+        nextToken
+      }
+      owner
     }
   }
 `;

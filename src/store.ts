@@ -30,6 +30,7 @@ const initialState: ReduxStore = {
 		id: '',
 		name: '',
 		phone: '',
+		pushToken: '',
 	},
 	styles: createStyleSheet(darkColors),
 };

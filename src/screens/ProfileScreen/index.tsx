@@ -20,8 +20,8 @@ import { ProfileScreenProps } from '../../navigation/types';
 import { ReduxStore } from '../../store';
 import { updateUser } from '../../utils/api/mutations';
 import { getUser } from '../../utils/api/queries';
+import { showSuccess } from '../../utils/banner';
 import { formatHandler } from '../../utils/helper';
-import { showSuccess } from '../../utils/notifications';
 import { storeImage } from '../../utils/storage';
 import createStyleSheet from './styles';
 

@@ -9,6 +9,7 @@ import { Actions, ReduxStore } from '../store';
 import API from '../utils/api';
 import { createUser } from '../utils/api/mutations';
 import { getUser, listBrowseChatRooms } from '../utils/api/queries';
+import { registerForPushNotification } from '../utils/notification';
 import { getUser as getUserGql } from './queries';
 
 const Container: React.FC = () => {
@@ -38,12 +39,13 @@ const Container: React.FC = () => {
 					displayName: userAuth.username,
 					id: userId,
 					name: userAuth.username,
-					status: '',
+					pushToken: '',
 				});
 				user = await getUser(getUserGql, userId);
 			}
 
 			if (user) {
+				registerForPushNotification(user.id);
 				user.email = userAuth.attributes.email;
 				user.phone = userAuth.attributes.phone_number;
 				dispatch(Actions.setCurrentUser(user));

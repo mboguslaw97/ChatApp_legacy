@@ -5,7 +5,6 @@ Support the dev
 Encrypt messages
 Limit size of messages
 Send videos
-Notifications
 Ads
 Better message timestamps
 Invite friends to new chat
@@ -13,11 +12,11 @@ Add friend on profile screen
 Create dm
 Add hashtags to post
 Invite friend to room
-Search feature
-Message reactions
 Settings page
 Custom login page
 Android textinput KeyboardAvoidingView
+Search feature
+Message reactions
 
 Maybe:
   Remove .items from types
