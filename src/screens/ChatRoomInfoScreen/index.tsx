@@ -11,9 +11,10 @@ import ListItemNav from '../../components/ListItemNav';
 import MyButton from '../../components/MyButton';
 import { Colors } from '../../global/colors';
 import { GlobalStyles } from '../../global/styles';
-import { ChatRoomInfoScreenProps } from '../../navigation/types';
+import { ChatRoomInfoScreenProps, StackProps } from '../../navigation/types';
 import { ReduxStore } from '../../store';
 import { leaveChatRoom } from '../../utils/helper';
+import contactListStackProps from '../ContactListScreen';
 import createStyleSheet from './styles';
 
 const ChatRoomInfoScreen: React.FC<ChatRoomInfoScreenProps> = ({
@@ -47,7 +48,7 @@ const ChatRoomInfoScreen: React.FC<ChatRoomInfoScreenProps> = ({
 			<ContainerList>
 				<ListItemNav
 					value="Members"
-					screen="ContactListScreen"
+					screen={contactListStackProps.name}
 					screenArgs={{ users }}
 				/>
 			</ContainerList>
@@ -64,4 +65,10 @@ const ChatRoomInfoScreen: React.FC<ChatRoomInfoScreenProps> = ({
 	);
 };
 
-export default ChatRoomInfoScreen;
+const chatRoomInfoStackProps: StackProps<ChatRoomInfoScreenProps> = {
+	component: ChatRoomInfoScreen,
+	name: 'ChatRoomInfoScreen',
+	options: { title: 'Room Info' },
+};
+
+export default chatRoomInfoStackProps;

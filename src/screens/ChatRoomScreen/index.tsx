@@ -8,8 +8,9 @@ import MessageItem from '../../components/MessageItem';
 import { Colors } from '../../global/colors';
 import { GlobalStyles } from '../../global/styles';
 import { User } from '../../global/types';
-import { ChatRoomScreenProps } from '../../navigation/types';
+import { ChatRoomScreenProps, StackProps } from '../../navigation/types';
 import { BrowseChatRooms, ReduxStore } from '../../store';
+import chatRoomInfoStackProps from '../ChatRoomInfoScreen';
 import createStyleSheet from './styles';
 
 const ChatRoomScreen: React.FC<ChatRoomScreenProps> = ({
@@ -50,7 +51,7 @@ const ChatRoomScreen: React.FC<ChatRoomScreenProps> = ({
 					name="info"
 					onPress={() => {
 						if (chatRoom)
-							navigation.navigate('ChatRoomInfoScreen', { chatRoom });
+							navigation.navigate(chatRoomInfoStackProps.name, { chatRoom });
 					}}
 					style={globalStyles.containerHeaderRight}
 				/>
@@ -103,4 +104,9 @@ const ChatRoomScreen: React.FC<ChatRoomScreenProps> = ({
 	);
 };
 
-export default ChatRoomScreen;
+const chatRoomStackProps: StackProps<ChatRoomScreenProps> = {
+	component: ChatRoomScreen,
+	name: 'ChatRoomScreen',
+};
+
+export default chatRoomStackProps;

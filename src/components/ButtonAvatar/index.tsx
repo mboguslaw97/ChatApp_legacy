@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 
 import { Colors } from '../../global/colors';
 import { GlobalStyles } from '../../global/styles';
+import profileStackProps from '../../screens/ProfileScreen';
 import { ReduxStore } from '../../store';
 import MyImage from '../MyImage';
 import createStyleSheet from './styles';
@@ -23,7 +24,7 @@ const ButtonAvatar: React.FC<Props> = ({ uri, userId }) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const styles = createStyleSheet(colors);
 
-	const onPress = () => navigation.navigate('ProfileScreen', { userId });
+	const onPress = () => navigation.navigate(profileStackProps.name, { userId });
 
 	return (
 		<TouchableOpacity

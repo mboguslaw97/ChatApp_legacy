@@ -24,4 +24,10 @@ const SettingsScreen: React.FC<SettingsScreenProps> = ({
 	return <View />;
 };
 
-export default SettingsScreen;
+const settingsStackProps = {
+	component: SettingsScreen,
+	name: 'SettingsScreen',
+	options: { title: 'Settings' },
+};
+
+export default settingsStackProps;

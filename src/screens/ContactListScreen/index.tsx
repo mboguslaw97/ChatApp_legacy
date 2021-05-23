@@ -6,7 +6,7 @@ import ListItemUser from '../../components/ListItemUser';
 import { Colors } from '../../global/colors';
 import { GlobalStyles } from '../../global/styles';
 import { User } from '../../global/types';
-import { ContactListScreenProps } from '../../navigation/types';
+import { ContactListScreenProps, StackProps } from '../../navigation/types';
 import { ReduxStore } from '../../store';
 import createStyleSheet from './styles';
 
@@ -42,4 +42,10 @@ const ContactListScreen: React.FC<ContactListScreenProps> = ({
 	);
 };
 
-export default ContactListScreen;
+const contactListStackProps: StackProps<ContactListScreenProps> = {
+	component: ContactListScreen,
+	name: 'ContactListScreen',
+	options: { title: 'Contacts' },
+};
+
+export default contactListStackProps;

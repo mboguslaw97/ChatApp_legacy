@@ -8,6 +8,8 @@ import { useSelector } from 'react-redux';
 import { Colors } from '../../global/colors';
 import { GlobalStyles } from '../../global/styles';
 import { Message, MessageType } from '../../global/types';
+import messageStackProps from '../../screens/MessageScreen';
+import profileStackProps from '../../screens/ProfileScreen';
 import { ReduxStore } from '../../store';
 import ConditionalWrapper from '../ConditionalWrapper';
 import MyImage from '../MyImage';
@@ -36,10 +38,10 @@ const MessageItem: React.FC<Props> = ({ message }) => {
 	const [maxLineCountReached, setMaxLineCountReached] = useState(false);
 
 	const onPressAvatar = () =>
-		navigation.navigate('ProfileScreen', { userId: message.userId });
+		navigation.navigate(profileStackProps.name, { userId: message.userId });
 
 	const onPressContent = () =>
-		navigation.navigate('MessageScreen', { message });
+		navigation.navigate(messageStackProps.name, { message });
 
 	// @ts-ignore: TextLayoutEvent is the type
 	const onTextLayout = e =>

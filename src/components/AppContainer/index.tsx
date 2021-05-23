@@ -3,16 +3,16 @@ import React, { useEffect } from 'react';
 import { ColorSchemeName, useColorScheme } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { ChatRoomUser } from '../global/types';
-import Navigation from '../navigation';
-import { Actions, ReduxStore } from '../store';
-import API from '../utils/api';
-import { createUser } from '../utils/api/mutations';
-import { getUser, listBrowseChatRooms } from '../utils/api/queries';
-import { registerForPushNotification } from '../utils/notification';
+import { ChatRoomUser } from '../../global/types';
+import Navigation from '../../navigation';
+import { Actions, ReduxStore } from '../../store';
+import API from '../../utils/api';
+import { createUser } from '../../utils/api/mutations';
+import { getUser, listBrowseChatRooms } from '../../utils/api/queries';
+import { registerForPushNotification } from '../../utils/notification';
 import { getUser as getUserGql } from './queries';
 
-const Container: React.FC = () => {
+const AppContainer: React.FC = () => {
 	const dispatch = useDispatch();
 	const colorTheme: ColorSchemeName = useColorScheme();
 	const currentUserId = useSelector<ReduxStore, string>(
@@ -115,4 +115,4 @@ const Container: React.FC = () => {
 	return <Navigation />;
 };
 
-export default Container;
+export default AppContainer;

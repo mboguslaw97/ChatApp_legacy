@@ -8,6 +8,7 @@ import ListItemChatRoom from '../../components/ListItemChatRoom';
 import { GlobalStyles } from '../../global/styles';
 import { BrowseMenuScreenProps } from '../../navigation/types';
 import { BrowseChatRooms, ReduxStore } from '../../store';
+import createChatStackProps from '../CreateChatScreen';
 import createStyleSheet from './styles';
 
 const BrowseMenuScreen: React.FC<BrowseMenuScreenProps> = ({ navigation }) => {
@@ -26,7 +27,7 @@ const BrowseMenuScreen: React.FC<BrowseMenuScreenProps> = ({ navigation }) => {
 			headerRight: () => (
 				<ButtonIcon
 					name="plus"
-					onPress={() => navigation.navigate('CreateChatScreen')}
+					onPress={() => navigation.navigate(createChatStackProps.name)}
 					style={globalStyles.containerHeaderRight}
 				/>
 			),
@@ -45,4 +46,10 @@ const BrowseMenuScreen: React.FC<BrowseMenuScreenProps> = ({ navigation }) => {
 	);
 };
 
-export default BrowseMenuScreen;
+const browseMenuStackProps = {
+	component: BrowseMenuScreen,
+	name: 'BrowseMenuScreen',
+	options: { title: 'Browse' },
+};
+
+export default browseMenuStackProps;

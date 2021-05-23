@@ -15,6 +15,7 @@ import { Colors } from '../../global/colors';
 import { iconSize2 } from '../../global/constants';
 import { GlobalStyles } from '../../global/styles';
 import { ChatRoom, MessageType } from '../../global/types';
+import chatRoomStackProps from '../../screens/ChatRoomScreen';
 import { ReduxStore } from '../../store';
 import { leaveChatRoom } from '../../utils/helper';
 import ButtonAvatar from '../ButtonAvatar';
@@ -43,7 +44,7 @@ const ListItemChatRoom: React.FC<Props> = ({ chatRoom }) => {
 		);
 
 	const openChatRoom = () =>
-		navigation.navigate('ChatRoomScreen', { chatRoomId: chatRoom.id });
+		navigation.navigate(chatRoomStackProps.name, { chatRoomId: chatRoom.id });
 
 	const renderRightActions = () => {
 		return (

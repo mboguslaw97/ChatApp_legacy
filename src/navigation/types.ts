@@ -20,10 +20,16 @@ export type ScreenProps = {
 	ChatRoomInfoScreen: { chatRoom: ChatRoom };
 	ChatRoomScreen: { chatRoomId: string };
 	ContactListScreen: { users?: User[] };
-	CreateChatScreen: undefined;
+	CreateChatScreen: { title: string };
 	MessageScreen: { message: Message };
 	ProfileScreen: { userId: string };
 	SettingsScreen: undefined;
+};
+
+export type StackProps<T> = {
+	component: React.FC<T>;
+	name: keyof ScreenProps;
+	options?: { title: string };
 };
 
 export type BrowseMenuScreenProps = StackScreenProps<

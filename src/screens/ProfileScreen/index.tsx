@@ -23,6 +23,7 @@ import { getUser } from '../../utils/api/queries';
 import { showSuccess } from '../../utils/banner';
 import { formatHandler } from '../../utils/helper';
 import { storeImage } from '../../utils/storage';
+import contactListStackProps from '../ContactListScreen';
 import createStyleSheet from './styles';
 
 const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation, route }) => {
@@ -142,7 +143,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation, route }) => {
 				</ContainerList>
 				{userIsCurrentUser && (
 					<ContainerList>
-						<ListItemNav value="Friends" screen="ContactListScreen" />
+						<ListItemNav value="Friends" screen={contactListStackProps.name} />
 					</ContainerList>
 				)}
 				{userIsCurrentUser && (
@@ -174,4 +175,9 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation, route }) => {
 	);
 };
 
-export default ProfileScreen;
+const profileStackProps = {
+	component: ProfileScreen,
+	name: 'ProfileScreen',
+};
+
+export default profileStackProps;

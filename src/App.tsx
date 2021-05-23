@@ -1,14 +1,20 @@
+/* eslint-disable global-require */
+import { Ionicons } from '@expo/vector-icons';
 import Amplify from 'aws-amplify';
 // @ts-ignore
 import { withAuthenticator } from 'aws-amplify-react-native';
-import React from 'react';
+import * as Font from 'expo-font';
+import { StyleProvider } from 'native-base';
+import React, { useEffect } from 'react';
 import { LogBox, Platform } from 'react-native';
 import FlashMessage from 'react-native-flash-message';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Provider as ReduxProvider } from 'react-redux';
 
 import config from './aws-exports';
-import Container from './container';
+import AppContainer from './components/AppContainer';
+import getTheme from './native-base-theme/components';
+import commonColorDark from './native-base-theme/variables/commonColorDark';
 import store from './store';
 
 if (Platform.OS !== 'web')
@@ -24,14 +30,27 @@ Amplify.configure({
 });
 
 const App: React.FC = () => {
+	useEffect(() => {
+		(async () => {
+			await Font.loadAsync({
+				Roboto: require('native-base/Fonts/Roboto.ttf'),
+				Roboto_medium: require('native-base/Fonts/Roboto_medium.ttf'),
+				...Ionicons.font,
+			});
+		})();
+	}, []);
+
 	return (
 		// <React.StrictMode>
-		<ReduxProvider store={store}>
-			<SafeAreaProvider>
-				<Container />
-			</SafeAreaProvider>
-			<FlashMessage position="top" />
-		</ReduxProvider>
+		// @ts-ignore
+		<StyleProvider style={getTheme(commonColorDark)}>
+			<ReduxProvider store={store}>
+				<SafeAreaProvider>
+					<AppContainer />
+				</SafeAreaProvider>
+				<FlashMessage position="top" />
+			</ReduxProvider>
+		</StyleProvider>
 		// </React.StrictMode>
 	);
 };

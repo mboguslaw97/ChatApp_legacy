@@ -10,10 +10,7 @@ import { MessageScreenProps } from '../../navigation/types';
 import { ReduxStore } from '../../store';
 import createStyleSheet from './styles';
 
-const TemplateScreen: React.FC<MessageScreenProps> = ({
-	navigation,
-	route,
-}) => {
+const MessageScreen: React.FC<MessageScreenProps> = ({ navigation, route }) => {
 	const { message } = route.params;
 	const globalStyles = useSelector<ReduxStore, GlobalStyles>(
 		state => state.styles
@@ -46,4 +43,10 @@ const TemplateScreen: React.FC<MessageScreenProps> = ({
 	return <View style={globalStyles.containerScreen}>{content}</View>;
 };
 
-export default TemplateScreen;
+const messageStackProps = {
+	component: MessageScreen,
+	name: 'MessageScreen',
+	options: { title: '' },
+};
+
+export default messageStackProps;

@@ -12,3 +12,5 @@ aws-exports.js
 
 # macOS
 .DS_Store
+
+.eslintcache

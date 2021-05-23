@@ -8,6 +8,7 @@ import { Colors } from '../../global/colors';
 import { iconSize1 } from '../../global/constants';
 import { GlobalStyles } from '../../global/styles';
 import { Contact, User } from '../../global/types';
+import profileStackProps from '../../screens/ProfileScreen';
 import { ReduxStore } from '../../store';
 import { createContact, deleteContact } from '../../utils/api/mutations';
 import { formatHandler } from '../../utils/helper';
@@ -52,7 +53,8 @@ const ListItemUser: React.FC<Props> = ({ user, onPress }) => {
 	}
 
 	if (!onPress)
-		onPress = () => navigation.navigate('ProfileScreen', { userId: user.id });
+		onPress = () =>
+			navigation.navigate(profileStackProps.name, { userId: user.id });
 
 	const toggleContact = () => {
 		if (followeeContact) deleteContact({ id: followeeContact.id });

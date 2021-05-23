@@ -10,6 +10,7 @@ import { GlobalStyles } from '../../global/styles';
 import { User } from '../../global/types';
 import { ChatListScreenProps } from '../../navigation/types';
 import { ReduxStore } from '../../store';
+import createChatStackProps from '../CreateChatScreen';
 import createStyleSheet from './styles';
 
 const ChatListScreen: React.FC<ChatListScreenProps> = ({ navigation }) => {
@@ -29,7 +30,7 @@ const ChatListScreen: React.FC<ChatListScreenProps> = ({ navigation }) => {
 			headerRight: () => (
 				<ButtonIcon
 					name="plus"
-					onPress={() => navigation.navigate('CreateChatScreen')}
+					onPress={() => navigation.navigate(createChatStackProps.name)}
 					style={globalStyles.containerHeaderRight}
 				/>
 			),
@@ -48,4 +49,10 @@ const ChatListScreen: React.FC<ChatListScreenProps> = ({ navigation }) => {
 	);
 };
 
-export default ChatListScreen;
+const chatListStackProps = {
+	component: ChatListScreen,
+	name: 'ChatListScreen',
+	options: { title: 'Chats' },
+};
+
+export default chatListStackProps;

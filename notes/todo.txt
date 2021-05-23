@@ -1,3 +1,6 @@
+Private/public rooms
+Create dm
+Use nativebase for frontend
 Speed up chatroom with lots of images
 Sort browse chat rooms
 Query pagination
@@ -9,7 +12,6 @@ Ads
 Better message timestamps
 Invite friends to new chat
 Add friend on profile screen
-Create dm
 Add hashtags to post
 Invite friend to room
 Settings page

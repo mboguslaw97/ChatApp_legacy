@@ -10,6 +10,7 @@ type ChatRoom
 	maxUsers: Int!
 	messages: [Message]! @connection(keyName: "byChatRoom", fields: ["id"])
 	name: String!
+	type: String!
 }
 
 type ChatRoomUser
