@@ -9,8 +9,7 @@ npm-debug.*
 *.orig.*
 web-build/
 aws-exports.js
+.eslintcache
 
 # macOS
 .DS_Store
-
-.eslintcache
