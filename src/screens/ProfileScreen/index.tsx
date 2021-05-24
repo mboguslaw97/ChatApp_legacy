@@ -1,6 +1,20 @@
+import { useNavigation } from '@react-navigation/core';
 import { Auth } from 'aws-amplify';
+import {
+	Button,
+	Container,
+	Content,
+	Form,
+	H3,
+	Input,
+	Item,
+	Label,
+	List,
+	ListItem,
+	Text,
+} from 'native-base';
 import React, { RefObject, useEffect, useRef, useState } from 'react';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
 import { useSelector } from 'react-redux';
 import BottomSheet from 'reanimated-bottom-sheet';
 
@@ -12,7 +26,6 @@ import ListItemNav from '../../components/ListItemNav';
 import MyButton from '../../components/MyButton';
 import MyImage from '../../components/MyImage';
 import { Colors } from '../../global/colors';
-import { textMaxLength1, textMaxLength3 } from '../../global/constants';
 import { GlobalStyles } from '../../global/styles';
 import { User } from '../../global/types';
 import { getUser as getUserGql } from '../../graphql/queries';
@@ -35,6 +48,8 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation, route }) => {
 	);
 	const colors = useSelector<ReduxStore, Colors>(state => state.colors);
 	const styles = createStyleSheet(colors, globalStyles);
+
+	const navigator = useNavigation();
 
 	const sheetRef = useRef(null);
 
@@ -106,72 +121,67 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation, route }) => {
 	};
 
 	return (
-		<>
-			<View style={styles.container}>
+		<Container>
+			<Content>
 				<MyImage source={{ s3Key: avatar }} style={styles.avatar} />
-				<Text style={styles.name}>{formatHandler(user?.name)}</Text>
-				{userIsCurrentUser && (
-					<ContainerList>
-						<ListItemInput
-							editable={false}
-							label="Email"
-							value={currentUser.email}
+				<H3>{formatHandler(user?.name)}</H3>
+				<Form>
+					<Item stackedLabel>
+						<Label>Email</Label>
+						<Input defaultValue={currentUser.email} disabled />
+					</Item>
+					<Item stackedLabel>
+						<Label>Phone</Label>
+						<Input defaultValue={currentUser.phone} disabled />
+					</Item>
+					<Item stackedLabel>
+						<Label>Name</Label>
+						<Input
+							onChangeText={(text: string) => setDisplayName(text)}
+							disabled={!userIsCurrentUser}
+							defaultValue={displayName}
 						/>
-						<ListItemInput
-							editable={false}
-							label="Phone"
-							value={currentUser.phone}
+					</Item>
+					<Item stackedLabel>
+						<Label>Bio</Label>
+						<Input
+							maxLength={200}
+							multiline
+							onChangeText={(text: string) => setBio(text)}
+							disabled={!userIsCurrentUser}
+							defaultValue={bio}
 						/>
-					</ContainerList>
-				)}
-				<ContainerList>
-					<ListItemInput
-						editable={userIsCurrentUser}
-						label="Name"
-						maxLength={textMaxLength1}
-						onChangeText={(text: string) => setDisplayName(text)}
-						value={displayName}
-					/>
-					<ListItemInput
-						editable={userIsCurrentUser}
-						label="Bio"
-						maxLength={textMaxLength3}
-						multiline
-						onChangeText={(text: string) => setBio(text)}
-						value={bio}
-					/>
-				</ContainerList>
+					</Item>
+					<ListItem
+						button
+						onPress={() => navigator.navigate(contactListStackProps.name)}
+					>
+						<Text>Friends</Text>
+					</ListItem>
+				</Form>
 				{userIsCurrentUser && (
-					<ContainerList>
-						<ListItemNav value="Friends" screen={contactListStackProps.name} />
-					</ContainerList>
+					<>
+						<Button
+							block
+							bordered
+							onPress={() => {
+								const tref = sheetRef as RefObject<BottomSheet>;
+								if (tref.current) tref.current.snapTo(0);
+							}}
+						>
+							<Text>Change Avatar</Text>
+						</Button>
+						<Button block danger onPress={logout}>
+							<Text>Logout</Text>
+						</Button>
+					</>
 				)}
-				{userIsCurrentUser && (
-					<View>
-						<ContainerList>
-							<View style={globalStyles.containerListItem}>
-								<MyButton
-									title="Change Avatar"
-									onPress={() => {
-										const tref = sheetRef as RefObject<BottomSheet>;
-										if (tref.current) tref.current.snapTo(0);
-									}}
-								/>
-							</View>
-						</ContainerList>
-						<ContainerList>
-							<View style={globalStyles.containerListItem}>
-								<MyButton color={colors.red} title="Logout" onPress={logout} />
-							</View>
-						</ContainerList>
-					</View>
-				)}
-			</View>
+			</Content>
 			<BottomSheetCamera
 				ref={sheetRef}
 				callback={uri => uri && setAvatar(uri)}
 			/>
-		</>
+		</Container>
 	);
 };
 

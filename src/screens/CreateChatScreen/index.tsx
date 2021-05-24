@@ -60,24 +60,13 @@ const CreateChatScreen: React.FC<CreateChatScreenProps> = ({ navigation }) => {
 	);
 
 	const InviteFriendsButton = () => (
-		<Button
-			block
-			bordered
-			onPress={onSubmit}
-			primary
-			style={{ marginHorizontal: 20, marginTop: 20 }}
-		>
+		<Button block bordered onPress={onSubmit} primary>
 			<Text>Invite Friends</Text>
 		</Button>
 	);
 
 	const SubmitButton = () => (
-		<Button
-			block
-			onPress={onSubmit}
-			primary
-			style={{ marginHorizontal: 20, marginTop: 20 }}
-		>
+		<Button block onPress={onSubmit} primary>
 			<Text>Create</Text>
 		</Button>
 	);
