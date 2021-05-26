@@ -1,15 +1,7 @@
-import {
-	Button,
-	Container,
-	Form,
-	Input,
-	Item,
-	Label,
-	Tab,
-	Tabs,
-	Text,
-} from 'native-base';
+import { Button, FormControl, Input, Stack, Tabs, Text } from 'native-base';
 import React, { useState } from 'react';
+import { ScrollView, View } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { useSelector } from 'react-redux';
 
 import { Colors } from '../../global/colors';
@@ -30,14 +22,14 @@ const CreateChatScreen: React.FC<CreateChatScreenProps> = ({ navigation }) => {
 	const colors = useSelector<ReduxStore, Colors>(state => state.colors);
 	const styles = createStyleSheet(colors); // eslint-disable-line
 
-	const [name, setName] = useState('');
+	const [topic, setTopic] = useState('');
 	const [maxUsers, setMaxUsers] = useState(10);
 
 	const onSubmit = async () => {
-		if (!name) return;
+		if (!topic) return;
 
 		// TODO: lambda should create chatRoomUser if chatRoom is created
-		createChatRoom({ maxUsers, name })
+		createChatRoom({ maxUsers, name: topic })
 			.then(chatRoom2 => {
 				if (!chatRoom2.id) throw Error();
 				return createChatRoomUser({
@@ -55,66 +47,68 @@ const CreateChatScreen: React.FC<CreateChatScreenProps> = ({ navigation }) => {
 			});
 	};
 
+	const TopicInput = ({ isRequired = false }: { isRequired?: boolean }) => {
+		const label = isRequired ? 'Topic' : 'Topic (Optional)';
+		return (
+			<FormControl isRequired={isRequired}>
+				<FormControl.Label>{label}</FormControl.Label>
+				<Input
+					maxLength={500}
+					multiline
+					onChangeText={text => setTopic(text)}
+				/>
+			</FormControl>
+		);
+	};
+
 	const Description = ({ value }: { value: string }) => (
 		<Text style={{ marginHorizontal: 10, marginTop: 15 }}>{value}</Text>
 	);
 
 	const InviteFriendsButton = () => (
-		<Button block bordered onPress={onSubmit} primary>
-			<Text>Invite Friends</Text>
+		<Button colorScheme="secondary" onPress={onSubmit} variant="outline">
+			Invite Friends
 		</Button>
 	);
 
-	const SubmitButton = () => (
-		<Button block onPress={onSubmit} primary>
-			<Text>Create</Text>
-		</Button>
-	);
+	const SubmitButton = () => <Button onPress={onSubmit}>Create</Button>;
 
 	return (
-		<Tabs>
-			<Tab heading="Private">
-				<Container>
-					<Description value="Only invited users can view or join a private chat room" />
-					<Form>
-						<Item floatingLabel>
-							<Label>Topic (Optional)</Label>
+		<Tabs isFitted>
+			<Tabs.Bar>
+				<Tabs.Tab>Private</Tabs.Tab>
+			</Tabs.Bar>
+			<Tabs.Bar>
+				<Tabs.Tab>Public</Tabs.Tab>
+			</Tabs.Bar>
+			<Tabs.Views>
+				<Tabs.View>
+					<ScrollView style={{ height: '100%' }}>
+						<Description value="Only invited users can view or join a private chat room" />
+						<TopicInput />
+						<InviteFriendsButton />
+						<SubmitButton />
+					</ScrollView>
+				</Tabs.View>
+				<Tabs.View>
+					<ScrollView style={{ height: '100%' }}>
+						<Description value="Public chat rooms are available to all users via the discover tab. Anyone can join a public chat room." />
+						<TopicInput isRequired />
+						<FormControl isRequired>
+							<FormControl.Label>Max Users</FormControl.Label>
 							<Input
-								maxLength={500}
-								multiline
-								onChangeText={(text: string) => setName(text)}
-							/>
-						</Item>
-					</Form>
-					<InviteFriendsButton />
-					<SubmitButton />
-				</Container>
-			</Tab>
-			<Tab heading="Public">
-				<Container>
-					<Description value="Public chat rooms are available to all users via the discover tab. Anyone can join a public chat room." />
-					<Form>
-						<Item floatingLabel>
-							<Label>Topic</Label>
-							<Input
-								maxLength={500}
-								multiline
-								onChangeText={(text: string) => setName(text)}
-							/>
-						</Item>
-						<Item floatingLabel>
-							<Label>Max Users</Label>
-							<Input
+								defaultValue="10"
 								keyboardType="numeric"
 								maxLength={3}
 								onChangeText={(text: string) => setMaxUsers(parseInt(text, 10))}
+								placeholder="Max Users"
 							/>
-						</Item>
-					</Form>
-					<InviteFriendsButton />
-					<SubmitButton />
-				</Container>
-			</Tab>
+						</FormControl>
+						<InviteFriendsButton />
+						<SubmitButton />
+					</ScrollView>
+				</Tabs.View>
+			</Tabs.Views>
 		</Tabs>
 	);
 };
@@ -122,7 +116,7 @@ const CreateChatScreen: React.FC<CreateChatScreenProps> = ({ navigation }) => {
 const createChatStackProps: StackProps<CreateChatScreenProps> = {
 	component: CreateChatScreen,
 	name: 'CreateChatScreen',
-	options: { title: 'Chats' },
+	options: { title: 'New Chat' },
 };
 
 export default createChatStackProps;

@@ -22,3 +22,6 @@ export const textMaxLength2 = 100;
 export const textMaxLength3 = 500;
 
 export const imageSize = 150;
+
+export const gray = 'gray.400';
+export const red = 'red.400';

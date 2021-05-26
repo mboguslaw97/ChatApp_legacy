@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 
 import ButtonIcon from '../../components/ButtonIcon';
 import ContainerList from '../../components/ContainerList';
-import ListItemChatRoom from '../../components/ListItemChatRoom';
+import ChatRoomItem from '../../components/ChatRoomItem';
 import { GlobalStyles } from '../../global/styles';
 import { BrowseMenuScreenProps } from '../../navigation/types';
 import { BrowseChatRooms, ReduxStore } from '../../store';
@@ -37,10 +37,10 @@ const BrowseMenuScreen: React.FC<BrowseMenuScreenProps> = ({ navigation }) => {
 	return (
 		<ContainerList style={styles.container}>
 			<FlatList
-				style={styles.flatlist}
 				data={browseChatRooms}
-				renderItem={({ item }) => <ListItemChatRoom chatRoom={item} />}
 				keyExtractor={item => item.id}
+				renderItem={({ item }) => <ChatRoomItem chatRoom={item} />}
+				style={styles.flatlist}
 			/>
 		</ContainerList>
 	);

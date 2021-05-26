@@ -48,16 +48,18 @@
 		"import/no-unresolved": "off",
 		"import/prefer-default-export": "off",
 		"no-alert": "off",
+		"no-console": "off",
 		"no-param-reassign": "off",
 		"no-shadow": "off",
 		"no-underscore-dangle": "off",
 		"no-use-before-define": "off",
 		"prefer-arrow-callback": "warn",
 		"react/jsx-props-no-spreading": "off",
+		"react/jsx-sort-props": "warn",
 		"react/prop-types": "off",
+		"react/require-default-props": "off",
 		"simple-import-sort/exports": "warn",
 		"simple-import-sort/imports": "warn",
-		"sort-keys-fix/sort-keys-fix": "warn",
-		"no-console": "off"
+		"sort-keys-fix/sort-keys-fix": "warn"
 	}
 }

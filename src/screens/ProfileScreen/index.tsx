@@ -1,28 +1,23 @@
 import { useNavigation } from '@react-navigation/core';
 import { Auth } from 'aws-amplify';
 import {
+	Box,
 	Button,
+	Column,
 	Container,
-	Content,
-	Form,
-	H3,
+	FormControl,
 	Input,
-	Item,
-	Label,
-	List,
-	ListItem,
 	Text,
 } from 'native-base';
 import React, { RefObject, useEffect, useRef, useState } from 'react';
-import { View } from 'react-native';
+import { KeyboardAvoidingView, View } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { useSelector } from 'react-redux';
 import BottomSheet from 'reanimated-bottom-sheet';
 
 import { UpdateUserInput } from '../../API';
 import BottomSheetCamera from '../../components/BottomSheetCamera';
-import ContainerList from '../../components/ContainerList';
-import ListItemInput from '../../components/ListItemInput';
-import ListItemNav from '../../components/ListItemNav';
 import MyButton from '../../components/MyButton';
 import MyImage from '../../components/MyImage';
 import { Colors } from '../../global/colors';
@@ -101,7 +96,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation, route }) => {
 				bio?.length < 500 &&
 				displayName.length < 25 ? (
 					<View style={globalStyles.containerHeaderRight}>
-						<MyButton title="Save" onPress={updateProfile} />
+						<MyButton onPress={updateProfile} title="Save" />
 					</View>
 				) : null,
 		});
@@ -121,49 +116,43 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation, route }) => {
 	};
 
 	return (
-		<Container>
-			<Content>
+		<KeyboardAvoidingView behavior="position">
+			<ScrollView>
 				<MyImage source={{ s3Key: avatar }} style={styles.avatar} />
-				<H3>{formatHandler(user?.name)}</H3>
-				<Form>
-					<Item stackedLabel>
-						<Label>Email</Label>
-						<Input defaultValue={currentUser.email} disabled />
-					</Item>
-					<Item stackedLabel>
-						<Label>Phone</Label>
-						<Input defaultValue={currentUser.phone} disabled />
-					</Item>
-					<Item stackedLabel>
-						<Label>Name</Label>
-						<Input
-							onChangeText={(text: string) => setDisplayName(text)}
-							disabled={!userIsCurrentUser}
-							defaultValue={displayName}
-						/>
-					</Item>
-					<Item stackedLabel>
-						<Label>Bio</Label>
-						<Input
-							maxLength={200}
-							multiline
-							onChangeText={(text: string) => setBio(text)}
-							disabled={!userIsCurrentUser}
-							defaultValue={bio}
-						/>
-					</Item>
-					<ListItem
-						button
-						onPress={() => navigator.navigate(contactListStackProps.name)}
-					>
-						<Text>Friends</Text>
-					</ListItem>
-				</Form>
+				<Text>{formatHandler(user?.name)}</Text>
+				<FormControl>
+					<FormControl.Label>Email</FormControl.Label>
+					<Input defaultValue={currentUser.email} isDisabled />
+				</FormControl>
+				<FormControl>
+					<FormControl.Label>Phone</FormControl.Label>
+					<Input defaultValue={currentUser.phone} isDisabled />
+				</FormControl>
+				<FormControl>
+					<FormControl.Label>Name</FormControl.Label>
+					<Input
+						defaultValue={displayName}
+						onChangeText={(text: string) => setDisplayName(text)}
+					/>
+				</FormControl>
+				<FormControl>
+					<FormControl.Label>Bio</FormControl.Label>
+					<Input
+						defaultValue={bio}
+						onChangeText={(text: string) => setBio(text)}
+					/>
+				</FormControl>
+				{/* 
+				<ListItem
+					button
+					onPress={() => navigator.navigate(contactListStackProps.name)}
+				>
+					<Text>Friends</Text>
+				</ListItem>
+			 */}
 				{userIsCurrentUser && (
 					<>
 						<Button
-							block
-							bordered
 							onPress={() => {
 								const tref = sheetRef as RefObject<BottomSheet>;
 								if (tref.current) tref.current.snapTo(0);
@@ -171,17 +160,17 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation, route }) => {
 						>
 							<Text>Change Avatar</Text>
 						</Button>
-						<Button block danger onPress={logout}>
+						<Button onPress={logout}>
 							<Text>Logout</Text>
 						</Button>
 					</>
 				)}
-			</Content>
-			<BottomSheetCamera
-				ref={sheetRef}
-				callback={uri => uri && setAvatar(uri)}
-			/>
-		</Container>
+				<BottomSheetCamera
+					ref={sheetRef}
+					callback={uri => uri && setAvatar(uri)}
+				/>
+			</ScrollView>
+		</KeyboardAvoidingView>
 	);
 };
 

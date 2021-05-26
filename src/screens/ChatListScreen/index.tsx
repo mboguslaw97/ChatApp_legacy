@@ -1,13 +1,24 @@
+import moment from 'moment';
+import {
+	Box,
+	Container,
+	Divider,
+	HStack,
+	Row,
+	Text,
+	VStack,
+} from 'native-base';
 import React, { useEffect } from 'react';
 import { FlatList } from 'react-native';
 import { useSelector } from 'react-redux';
 
+import ButtonAvatar from '../../components/ButtonAvatar';
 import ButtonIcon from '../../components/ButtonIcon';
 import ContainerList from '../../components/ContainerList';
-import ListItemChatRoom from '../../components/ListItemChatRoom';
+import ChatRoomItem from '../../components/ChatRoomItem';
 import { Colors } from '../../global/colors';
 import { GlobalStyles } from '../../global/styles';
-import { User } from '../../global/types';
+import { MessageType, User } from '../../global/types';
 import { ChatListScreenProps } from '../../navigation/types';
 import { ReduxStore } from '../../store';
 import createChatStackProps from '../CreateChatScreen';
@@ -22,8 +33,6 @@ const ChatListScreen: React.FC<ChatListScreenProps> = ({ navigation }) => {
 	const globalStyles = useSelector<ReduxStore, GlobalStyles>(
 		state => state.styles
 	);
-	const colors = useSelector<ReduxStore, Colors>(state => state.colors);
-	const styles = createStyleSheet();
 
 	useEffect(() => {
 		navigation.setOptions({
@@ -35,17 +44,17 @@ const ChatListScreen: React.FC<ChatListScreenProps> = ({ navigation }) => {
 				/>
 			),
 		});
-	}, [colors.highlight, globalStyles.containerHeaderRight, navigation]);
+	}, [globalStyles.containerHeaderRight, navigation]);
 
 	return (
-		<ContainerList style={styles.container}>
+		<Box>
 			<FlatList
-				style={styles.flatlist}
 				data={chatRooms}
-				renderItem={({ item }) => <ListItemChatRoom chatRoom={item} />}
 				keyExtractor={item => item.id}
+				renderItem={({ item }) => <ChatRoomItem chatRoom={item} />}
+				style={{ height: '100%' }}
 			/>
-		</ContainerList>
+		</Box>
 	);
 };
 

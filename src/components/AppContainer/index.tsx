@@ -14,6 +14,7 @@ import { getUser as getUserGql } from './queries';
 
 const AppContainer: React.FC = () => {
 	const dispatch = useDispatch();
+
 	const colorTheme: ColorSchemeName = useColorScheme();
 	const currentUserId = useSelector<ReduxStore, string>(
 		state => state.currentUser.id
