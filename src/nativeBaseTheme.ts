@@ -13,6 +13,28 @@ const nativeBaseTheme = {
 				pr: 3,
 			},
 		},
+		Icon: {
+			baseStyle: {
+				color: 'primary.400',
+			},
+			defaultProps: {
+				size: 8,
+			},
+		},
+		IconButton: {
+			defaultProps: {
+				m: 0,
+				padding: 0,
+				variant: 'unstyled',
+			},
+			variants: {
+				header: {
+					h: '100%',
+					mt: 0,
+					padding: 0,
+				},
+			},
+		},
 		List: {
 			baseStyle: {
 				borderWidth: 0,

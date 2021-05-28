@@ -1,30 +1,21 @@
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { Icon, IconButton } from 'native-base';
 import React, { useEffect } from 'react';
 import { FlatList, KeyboardAvoidingView, Platform } from 'react-native';
 import { useSelector } from 'react-redux';
 
-import ButtonIcon from '../../components/ButtonIcon';
-import InputToolbar from '../../components/InputToolbar';
-import MessageItem from '../../components/MessageItem';
-import { Colors } from '../../global/colors';
-import { GlobalStyles } from '../../global/styles';
-import { User } from '../../global/types';
-import { ChatRoomScreenProps, StackProps } from '../../navigation/types';
-import { BrowseChatRooms, ReduxStore } from '../../store';
-import chatRoomInfoStackProps from '../ChatRoomInfoScreen';
-import createStyleSheet from './styles';
+import InputToolbar from '../components/InputToolbar';
+import MessageItem from '../components/MessageItem';
+import { User } from '../global/types';
+import { ChatRoomScreenProps, StackProps } from '../navigation/types';
+import { BrowseChatRooms, ReduxStore } from '../store';
+import chatRoomInfoStackProps from './ChatRoomInfoScreen';
 
 const ChatRoomScreen: React.FC<ChatRoomScreenProps> = ({
 	navigation,
 	route,
 }) => {
 	const { chatRoomId } = route.params;
-
-	const globalStyles = useSelector<ReduxStore, GlobalStyles>(
-		state => state.styles
-	);
-	const colors = useSelector<ReduxStore, Colors>(state => state.colors);
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const styles = createStyleSheet(colors);
 
 	const currentUser = useSelector<ReduxStore, User>(state => state.currentUser);
 	const browseChatRooms = useSelector<ReduxStore, BrowseChatRooms>(
@@ -47,23 +38,20 @@ const ChatRoomScreen: React.FC<ChatRoomScreenProps> = ({
 	useEffect(() => {
 		navigation.setOptions({
 			headerRight: () => (
-				<ButtonIcon
-					name="info"
+				<IconButton
+					icon={
+						<Icon as={<MaterialCommunityIcons name="information-outline" />} />
+					}
 					onPress={() => {
 						if (chatRoom)
 							navigation.navigate(chatRoomInfoStackProps.name, { chatRoom });
 					}}
-					style={globalStyles.containerHeaderRight}
+					variant="header"
 				/>
 			),
 			title: chatRoom && chatRoom.name ? chatRoom.name : 'Chat Room',
 		});
-	}, [
-		navigation,
-		chatRoom,
-		globalStyles.containerHeaderRight,
-		colors.highlight,
-	]);
+	}, [navigation, chatRoom]);
 
 	return (
 		<KeyboardAvoidingView
@@ -77,7 +65,7 @@ const ChatRoomScreen: React.FC<ChatRoomScreenProps> = ({
 				default: undefined,
 				ios: 64,
 			})}
-			style={globalStyles.containerScreen}
+			style={{ flex: 1 }}
 		>
 			<FlatList
 				data={messages?.slice().reverse() ?? []}

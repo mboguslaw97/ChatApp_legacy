@@ -1,3 +1,5 @@
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { Button, Icon, IconButton } from 'native-base';
 import React, { RefObject, useRef, useState } from 'react';
 import { TextInput, View } from 'react-native';
 import { useSelector } from 'react-redux';
@@ -9,8 +11,6 @@ import { MessageType } from '../../global/types';
 import { ReduxStore } from '../../store';
 import { createChatRoomUser, createMessage } from '../../utils/api/mutations';
 import BottomSheetCamera from '../BottomSheetCamera';
-import ButtonIcon from '../ButtonIcon';
-import MyButton from '../MyButton';
 import MyImage from '../MyImage';
 import createStyleSheet from './styles';
 
@@ -94,36 +94,32 @@ const InputToolbar: React.FC<Props> = ({
 							)}
 
 							{!text && !image && (
-								<ButtonIcon
-									name="camera"
+								<IconButton
+									icon={<Icon as={<MaterialCommunityIcons name="camera" />} />}
 									onPress={() => {
 										const tref = sheetRef as RefObject<BottomSheet>;
 										if (tref.current) tref.current.snapTo(0);
 									}}
-									style={styles.containerIcon}
 								/>
 							)}
 							{!!image && (
-								<ButtonIcon
-									name="close"
+								<IconButton
+									icon={<Icon as={<MaterialCommunityIcons name="close" />} />}
 									onPress={removeImage}
-									style={styles.containerIcon}
+									padding={5}
 								/>
 							)}
 							{(!!text || !!image) && (
-								<ButtonIcon
-									name="send"
+								<IconButton
+									icon={<Icon as={<MaterialCommunityIcons name="send" />} />}
 									onPress={sendMessage}
-									style={styles.containerIcon}
 								/>
 							)}
 						</>
 					) : (
-						<MyButton
-							title="Join Room"
-							onPress={joinRoom}
-							style={styles.buttonJoin}
-						/>
+						<Button onPress={joinRoom} style={styles.buttonJoin}>
+							Join Room
+						</Button>
 					)}
 				</View>
 			</View>

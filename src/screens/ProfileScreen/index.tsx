@@ -1,26 +1,27 @@
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/core';
 import { Auth } from 'aws-amplify';
 import {
-	Box,
 	Button,
-	Column,
-	Container,
+	Center,
 	FormControl,
+	Icon,
+	IconButton,
 	Input,
+	Spacer,
 	Text,
 } from 'native-base';
 import React, { RefObject, useEffect, useRef, useState } from 'react';
-import { KeyboardAvoidingView, View } from 'react-native';
+import { KeyboardAvoidingView } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { useSelector } from 'react-redux';
 import BottomSheet from 'reanimated-bottom-sheet';
 
 import { UpdateUserInput } from '../../API';
 import BottomSheetCamera from '../../components/BottomSheetCamera';
-import MyButton from '../../components/MyButton';
 import MyImage from '../../components/MyImage';
 import { Colors } from '../../global/colors';
+import { primary } from '../../global/constants';
 import { GlobalStyles } from '../../global/styles';
 import { User } from '../../global/types';
 import { getUser as getUserGql } from '../../graphql/queries';
@@ -95,9 +96,16 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation, route }) => {
 				displayName &&
 				bio?.length < 500 &&
 				displayName.length < 25 ? (
-					<View style={globalStyles.containerHeaderRight}>
-						<MyButton onPress={updateProfile} title="Save" />
-					</View>
+					<IconButton
+						icon={
+							<Icon
+								as={<MaterialCommunityIcons name="content-save" />}
+								color={primary}
+							/>
+						}
+						onPress={updateProfile}
+						variant="header"
+					/>
 				) : null,
 		});
 	}, [
@@ -105,7 +113,6 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation, route }) => {
 		bio,
 		currentUser,
 		displayName,
-		globalStyles.containerHeaderRight,
 		navigation,
 		user,
 		userIsCurrentUser,
@@ -118,8 +125,10 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation, route }) => {
 	return (
 		<KeyboardAvoidingView behavior="position">
 			<ScrollView>
-				<MyImage source={{ s3Key: avatar }} style={styles.avatar} />
-				<Text>{formatHandler(user?.name)}</Text>
+				<Center>
+					<MyImage source={{ s3Key: avatar }} style={styles.avatar} />
+					<Text fontSize="xl">{formatHandler(user?.name)}</Text>
+				</Center>
 				<FormControl>
 					<FormControl.Label>Email</FormControl.Label>
 					<Input defaultValue={currentUser.email} isDisabled />
@@ -142,16 +151,14 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation, route }) => {
 						onChangeText={(text: string) => setBio(text)}
 					/>
 				</FormControl>
-				{/* 
-				<ListItem
-					button
-					onPress={() => navigator.navigate(contactListStackProps.name)}
-				>
-					<Text>Friends</Text>
-				</ListItem>
-			 */}
+
 				{userIsCurrentUser && (
 					<>
+						<Button
+							onPress={() => navigator.navigate(contactListStackProps.name)}
+						>
+							<Text>Friends</Text>
+						</Button>
 						<Button
 							onPress={() => {
 								const tref = sheetRef as RefObject<BottomSheet>;
@@ -169,6 +176,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation, route }) => {
 					ref={sheetRef}
 					callback={uri => uri && setAvatar(uri)}
 				/>
+				<Spacer p={10} />
 			</ScrollView>
 		</KeyboardAvoidingView>
 	);

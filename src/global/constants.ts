@@ -23,5 +23,7 @@ export const textMaxLength3 = 500;
 
 export const imageSize = 150;
 
+export const primary = 'primary.400';
+export const secondary = 'secondary.400';
 export const gray = 'gray.400';
 export const red = 'red.400';

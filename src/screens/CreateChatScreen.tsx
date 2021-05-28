@@ -1,26 +1,16 @@
-import { Button, FormControl, Input, Stack, Tabs, Text } from 'native-base';
+import { Button, FormControl, Input, Tabs, Text } from 'native-base';
 import React, { useState } from 'react';
-import { ScrollView, View } from 'react-native';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { ScrollView } from 'react-native';
 import { useSelector } from 'react-redux';
 
-import { Colors } from '../../global/colors';
-import { GlobalStyles } from '../../global/styles';
-import { User } from '../../global/types';
-import { CreateChatScreenProps, StackProps } from '../../navigation/types';
-import { ReduxStore } from '../../store';
-import { createChatRoom, createChatRoomUser } from '../../utils/api/mutations';
-import chatRoomStackProps from '../ChatRoomScreen';
-import createStyleSheet from './styles';
+import { User } from '../global/types';
+import { CreateChatScreenProps, StackProps } from '../navigation/types';
+import { ReduxStore } from '../store';
+import { createChatRoom, createChatRoomUser } from '../utils/api/mutations';
+import chatRoomStackProps from './ChatRoomScreen';
 
 const CreateChatScreen: React.FC<CreateChatScreenProps> = ({ navigation }) => {
 	const currentUser = useSelector<ReduxStore, User>(state => state.currentUser);
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const globalStyles = useSelector<ReduxStore, GlobalStyles>(
-		state => state.styles
-	);
-	const colors = useSelector<ReduxStore, Colors>(state => state.colors);
-	const styles = createStyleSheet(colors); // eslint-disable-line
 
 	const [topic, setTopic] = useState('');
 	const [maxUsers, setMaxUsers] = useState(10);

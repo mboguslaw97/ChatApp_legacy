@@ -1,7 +1,16 @@
-import { EvilIcons } from '@expo/vector-icons';
+import { EvilIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import moment from 'moment';
-import { Box, Center, Divider, HStack, Text, VStack } from 'native-base';
+import {
+	Box,
+	Center,
+	Divider,
+	HStack,
+	Icon,
+	IconButton,
+	Text,
+	VStack,
+} from 'native-base';
 import React from 'react';
 import { TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
@@ -38,7 +47,7 @@ const ChatRoomItem: React.FC<Props> = ({ chatRoom }) => {
 		return (
 			<TouchableOpacity onPress={() => leaveChatRoom(chatRoom, currentUserId)}>
 				<Center bg={red} flex={1} w={20}>
-					<EvilIcons color="white" name="trash" size={iconSize2} />
+					<Icon as={<MaterialCommunityIcons name="trash-can-outline" />} />
 				</Center>
 			</TouchableOpacity>
 		);
