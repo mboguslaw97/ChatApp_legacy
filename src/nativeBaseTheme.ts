@@ -1,4 +1,14 @@
+import { primary } from './global/constants';
+
 const nativeBaseTheme = {
+	colors: {
+		primary: {
+			// 400: 'blue',
+		},
+		secondary: {
+			// 400: 'green',
+		},
+	},
 	components: {
 		Button: {
 			defaultProps: {
@@ -15,7 +25,7 @@ const nativeBaseTheme = {
 		},
 		Icon: {
 			baseStyle: {
-				color: 'primary.400',
+				color: primary,
 			},
 			defaultProps: {
 				size: 8,

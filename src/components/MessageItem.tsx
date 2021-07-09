@@ -1,19 +1,18 @@
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import moment from 'moment';
+import { Container, HStack, Text, VStack } from 'native-base';
 import React, { useState } from 'react';
-import { Text, TouchableOpacity, View } from 'react-native';
+import { TouchableOpacity } from 'react-native';
 import { useSelector } from 'react-redux';
 
-import { Colors } from '../../global/colors';
-import { GlobalStyles } from '../../global/styles';
-import { Message, MessageType } from '../../global/types';
-import messageStackProps from '../../screens/MessageScreen';
-import profileStackProps from '../../screens/ProfileScreen';
-import { ReduxStore } from '../../store';
-import ConditionalWrapper from '../ConditionalWrapper';
-import MyImage from '../MyImage';
-import createStyleSheet from './styles';
+import { gray } from '../global/constants';
+import { Message, MessageType } from '../global/types';
+import messageStackProps from '../screens/MessageScreen';
+import profileStackProps from '../screens/ProfileScreen';
+import { ReduxStore } from '../store';
+import ConditionalWrapper from './ConditionalWrapper';
+import MyImage from './MyImage';
 
 const maxLineCount = 10;
 
@@ -29,12 +28,6 @@ const MessageItem: React.FC<Props> = ({ message }) => {
 	});
 	const isCurrentUser = message.userId === currentUserId;
 
-	const globalStyles = useSelector<ReduxStore, GlobalStyles>(
-		state => state.styles
-	);
-	const colors = useSelector<ReduxStore, Colors>(state => state.colors);
-	const styles = createStyleSheet(colors, globalStyles, isCurrentUser);
-
 	const [maxLineCountReached, setMaxLineCountReached] = useState(false);
 
 	const onPressAvatar = () =>
@@ -49,19 +42,28 @@ const MessageItem: React.FC<Props> = ({ message }) => {
 
 	const time = moment(message.createdAt).format('MM/DD/YYYY');
 
+	const alignment = isCurrentUser ? 'flex-end' : 'flex-start';
+	const borderRadius = 7;
+	const borderBottomLeftRadius = isCurrentUser ? borderRadius : 0;
+	const borderBottomRightRadius = isCurrentUser ? 0 : borderRadius;
+
 	return (
-		<View style={styles.container}>
+		<HStack justifyContent={alignment} mb={5} mx={2}>
 			{!isCurrentUser && (
-				<View style={styles.containerLeft}>
+				<Container>
 					<TouchableOpacity onPress={onPressAvatar}>
 						<MyImage
 							source={{ s3Key: message.user.avatar }}
-							style={styles.avatar}
+							style={{
+								borderRadius: 55,
+								height: 55,
+								width: 55,
+							}}
 						/>
 					</TouchableOpacity>
-				</View>
+				</Container>
 			)}
-			<View style={styles.containerRight}>
+			<VStack alignItems={alignment} pr={2} width="100%">
 				{message.type === MessageType.Text && (
 					<ConditionalWrapper
 						condition={maxLineCountReached}
@@ -71,35 +73,35 @@ const MessageItem: React.FC<Props> = ({ message }) => {
 							</TouchableOpacity>
 						)}
 					>
-						<View style={styles.containerText}>
-							<Text
-								numberOfLines={maxLineCount}
-								onTextLayout={onTextLayout}
-								style={styles.text}
-							>
+						<Container
+							backgroundColor={isCurrentUser ? '#339' : '#369'}
+							borderBottomLeftRadius={borderBottomLeftRadius}
+							borderBottomRightRadius={borderBottomRightRadius}
+							borderRadius={borderRadius}
+							mb={2}
+							px={4}
+							py={2}
+						>
+							<Text numberOfLines={maxLineCount} onTextLayout={onTextLayout}>
 								{message.content}
 							</Text>
 							{maxLineCountReached && (
-								<Ionicons
-									name="ios-arrow-forward"
-									size={24}
-									color={colors.text}
-								/>
+								<Ionicons name="ios-arrow-forward" size={24} />
 							)}
-						</View>
+						</Container>
 					</ConditionalWrapper>
 				)}
 				{message.type === MessageType.Image && (
 					<TouchableOpacity onPress={onPressContent}>
 						<MyImage
 							source={{ s3Key: message.content }}
-							style={globalStyles.image}
+							style={{ borderRadius: 10, height: 150, width: 150 }}
 						/>
 					</TouchableOpacity>
 				)}
-				<Text style={styles.time}>{time}</Text>
-			</View>
-		</View>
+				<Text color={gray}>{time}</Text>
+			</VStack>
+		</HStack>
 	);
 };
 

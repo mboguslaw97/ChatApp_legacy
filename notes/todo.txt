@@ -1,3 +1,5 @@
+Use Action Sheet
+Use toast
 Private/public rooms
 Create dm
 Use nativebase for frontend

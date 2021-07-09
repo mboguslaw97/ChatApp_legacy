@@ -20,63 +20,63 @@ const BottomTab: React.FC = () => {
 	return (
 		<Tab.Navigator tabBarOptions={{ showLabel: false }}>
 			<Tab.Screen
-				name="Chats"
 				component={ChatsStack}
+				name="Chats"
 				options={{
 					tabBarIcon: ({ color, focused, size }: TabBarIconProps) =>
 						focused ? (
-							<MaterialCommunityIcons name="chat" size={size} color={color} />
+							<MaterialCommunityIcons color={color} name="chat" size={size} />
 						) : (
 							<MaterialCommunityIcons
+								color={color}
 								name="chat-outline"
 								size={size}
-								color={color}
 							/>
 						),
 				}}
 			/>
 			<Tab.Screen
-				name="Browse"
 				component={BrowseStack}
+				name="Browse"
 				options={{
 					tabBarIcon: ({ color, size }: TabBarIconProps) => (
 						// <MaterialIcons name="library-books" size={size} color={color} />
-						<MaterialCommunityIcons name="magnify" size={size} color={color} />
+						<MaterialCommunityIcons color={color} name="magnify" size={size} />
 					),
 				}}
 			/>
 			<Tab.Screen
-				name="Profile"
 				component={ProfileStack}
+				name="Profile"
 				options={{
 					tabBarIcon: ({ color, focused, size }: TabBarIconProps) =>
 						focused ? (
 							<MaterialCommunityIcons
+								color={color}
 								name="account-circle"
 								size={size}
-								color={color}
 							/>
 						) : (
 							<MaterialCommunityIcons
+								color={color}
 								name="account-circle-outline"
 								size={size}
-								color={color}
 							/>
 						),
 				}}
 			/>
 			<Tab.Screen
-				name="Settings"
 				component={SettingsStack}
+				name="Settings"
 				options={{
 					tabBarIcon: ({ color, focused, size }: TabBarIconProps) =>
 						focused ? (
-							<MaterialCommunityIcons name="cog" size={size} color={color} />
+							<MaterialCommunityIcons color={color} name="cog" size={size} />
 						) : (
 							<MaterialCommunityIcons
+								color={color}
 								name="cog-outline"
 								size={size}
-								color={color}
 							/>
 						),
 				}}

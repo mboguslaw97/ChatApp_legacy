@@ -5,7 +5,6 @@ import { FlatList } from 'react-native';
 import { useSelector } from 'react-redux';
 
 import ChatRoomItem from '../components/ChatRoomItem';
-import { primary } from '../global/constants';
 import { User } from '../global/types';
 import { ChatListScreenProps } from '../navigation/types';
 import { ReduxStore } from '../store';
@@ -21,9 +20,7 @@ const ChatListScreen: React.FC<ChatListScreenProps> = ({ navigation }) => {
 		navigation.setOptions({
 			headerRight: () => (
 				<IconButton
-					icon={
-						<Icon as={<MaterialCommunityIcons name="plus" />} color={primary} />
-					}
+					icon={<Icon as={<MaterialCommunityIcons name="plus" />} />}
 					onPress={() => navigation.navigate(createChatStackProps.name)}
 					variant="header"
 				/>

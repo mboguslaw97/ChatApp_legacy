@@ -52,7 +52,9 @@ const CreateChatScreen: React.FC<CreateChatScreenProps> = ({ navigation }) => {
 	};
 
 	const Description = ({ value }: { value: string }) => (
-		<Text style={{ marginHorizontal: 10, marginTop: 15 }}>{value}</Text>
+		<Text mb={5} mx={5}>
+			{value}
+		</Text>
 	);
 
 	const InviteFriendsButton = () => (

@@ -1,11 +1,11 @@
-import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { Divider, HStack, Icon, Text } from 'native-base';
 import React, { useEffect, useState } from 'react';
 import { TouchableOpacity } from 'react-native';
 import { useSelector } from 'react-redux';
 
-import { gray, iconSize1, red } from '../global/constants';
+import { gray, red } from '../global/constants';
 import { Contact, User } from '../global/types';
 import profileStackProps from '../screens/ProfileScreen';
 import { ReduxStore } from '../store';
@@ -29,8 +29,9 @@ const ListItemUser: React.FC<Props> = ({ user, onPress }) => {
 		return state.currentUser.followees.items;
 	});
 
-	const [followeeContact, setFolloweeContact] =
-		useState<Contact | undefined>(undefined);
+	const [followeeContact, setFolloweeContact] = useState<Contact | undefined>(
+		undefined
+	);
 
 	useEffect(() => {
 		setFolloweeContact(

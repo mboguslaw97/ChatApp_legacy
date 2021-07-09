@@ -1,22 +1,13 @@
-import { EvilIcons, MaterialCommunityIcons } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import moment from 'moment';
-import {
-	Box,
-	Center,
-	Divider,
-	HStack,
-	Icon,
-	IconButton,
-	Text,
-	VStack,
-} from 'native-base';
+import { Box, Center, Divider, HStack, Icon, Text, VStack } from 'native-base';
 import React from 'react';
 import { TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import { useSelector } from 'react-redux';
 
-import { gray, iconSize2, red } from '../global/constants';
+import { gray, red } from '../global/constants';
 import { ChatRoom, MessageType } from '../global/types';
 import chatRoomStackProps from '../screens/ChatRoomScreen';
 import { ReduxStore } from '../store';

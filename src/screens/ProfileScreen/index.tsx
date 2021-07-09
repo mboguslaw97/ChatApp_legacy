@@ -10,19 +10,17 @@ import {
 	Input,
 	Spacer,
 	Text,
+	useDisclose,
 } from 'native-base';
-import React, { RefObject, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { KeyboardAvoidingView } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { useSelector } from 'react-redux';
-import BottomSheet from 'reanimated-bottom-sheet';
 
 import { UpdateUserInput } from '../../API';
-import BottomSheetCamera from '../../components/BottomSheetCamera';
+import CameraActionSheet from '../../components/CameraActionSheet';
 import MyImage from '../../components/MyImage';
-import { Colors } from '../../global/colors';
 import { primary } from '../../global/constants';
-import { GlobalStyles } from '../../global/styles';
 import { User } from '../../global/types';
 import { getUser as getUserGql } from '../../graphql/queries';
 import { ProfileScreenProps } from '../../navigation/types';
@@ -33,21 +31,15 @@ import { showSuccess } from '../../utils/banner';
 import { formatHandler } from '../../utils/helper';
 import { storeImage } from '../../utils/storage';
 import contactListStackProps from '../ContactListScreen';
-import createStyleSheet from './styles';
 
 const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation, route }) => {
 	const userId = route.params?.userId;
 
-	const currentUser = useSelector<ReduxStore, User>(state => state.currentUser);
-	const globalStyles = useSelector<ReduxStore, GlobalStyles>(
-		state => state.styles
-	);
-	const colors = useSelector<ReduxStore, Colors>(state => state.colors);
-	const styles = createStyleSheet(colors, globalStyles);
-
 	const navigator = useNavigation();
 
-	const sheetRef = useRef(null);
+	const { isOpen, onOpen, onClose } = useDisclose();
+
+	const currentUser = useSelector<ReduxStore, User>(state => state.currentUser);
 
 	const [avatar, setAvatar] = useState<string | undefined>();
 	const [bio, setBio] = useState('');
@@ -126,7 +118,16 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation, route }) => {
 		<KeyboardAvoidingView behavior="position">
 			<ScrollView>
 				<Center>
-					<MyImage source={{ s3Key: avatar }} style={styles.avatar} />
+					<MyImage
+						source={{ s3Key: avatar }}
+						style={{
+							borderRadius: 100,
+							height: 100,
+							marginBottom: 10,
+							marginTop: 10,
+							width: 100,
+						}}
+					/>
 					<Text fontSize="xl">{formatHandler(user?.name)}</Text>
 				</Center>
 				<FormControl>
@@ -157,27 +158,19 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation, route }) => {
 						<Button
 							onPress={() => navigator.navigate(contactListStackProps.name)}
 						>
-							<Text>Friends</Text>
+							Friends
 						</Button>
-						<Button
-							onPress={() => {
-								const tref = sheetRef as RefObject<BottomSheet>;
-								if (tref.current) tref.current.snapTo(0);
-							}}
-						>
-							<Text>Change Avatar</Text>
-						</Button>
-						<Button onPress={logout}>
-							<Text>Logout</Text>
-						</Button>
+						<Button onPress={onOpen}>Change Avatar</Button>
+						<Button onPress={logout}>Logout</Button>
 					</>
 				)}
-				<BottomSheetCamera
-					ref={sheetRef}
-					callback={uri => uri && setAvatar(uri)}
-				/>
 				<Spacer p={10} />
 			</ScrollView>
+			<CameraActionSheet
+				callback={uri => uri && setAvatar(uri)}
+				isOpen={isOpen}
+				onClose={onClose}
+			/>
 		</KeyboardAvoidingView>
 	);
 };
