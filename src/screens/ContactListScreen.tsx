@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import { FlatList } from 'react-native';
 import { useSelector } from 'react-redux';
 
-import ListItemUser from '../components/ListItemUser';
+import UserListItem from '../components/UserListItem';
 import { User } from '../global/types';
 import { ContactListScreenProps, StackProps } from '../navigation/types';
 import { ReduxStore } from '../store';
@@ -27,7 +27,7 @@ const ContactListScreen: React.FC<ContactListScreenProps> = ({
 			<FlatList
 				data={users ?? followees}
 				keyExtractor={item => item.id}
-				renderItem={({ item }) => <ListItemUser user={item} />}
+				renderItem={({ item }) => <UserListItem user={item} />}
 			/>
 		</Box>
 	);

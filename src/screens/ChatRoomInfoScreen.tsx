@@ -1,17 +1,18 @@
-import { Box, Button, Text } from 'native-base';
+import { Box, Button, Text, useToast } from 'native-base';
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
 import { ChatRoomInfoScreenProps, StackProps } from '../navigation/types';
 import { ReduxStore } from '../store';
 import { leaveChatRoom } from '../utils/helper';
-import contactListStackProps from './ContactListScreen';
 
 const ChatRoomInfoScreen: React.FC<ChatRoomInfoScreenProps> = ({
 	navigation,
 	route,
 }) => {
 	const { chatRoom } = route.params;
+
+	const toast = useToast();
 
 	const currentUserId = useSelector<ReduxStore, string>(state => {
 		return state.currentUser.id;
@@ -29,13 +30,11 @@ const ChatRoomInfoScreen: React.FC<ChatRoomInfoScreenProps> = ({
 		<Box>
 			<Text>{chatRoom.name}</Text>
 			<Button
-				onPress={() =>
-					navigation.navigate(contactListStackProps.name, { users })
-				}
+				onPress={() => navigation.navigate('ContactListScreen', { users })}
 			>
 				Members
 			</Button>
-			<Button onPress={() => leaveChatRoom(chatRoom, currentUserId)}>
+			<Button onPress={() => leaveChatRoom(chatRoom, currentUserId, toast)}>
 				Leave Room
 			</Button>
 		</Box>

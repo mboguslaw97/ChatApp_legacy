@@ -1,4 +1,4 @@
-import { primary } from './global/constants';
+import { colors } from './global/constants';
 
 const nativeBaseTheme = {
 	colors: {
@@ -24,11 +24,11 @@ const nativeBaseTheme = {
 			},
 		},
 		Icon: {
-			baseStyle: {
-				color: primary,
-			},
-			defaultProps: {
-				size: 8,
+			variants: {
+				header: {
+					color: colors.primary,
+					mr: 2,
+				},
 			},
 		},
 		IconButton: {
@@ -37,17 +37,15 @@ const nativeBaseTheme = {
 				padding: 0,
 				variant: 'unstyled',
 			},
-			variants: {
-				header: {
-					h: '100%',
-					mt: 0,
-					padding: 0,
-				},
-			},
 		},
 		List: {
 			baseStyle: {
 				borderWidth: 0,
+			},
+		},
+		Toast: {
+			defaultProps: {
+				placement: 'top',
 			},
 		},
 	},

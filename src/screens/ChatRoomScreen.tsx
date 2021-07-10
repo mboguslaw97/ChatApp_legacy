@@ -9,7 +9,6 @@ import MessageItem from '../components/MessageItem';
 import { User } from '../global/types';
 import { ChatRoomScreenProps, StackProps } from '../navigation/types';
 import { BrowseChatRooms, ReduxStore } from '../store';
-import chatRoomInfoStackProps from './ChatRoomInfoScreen';
 
 const ChatRoomScreen: React.FC<ChatRoomScreenProps> = ({
 	navigation,
@@ -40,13 +39,16 @@ const ChatRoomScreen: React.FC<ChatRoomScreenProps> = ({
 			headerRight: () => (
 				<IconButton
 					icon={
-						<Icon as={<MaterialCommunityIcons name="information-outline" />} />
+						<Icon
+							as={<MaterialCommunityIcons name="information-outline" />}
+							// @ts-ignore
+							variant="header"
+						/>
 					}
 					onPress={() => {
 						if (chatRoom)
-							navigation.navigate(chatRoomInfoStackProps.name, { chatRoom });
+							navigation.navigate('ChatRoomInfoScreen', { chatRoom });
 					}}
-					variant="header"
 				/>
 			),
 			title: chatRoom && chatRoom.name ? chatRoom.name : 'Chat Room',

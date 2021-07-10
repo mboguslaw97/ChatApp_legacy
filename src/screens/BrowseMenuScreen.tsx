@@ -5,10 +5,9 @@ import { FlatList } from 'react-native';
 import { useSelector } from 'react-redux';
 
 import ChatRoomItem from '../components/ChatRoomItem';
-import { primary } from '../global/constants';
+import { colors } from '../global/constants';
 import { BrowseMenuScreenProps } from '../navigation/types';
 import { BrowseChatRooms, ReduxStore } from '../store';
-import createChatStackProps from './CreateChatScreen';
 
 const BrowseMenuScreen: React.FC<BrowseMenuScreenProps> = ({ navigation }) => {
 	const browseChatRooms = useSelector<ReduxStore, BrowseChatRooms>(
@@ -20,10 +19,13 @@ const BrowseMenuScreen: React.FC<BrowseMenuScreenProps> = ({ navigation }) => {
 			headerRight: () => (
 				<IconButton
 					icon={
-						<Icon as={<MaterialCommunityIcons name="plus" />} color={primary} />
+						<Icon
+							as={<MaterialCommunityIcons name="plus" />}
+							// @ts-ignore
+							variant="header"
+						/>
 					}
-					onPress={() => navigation.navigate(createChatStackProps.name)}
-					variant="header"
+					onPress={() => navigation.navigate('CreateChatScreen')}
 				/>
 			),
 		});

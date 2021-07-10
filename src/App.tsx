@@ -4,7 +4,6 @@ import { withAuthenticator } from 'aws-amplify-react-native';
 import { extendTheme, NativeBaseProvider } from 'native-base';
 import React from 'react';
 import { LogBox, Platform } from 'react-native';
-import FlashMessage from 'react-native-flash-message';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Provider as ReduxProvider } from 'react-redux';
 
@@ -31,13 +30,11 @@ const customTheme = extendTheme(nativeBaseTheme);
 const App: React.FC = () => {
 	return (
 		// <React.StrictMode>
-		// @ts-ignore
 		<NativeBaseProvider theme={customTheme}>
 			<ReduxProvider store={store}>
 				<SafeAreaProvider>
 					<AppContainer />
 				</SafeAreaProvider>
-				<FlashMessage position="top" />
 			</ReduxProvider>
 		</NativeBaseProvider>
 		// </React.StrictMode>

@@ -1,24 +1,16 @@
 import { configureStore, createSlice } from '@reduxjs/toolkit';
-import { ColorSchemeName } from 'react-native';
 
-import { Colors, darkColors, lightColors } from './global/colors';
-import createStyleSheet, { GlobalStyles } from './global/styles';
 import { ChatRoom, ChatRoomUser, Contact, Message, User } from './global/types';
 
 export type BrowseChatRooms = ChatRoom[];
 
 export type ReduxStore = {
 	browseChatRooms: BrowseChatRooms;
-	colorTheme: ColorSchemeName;
-	colors: Colors;
 	currentUser: User;
-	styles: GlobalStyles;
 };
 
 const initialState: ReduxStore = {
 	browseChatRooms: [],
-	colorTheme: 'dark',
-	colors: darkColors,
 	currentUser: {
 		avatar: '',
 		bio: '',
@@ -32,7 +24,6 @@ const initialState: ReduxStore = {
 		phone: '',
 		pushToken: '',
 	},
-	styles: createStyleSheet(darkColors),
 };
 
 const slice = createSlice({
@@ -99,14 +90,6 @@ const slice = createSlice({
 						chatRoomUser => chatRoomUser.userId === state.currentUser.id
 					) // && chatRoom.chatRoomUsers.items.length
 			);
-		},
-		setColorTheme: (
-			state: ReduxStore,
-			action: { payload: ColorSchemeName }
-		) => {
-			state.colorTheme = action.payload;
-			state.colors = action.payload === 'light' ? lightColors : darkColors;
-			state.styles = createStyleSheet(state.colors);
 		},
 		setCurrentUser: (state: ReduxStore, action: { payload: User }) => {
 			state.currentUser = action.payload;

@@ -1,6 +1,6 @@
 import { Auth } from 'aws-amplify';
+import { useToast } from 'native-base';
 import React, { useEffect } from 'react';
-import { ColorSchemeName, useColorScheme } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { ChatRoomUser } from '../../global/types';
@@ -14,8 +14,8 @@ import { getUser as getUserGql } from './queries';
 
 const AppContainer: React.FC = () => {
 	const dispatch = useDispatch();
+	const toast = useToast();
 
-	const colorTheme: ColorSchemeName = useColorScheme();
 	const currentUserId = useSelector<ReduxStore, string>(
 		state => state.currentUser.id
 	);
@@ -24,24 +24,23 @@ const AppContainer: React.FC = () => {
 	);
 
 	useEffect(() => {
-		dispatch(Actions.setColorTheme(colorTheme));
-	}, [dispatch, colorTheme]);
-
-	useEffect(() => {
 		(async () => {
 			const userAuth = await Auth.currentAuthenticatedUser();
 			const userId = userAuth.attributes.sub;
 			let user = await getUser(getUserGql, userId);
 
 			if (!user) {
-				await createUser({
-					avatar: 'avatars/72cfc72f-5008-420d-aec6-2d4d15a8f512.png',
-					bio: 'Just joined ChatApp!',
-					displayName: userAuth.username,
-					id: userId,
-					name: userAuth.username,
-					pushToken: '',
-				});
+				await createUser(
+					{
+						avatar: 'avatars/72cfc72f-5008-420d-aec6-2d4d15a8f512.png',
+						bio: 'Just joined ChatApp!',
+						displayName: userAuth.username,
+						id: userId,
+						name: userAuth.username,
+						pushToken: '',
+					},
+					toast
+				);
 				user = await getUser(getUserGql, userId);
 			}
 
@@ -56,6 +55,7 @@ const AppContainer: React.FC = () => {
 			if (browseChatRooms)
 				dispatch(Actions.setBrowseChatRooms(browseChatRooms));
 		})();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [dispatch]);
 
 	// If currentUserId = contact.followeeId, then the contact is a follower relative to the currentUser

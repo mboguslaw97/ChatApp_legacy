@@ -1,4 +1,4 @@
-import { Button, FormControl, Input, Tabs, Text } from 'native-base';
+import { Button, FormControl, Input, Tabs, Text, useToast } from 'native-base';
 import React, { useState } from 'react';
 import { ScrollView } from 'react-native';
 import { useSelector } from 'react-redux';
@@ -7,9 +7,10 @@ import { User } from '../global/types';
 import { CreateChatScreenProps, StackProps } from '../navigation/types';
 import { ReduxStore } from '../store';
 import { createChatRoom, createChatRoomUser } from '../utils/api/mutations';
-import chatRoomStackProps from './ChatRoomScreen';
 
 const CreateChatScreen: React.FC<CreateChatScreenProps> = ({ navigation }) => {
+	const toast = useToast();
+
 	const currentUser = useSelector<ReduxStore, User>(state => state.currentUser);
 
 	const [topic, setTopic] = useState('');
@@ -19,19 +20,22 @@ const CreateChatScreen: React.FC<CreateChatScreenProps> = ({ navigation }) => {
 		if (!topic) return;
 
 		// TODO: lambda should create chatRoomUser if chatRoom is created
-		createChatRoom({ maxUsers, name: topic })
+		createChatRoom({ maxUsers, name: topic }, toast)
 			.then(chatRoom2 => {
 				if (!chatRoom2.id) throw Error();
-				return createChatRoomUser({
-					chatRoomId: chatRoom2.id,
-					isModerator: true,
-					userId: currentUser.id,
-				});
+				return createChatRoomUser(
+					{
+						chatRoomId: chatRoom2.id,
+						isModerator: true,
+						userId: currentUser.id,
+					},
+					toast
+				);
 			})
 			.then(chatRoomUser => {
 				if (!chatRoomUser.chatRoomId) throw Error();
 				navigation.goBack();
-				navigation.navigate(chatRoomStackProps.name, {
+				navigation.navigate('ChatRoomScreen', {
 					chatRoomId: chatRoomUser.chatRoomId,
 				});
 			});

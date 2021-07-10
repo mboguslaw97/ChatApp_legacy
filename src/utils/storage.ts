@@ -51,6 +51,7 @@ export const fetchFile = async (key: string): Promise<string> => {
 	const path = getPath(key);
 	return FileSystem.getInfoAsync(path).then(image => {
 		if (image.exists) return image.uri;
+		console.log('Fetching image from S3');
 		return Storage.get(key)
 			.then(url => FileSystem.downloadAsync(url as string, path))
 			.then(newImage => newImage.uri);

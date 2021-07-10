@@ -7,10 +7,12 @@ import {
 	IconButton,
 	Input,
 	useDisclose,
+	useToast,
 } from 'native-base';
 import React, { useState } from 'react';
+import { Keyboard } from 'react-native';
 
-import { gray } from '../global/constants';
+import { colors } from '../global/constants';
 import { MessageType } from '../global/types';
 import { createChatRoomUser, createMessage } from '../utils/api/mutations';
 import CameraActionSheet from './CameraActionSheet';
@@ -28,15 +30,19 @@ const InputToolbar: React.FC<Props> = ({
 	currentUserIsInRoom,
 }) => {
 	const { isOpen, onOpen, onClose } = useDisclose();
+	const toast = useToast();
 	const [text, setText] = useState('');
 	const [image, setImage] = useState('');
 
 	const joinRoom = async () => {
-		createChatRoomUser({
-			chatRoomId,
-			isModerator: false,
-			userId: currentUserId,
-		});
+		createChatRoomUser(
+			{
+				chatRoomId,
+				isModerator: false,
+				userId: currentUserId,
+			},
+			toast
+		);
 	};
 
 	const removeImage = () => {
@@ -55,12 +61,15 @@ const InputToolbar: React.FC<Props> = ({
 		}
 
 		if (content && type)
-			createMessage({
-				chatRoomId,
-				content,
-				type,
-				userId: currentUserId,
-			});
+			createMessage(
+				{
+					chatRoomId,
+					content,
+					type,
+					userId: currentUserId,
+				},
+				toast
+			);
 
 		setText('');
 		setImage('');
@@ -68,7 +77,7 @@ const InputToolbar: React.FC<Props> = ({
 
 	return (
 		<>
-			<HStack borderTopColor={gray} borderTopWidth={1} px={1} py={1}>
+			<HStack borderTopColor={colors.gray} borderTopWidth={1} px={1} py={1}>
 				{currentUserIsInRoom ? (
 					<>
 						{!!image && (
@@ -96,8 +105,16 @@ const InputToolbar: React.FC<Props> = ({
 						)}
 						{!text && !image && (
 							<IconButton
-								icon={<Icon as={<MaterialCommunityIcons name="camera" />} />}
-								onPress={onOpen}
+								icon={
+									<Icon
+										as={<MaterialCommunityIcons name="camera" />}
+										color={colors.primary}
+									/>
+								}
+								onPress={() => {
+									// Keyboard.dismiss();
+									onOpen();
+								}}
 							/>
 						)}
 						{!!image && (

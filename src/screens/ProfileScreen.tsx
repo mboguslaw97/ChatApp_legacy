@@ -11,32 +11,31 @@ import {
 	Spacer,
 	Text,
 	useDisclose,
+	useToast,
 } from 'native-base';
 import React, { useEffect, useState } from 'react';
 import { KeyboardAvoidingView } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { useSelector } from 'react-redux';
 
-import { UpdateUserInput } from '../../API';
-import CameraActionSheet from '../../components/CameraActionSheet';
-import MyImage from '../../components/MyImage';
-import { primary } from '../../global/constants';
-import { User } from '../../global/types';
-import { getUser as getUserGql } from '../../graphql/queries';
-import { ProfileScreenProps } from '../../navigation/types';
-import { ReduxStore } from '../../store';
-import { updateUser } from '../../utils/api/mutations';
-import { getUser } from '../../utils/api/queries';
-import { showSuccess } from '../../utils/banner';
-import { formatHandler } from '../../utils/helper';
-import { storeImage } from '../../utils/storage';
-import contactListStackProps from '../ContactListScreen';
+import { UpdateUserInput } from '../API';
+import AvatarButton from '../components/AvatarButton';
+import CameraActionSheet from '../components/CameraActionSheet';
+import { colors } from '../global/constants';
+import { User } from '../global/types';
+import { getUser as getUserGql } from '../graphql/queries';
+import { ProfileScreenProps } from '../navigation/types';
+import { ReduxStore } from '../store';
+import { updateUser } from '../utils/api/mutations';
+import { getUser } from '../utils/api/queries';
+import { formatHandler } from '../utils/helper';
+import { storeImage } from '../utils/storage';
 
 const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation, route }) => {
 	const userId = route.params?.userId;
 
 	const navigator = useNavigation();
-
+	const toast = useToast();
 	const { isOpen, onOpen, onClose } = useDisclose();
 
 	const currentUser = useSelector<ReduxStore, User>(state => state.currentUser);
@@ -79,7 +78,9 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation, route }) => {
 			if (avatar !== user?.avatar && avatar)
 				input.avatar = await storeImage(avatar);
 
-			updateUser(input).then(() => showSuccess('Profile saved!'));
+			updateUser(input, toast).then(() =>
+				toast.show({ status: 'success', title: 'Profile saved!' })
+			);
 		};
 
 		navigation.setOptions({
@@ -92,11 +93,12 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation, route }) => {
 						icon={
 							<Icon
 								as={<MaterialCommunityIcons name="content-save" />}
-								color={primary}
+								color={colors.primary}
+								// @ts-ignore
+								variant="header"
 							/>
 						}
 						onPress={updateProfile}
-						variant="header"
 					/>
 				) : null,
 		});
@@ -106,6 +108,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation, route }) => {
 		currentUser,
 		displayName,
 		navigation,
+		toast,
 		user,
 		userIsCurrentUser,
 	]);
@@ -118,15 +121,10 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation, route }) => {
 		<KeyboardAvoidingView behavior="position">
 			<ScrollView>
 				<Center>
-					<MyImage
+					<AvatarButton
+						onPress={onOpen}
+						size="large"
 						source={{ s3Key: avatar }}
-						style={{
-							borderRadius: 100,
-							height: 100,
-							marginBottom: 10,
-							marginTop: 10,
-							width: 100,
-						}}
 					/>
 					<Text fontSize="xl">{formatHandler(user?.name)}</Text>
 				</Center>
@@ -155,9 +153,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation, route }) => {
 
 				{userIsCurrentUser && (
 					<>
-						<Button
-							onPress={() => navigator.navigate(contactListStackProps.name)}
-						>
+						<Button onPress={() => navigator.navigate('ContactListScreen')}>
 							Friends
 						</Button>
 						<Button onPress={onOpen}>Change Avatar</Button>
@@ -175,9 +171,10 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation, route }) => {
 	);
 };
 
-const profileStackProps = {
+const ProfileStackProps = {
 	component: ProfileScreen,
 	name: 'ProfileScreen',
+	options: { title: 'Profile' },
 };
 
-export default profileStackProps;
+export default ProfileStackProps;

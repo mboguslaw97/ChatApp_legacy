@@ -20,7 +20,7 @@ export type ScreenProps = {
 	ChatRoomInfoScreen: { chatRoom: ChatRoom };
 	ChatRoomScreen: { chatRoomId: string };
 	ContactListScreen: { users?: User[] };
-	CreateChatScreen: { title: string };
+	CreateChatScreen: undefined;
 	MessageScreen: { message: Message };
 	ProfileScreen: { userId: string };
 	SettingsScreen: undefined;
@@ -70,25 +70,3 @@ export type SettingsScreenProps = StackScreenProps<
 	ScreenProps,
 	'SettingsScreen'
 >;
-
-// Currently unused
-
-// export type BrowseStackParamList = {
-// 	BrowseMenuScreen: ScreenProps['BrowseMenuScreen'];
-// 	ChatRoomScreen: ScreenProps['ChatRoomScreen'];
-// 	ChatRoomInfoScreen: ScreenProps['ChatRoomInfoScreen'];
-// 	CreateChatScreen: ScreenProps['CreateChatScreen'];
-// 	ProfileScreen: ScreenProps['ProfileScreen'];
-// };
-
-// export type ChatsStackParamList = {
-// 	ChatListScreen: ScreenProps['ChatListScreen'];
-// 	ChatRoomScreen: ScreenProps['ChatRoomScreen'];
-// 	ChatRoomInfoScreen: ScreenProps['ChatRoomInfoScreen'];
-// 	CreateChatScreen: ScreenProps['CreateChatScreen'];
-// 	ProfileScreen: ScreenProps['ProfileScreen'];
-// };
-
-// export type ProfileStackParamList = {
-// 	ProfileScreen: ScreenProps['ProfileScreen'];
-// };

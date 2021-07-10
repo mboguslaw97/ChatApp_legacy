@@ -8,10 +8,10 @@ import {
 	Contact,
 	Message,
 	MessageType,
+	Toast,
 	User,
 } from '../../../global/types';
 import * as GQL from '../../../graphql/mutations';
-import { showDanger } from '../../banner';
 import { storeImage } from '../../storage';
 import * as CustomGQL from './graphql';
 
@@ -23,7 +23,7 @@ type Args<S> = {
 
 const factory =
 	<T, S>(args: Args<S>) =>
-	async (input: S) => {
+	async (input: S, toast?: Toast) => {
 		const { gql, key, process } = args;
 		if (process) await process(input);
 		type GqlPromise = Promise<GraphQLResult<{ [key: string]: T }>>;
@@ -31,7 +31,10 @@ const factory =
 			graphqlOperation(gql ?? GQL[key], { input })
 		) as GqlPromise);
 		if (data && data[key]) return data[key];
-		showDanger('There was an error processing your request');
+		toast?.show({
+			status: 'error',
+			title: 'There was an error processing your request',
+		});
 		throw Error('Invalid response');
 	};
 

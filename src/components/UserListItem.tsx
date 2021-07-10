@@ -1,25 +1,25 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
-import { Divider, HStack, Icon, Text } from 'native-base';
+import { Divider, HStack, Icon, Text, useToast } from 'native-base';
 import React, { useEffect, useState } from 'react';
 import { TouchableOpacity } from 'react-native';
 import { useSelector } from 'react-redux';
 
-import { gray, red } from '../global/constants';
+import { colors } from '../global/constants';
 import { Contact, User } from '../global/types';
-import profileStackProps from '../screens/ProfileScreen';
 import { ReduxStore } from '../store';
 import { createContact, deleteContact } from '../utils/api/mutations';
 import { formatHandler } from '../utils/helper';
-import ButtonAvatar from './ButtonAvatar';
+import AvatarButton from './AvatarButton';
 
 type Props = {
 	onPress?: () => void;
 	user: User;
 };
 
-const ListItemUser: React.FC<Props> = ({ user, onPress }) => {
+const UserListItem: React.FC<Props> = ({ user, onPress }) => {
 	const navigation = useNavigation();
+	const toast = useToast();
 
 	const currentUserId = useSelector<ReduxStore, string>(state => {
 		return state.currentUser.id;
@@ -40,26 +40,30 @@ const ListItemUser: React.FC<Props> = ({ user, onPress }) => {
 	}, [followees, user.id]);
 
 	if (user.id === currentUserId) {
-		console.warn(`Tried to create ${ListItemUser.name} for currnetUser`);
+		console.warn(`Tried to create ${UserListItem.name} for currnetUser`);
 		return null;
 	}
 
 	if (!onPress)
-		onPress = () =>
-			navigation.navigate(profileStackProps.name, { userId: user.id });
+		onPress = () => navigation.navigate('ProfileScreen', { userId: user.id });
 
 	const toggleContact = () => {
-		if (followeeContact) deleteContact({ id: followeeContact.id });
-		else createContact({ followeeId: user.id, followerId: currentUserId });
+		if (followeeContact) deleteContact({ id: followeeContact.id }, toast);
+		else
+			createContact({ followeeId: user.id, followerId: currentUserId }, toast);
 	};
 
 	return (
 		<TouchableOpacity onPress={onPress}>
 			<HStack alignItems="center" justifyContent="space-between" p={2}>
 				<HStack alignItems="center" space={3}>
-					<ButtonAvatar uri={user.avatar} userId={user.id} />
+					<AvatarButton
+						size="small"
+						source={{ s3Key: user.avatar }}
+						userId={user.id}
+					/>
 					{user.displayName && <Text>{user.displayName}</Text>}
-					<Text color={gray}>{formatHandler(user.name)}</Text>
+					<Text color={colors.gray}>{formatHandler(user.name)}</Text>
 				</HStack>
 				<TouchableOpacity onPress={toggleContact}>
 					<Icon
@@ -68,7 +72,7 @@ const ListItemUser: React.FC<Props> = ({ user, onPress }) => {
 								name={followeeContact ? 'heart' : 'heart-outline'}
 							/>
 						}
-						color={red}
+						color={colors.red}
 					/>
 				</TouchableOpacity>
 			</HStack>
@@ -77,4 +81,4 @@ const ListItemUser: React.FC<Props> = ({ user, onPress }) => {
 	);
 };
 
-export default ListItemUser;
+export default UserListItem;

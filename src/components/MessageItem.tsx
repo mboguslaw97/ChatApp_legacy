@@ -6,10 +6,8 @@ import React, { useState } from 'react';
 import { TouchableOpacity } from 'react-native';
 import { useSelector } from 'react-redux';
 
-import { gray } from '../global/constants';
+import { colors } from '../global/constants';
 import { Message, MessageType } from '../global/types';
-import messageStackProps from '../screens/MessageScreen';
-import profileStackProps from '../screens/ProfileScreen';
 import { ReduxStore } from '../store';
 import ConditionalWrapper from './ConditionalWrapper';
 import MyImage from './MyImage';
@@ -31,10 +29,10 @@ const MessageItem: React.FC<Props> = ({ message }) => {
 	const [maxLineCountReached, setMaxLineCountReached] = useState(false);
 
 	const onPressAvatar = () =>
-		navigation.navigate(profileStackProps.name, { userId: message.userId });
+		navigation.navigate('ProfileScreen', { userId: message.userId });
 
 	const onPressContent = () =>
-		navigation.navigate(messageStackProps.name, { message });
+		navigation.navigate('MessageScreen', { message });
 
 	// @ts-ignore: TextLayoutEvent is the type
 	const onTextLayout = e =>
@@ -99,7 +97,7 @@ const MessageItem: React.FC<Props> = ({ message }) => {
 						/>
 					</TouchableOpacity>
 				)}
-				<Text color={gray}>{time}</Text>
+				<Text color={colors.gray}>{time}</Text>
 			</VStack>
 		</HStack>
 	);
