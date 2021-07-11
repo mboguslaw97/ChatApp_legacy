@@ -1,16 +1,15 @@
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
-import { Divider, HStack, Icon, Text, useToast } from 'native-base';
-import React, { useEffect, useState } from 'react';
+import { Divider, HStack, Text } from 'native-base';
+import React from 'react';
 import { TouchableOpacity } from 'react-native';
 import { useSelector } from 'react-redux';
 
 import { colors } from '../global/constants';
-import { Contact, User } from '../global/types';
+import { User } from '../global/types';
 import { ReduxStore } from '../store';
-import { createContact, deleteContact } from '../utils/api/mutations';
 import { formatHandler } from '../utils/helper';
 import AvatarButton from './AvatarButton';
+import FollowButton from './FollowButton';
 
 type Props = {
 	onPress?: () => void;
@@ -19,25 +18,10 @@ type Props = {
 
 const UserListItem: React.FC<Props> = ({ user, onPress }) => {
 	const navigation = useNavigation();
-	const toast = useToast();
 
 	const currentUserId = useSelector<ReduxStore, string>(state => {
 		return state.currentUser.id;
 	});
-
-	const followees = useSelector<ReduxStore, Contact[]>(state => {
-		return state.currentUser.followees.items;
-	});
-
-	const [followeeContact, setFolloweeContact] = useState<Contact | undefined>(
-		undefined
-	);
-
-	useEffect(() => {
-		setFolloweeContact(
-			followees.find(contact => contact.followeeId === user.id)
-		);
-	}, [followees, user.id]);
 
 	if (user.id === currentUserId) {
 		console.warn(`Tried to create ${UserListItem.name} for currnetUser`);
@@ -46,12 +30,6 @@ const UserListItem: React.FC<Props> = ({ user, onPress }) => {
 
 	if (!onPress)
 		onPress = () => navigation.navigate('ProfileScreen', { userId: user.id });
-
-	const toggleContact = () => {
-		if (followeeContact) deleteContact({ id: followeeContact.id }, toast);
-		else
-			createContact({ followeeId: user.id, followerId: currentUserId }, toast);
-	};
 
 	return (
 		<TouchableOpacity onPress={onPress}>
@@ -65,16 +43,7 @@ const UserListItem: React.FC<Props> = ({ user, onPress }) => {
 					{user.displayName && <Text>{user.displayName}</Text>}
 					<Text color={colors.gray}>{formatHandler(user.name)}</Text>
 				</HStack>
-				<TouchableOpacity onPress={toggleContact}>
-					<Icon
-						as={
-							<MaterialCommunityIcons
-								name={followeeContact ? 'heart' : 'heart-outline'}
-							/>
-						}
-						color={colors.red}
-					/>
-				</TouchableOpacity>
+				<FollowButton user={user} />
 			</HStack>
 			<Divider />
 		</TouchableOpacity>

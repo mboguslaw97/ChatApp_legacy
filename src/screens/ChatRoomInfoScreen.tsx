@@ -1,4 +1,4 @@
-import { Box, Button, Text, useToast } from 'native-base';
+import { Button, FormControl, Input, useToast, VStack } from 'native-base';
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
@@ -27,8 +27,11 @@ const ChatRoomInfoScreen: React.FC<ChatRoomInfoScreenProps> = ({
 		.map(chatRoomUser => chatRoomUser.user);
 
 	return (
-		<Box>
-			<Text>{chatRoom.name}</Text>
+		<VStack pt={5}>
+			<FormControl>
+				<FormControl.Label>Topic</FormControl.Label>
+				<Input defaultValue={chatRoom.name} isDisabled />
+			</FormControl>
 			<Button
 				onPress={() => navigation.navigate('ContactListScreen', { users })}
 			>
@@ -41,7 +44,7 @@ const ChatRoomInfoScreen: React.FC<ChatRoomInfoScreenProps> = ({
 			>
 				Leave Room
 			</Button>
-		</Box>
+		</VStack>
 	);
 };
 

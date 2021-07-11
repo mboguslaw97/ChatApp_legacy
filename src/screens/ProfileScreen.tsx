@@ -5,6 +5,7 @@ import {
 	Button,
 	Center,
 	FormControl,
+	HStack,
 	Icon,
 	IconButton,
 	Input,
@@ -12,6 +13,7 @@ import {
 	Text,
 	useDisclose,
 	useToast,
+	VStack,
 } from 'native-base';
 import React, { useEffect, useState } from 'react';
 import { KeyboardAvoidingView } from 'react-native';
@@ -21,6 +23,7 @@ import { useSelector } from 'react-redux';
 import { UpdateUserInput } from '../API';
 import AvatarButton from '../components/AvatarButton';
 import CameraActionSheet from '../components/CameraActionSheet';
+import FollowButton from '../components/FollowButton';
 import { colors } from '../global/constants';
 import { User } from '../global/types';
 import { getUser as getUserGql } from '../graphql/queries';
@@ -44,17 +47,17 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation, route }) => {
 	const [bio, setBio] = useState('');
 	const [displayName, setDisplayName] = useState('');
 	const [user, setUser] = useState<User>();
-	const [userIsCurrentUser, setUserIsCurrentUser] = useState(false);
+	const [isCurrentUser, setIsCurrentUser] = useState(false);
 
 	useEffect(() => {
 		if (userId && userId !== currentUser.id) {
-			setUserIsCurrentUser(false);
+			setIsCurrentUser(false);
 			(async () => {
 				const tmpUser = await getUser(getUserGql, userId);
 				setUser(tmpUser);
 			})();
 		} else {
-			setUserIsCurrentUser(true);
+			setIsCurrentUser(true);
 			setUser(currentUser);
 		}
 	}, [userId, currentUser]);
@@ -85,7 +88,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation, route }) => {
 
 		navigation.setOptions({
 			headerRight: () =>
-				userIsCurrentUser &&
+				isCurrentUser &&
 				displayName &&
 				bio?.length < 500 &&
 				displayName.length < 25 ? (
@@ -103,26 +106,21 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation, route }) => {
 				) : null,
 		});
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [
-		avatar,
-		bio,
-		currentUser,
-		displayName,
-		navigation,
-		user,
-		userIsCurrentUser,
-	]);
+	}, [avatar, bio, currentUser, displayName, navigation, user, isCurrentUser]);
 
 	return (
 		<KeyboardAvoidingView behavior="position">
 			<ScrollView>
 				<Center mt={4}>
 					<AvatarButton
-						onPress={userIsCurrentUser ? onOpen : undefined}
+						onPress={isCurrentUser ? onOpen : undefined}
 						size="large"
 						source={{ s3Key: avatar }}
 					/>
-					<Text fontSize="xl">{formatHandler(user?.name)}</Text>
+					<HStack mt={2} space={2}>
+						<Text fontSize="xl">{formatHandler(user?.name)}</Text>
+						{!isCurrentUser && user && <FollowButton user={user} />}
+					</HStack>
 				</Center>
 				<FormControl>
 					<FormControl.Label>Email</FormControl.Label>
@@ -147,7 +145,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation, route }) => {
 					/>
 				</FormControl>
 
-				{userIsCurrentUser && (
+				{isCurrentUser && (
 					<>
 						<Button onPress={() => navigator.navigate('ContactListScreen')}>
 							Friends
