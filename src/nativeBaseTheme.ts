@@ -18,7 +18,7 @@ const nativeBaseTheme = {
 		},
 		FormControl: {
 			defaultProps: {
-				mb: 2,
+				mb: 3,
 				pl: 3,
 				pr: 3,
 			},

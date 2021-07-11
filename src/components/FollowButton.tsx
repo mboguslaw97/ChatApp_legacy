@@ -1,6 +1,5 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
-import { Divider, HStack, Icon, Text, useToast } from 'native-base';
+import { Icon, useToast } from 'native-base';
 import React, { useEffect, useState } from 'react';
 import { TouchableOpacity } from 'react-native';
 import { useSelector } from 'react-redux';
@@ -9,8 +8,6 @@ import { colors } from '../global/constants';
 import { Contact, User } from '../global/types';
 import { ReduxStore } from '../store';
 import { createContact, deleteContact } from '../utils/api/mutations';
-import { formatHandler } from '../utils/helper';
-import AvatarButton from './AvatarButton';
 
 type Props = {
 	onPress?: () => void;

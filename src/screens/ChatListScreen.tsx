@@ -5,7 +5,6 @@ import { FlatList } from 'react-native';
 import { useSelector } from 'react-redux';
 
 import ChatRoomItem from '../components/ChatRoomItem';
-import { colors } from '../global/constants';
 import { User } from '../global/types';
 import { ChatListScreenProps } from '../navigation/types';
 import { ReduxStore } from '../store';

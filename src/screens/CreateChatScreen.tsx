@@ -1,8 +1,17 @@
-import { Button, FormControl, Input, Tabs, Text, useToast } from 'native-base';
+import {
+	Button,
+	FormControl,
+	HStack,
+	Input,
+	Tabs,
+	Text,
+	useToast,
+} from 'native-base';
 import React, { useState } from 'react';
 import { ScrollView } from 'react-native';
 import { useSelector } from 'react-redux';
 
+import Tag from '../components/Tag';
 import { User } from '../global/types';
 import { CreateChatScreenProps, StackProps } from '../navigation/types';
 import { ReduxStore } from '../store';
@@ -15,6 +24,17 @@ const CreateChatScreen: React.FC<CreateChatScreenProps> = ({ navigation }) => {
 
 	const [topic, setTopic] = useState('');
 	const [maxUsers, setMaxUsers] = useState(10);
+	const [tag, setTag] = useState('');
+	const [tags, setTags] = useState<string[]>([]);
+
+	const addTag = () => {
+		const tag2 = tag.trim();
+		if (tag2 && !tags.includes(tag2)) setTags([...tags, tag2]);
+		setTag('');
+	};
+
+	const removeTag = (tag2: string) =>
+		setTags(tags.filter(tag3 => tag3 !== tag2));
 
 	const onSubmit = async () => {
 		if (!topic) return;
@@ -50,6 +70,7 @@ const CreateChatScreen: React.FC<CreateChatScreenProps> = ({ navigation }) => {
 					maxLength={500}
 					multiline
 					onChangeText={text => setTopic(text)}
+					value={topic}
 				/>
 			</FormControl>
 		);
@@ -72,20 +93,13 @@ const CreateChatScreen: React.FC<CreateChatScreenProps> = ({ navigation }) => {
 	return (
 		<Tabs isFitted>
 			<Tabs.Bar>
-				<Tabs.Tab>Private</Tabs.Tab>
-			</Tabs.Bar>
-			<Tabs.Bar>
 				<Tabs.Tab>Public</Tabs.Tab>
 			</Tabs.Bar>
+			<Tabs.Bar>
+				<Tabs.Tab>Private</Tabs.Tab>
+			</Tabs.Bar>
+
 			<Tabs.Views>
-				<Tabs.View>
-					<ScrollView style={{ height: '100%' }}>
-						<Description value="Only invited users can view or join a private chat room" />
-						<TopicInput />
-						<InviteFriendsButton />
-						<SubmitButton />
-					</ScrollView>
-				</Tabs.View>
 				<Tabs.View>
 					<ScrollView style={{ height: '100%' }}>
 						<Description value="Public chat rooms are available to all users via the discover tab. Anyone can join a public chat room." />
@@ -100,6 +114,28 @@ const CreateChatScreen: React.FC<CreateChatScreenProps> = ({ navigation }) => {
 								placeholder="Max Users"
 							/>
 						</FormControl>
+						<FormControl>
+							<FormControl.Label>Add Tags</FormControl.Label>
+							<Input
+								maxLength={25}
+								onChangeText={(text: string) => setTag(text)}
+								onSubmitEditing={addTag}
+								value={tag}
+							/>
+						</FormControl>
+						<HStack flexWrap="wrap" mb={2} mx={3} space={2}>
+							{tags.map(tag2 => (
+								<Tag key={tag2} onClose={removeTag} value={tag2} />
+							))}
+						</HStack>
+						<InviteFriendsButton />
+						<SubmitButton />
+					</ScrollView>
+				</Tabs.View>
+				<Tabs.View>
+					<ScrollView style={{ height: '100%' }}>
+						<Description value="Only invited users can view or join a private chat room" />
+						<TopicInput />
 						<InviteFriendsButton />
 						<SubmitButton />
 					</ScrollView>

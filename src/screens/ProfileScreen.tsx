@@ -13,7 +13,6 @@ import {
 	Text,
 	useDisclose,
 	useToast,
-	VStack,
 } from 'native-base';
 import React, { useEffect, useState } from 'react';
 import { KeyboardAvoidingView } from 'react-native';
@@ -157,6 +156,15 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation, route }) => {
 							variant="outline"
 						>
 							Logout
+						</Button>
+					</>
+				)}
+
+				{!isCurrentUser && (
+					<>
+						<Button>Message</Button>
+						<Button colorScheme="secondary" variant="outline">
+							Block
 						</Button>
 					</>
 				)}

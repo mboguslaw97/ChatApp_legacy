@@ -10,7 +10,6 @@ import {
 	useToast,
 } from 'native-base';
 import React, { useState } from 'react';
-import { Keyboard } from 'react-native';
 
 import { colors } from '../global/constants';
 import { MessageType } from '../global/types';

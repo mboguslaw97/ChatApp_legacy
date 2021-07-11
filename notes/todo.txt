@@ -1,3 +1,5 @@
+Screen enum
+Icon util to make it easier to use the same icons across app
 Private/public rooms
 Create dm
 Sort browse chat rooms
