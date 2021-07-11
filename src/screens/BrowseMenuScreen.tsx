@@ -5,7 +5,7 @@ import { FlatList } from 'react-native';
 import { useSelector } from 'react-redux';
 
 import ChatRoomItem from '../components/ChatRoomItem';
-import { BrowseMenuScreenProps } from '../navigation/types';
+import { BrowseMenuScreenProps, StackProps } from '../navigation/types';
 import { BrowseChatRooms, ReduxStore } from '../store';
 
 const BrowseMenuScreen: React.FC<BrowseMenuScreenProps> = ({ navigation }) => {
@@ -42,7 +42,7 @@ const BrowseMenuScreen: React.FC<BrowseMenuScreenProps> = ({ navigation }) => {
 	);
 };
 
-const browseMenuStackProps = {
+const browseMenuStackProps: StackProps<BrowseMenuScreenProps> = {
 	component: BrowseMenuScreen,
 	name: 'BrowseMenuScreen',
 	options: { title: 'Browse' },

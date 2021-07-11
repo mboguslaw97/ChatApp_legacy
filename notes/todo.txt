@@ -1,5 +1,6 @@
 Screen enum
 Icon util to make it easier to use the same icons across app
+Use classes instead of redux?
 Private/public rooms
 Create dm
 Sort browse chat rooms

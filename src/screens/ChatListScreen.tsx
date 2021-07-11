@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 
 import ChatRoomItem from '../components/ChatRoomItem';
 import { User } from '../global/types';
-import { ChatListScreenProps } from '../navigation/types';
+import { ChatListScreenProps, StackProps } from '../navigation/types';
 import { ReduxStore } from '../store';
 
 const ChatListScreen: React.FC<ChatListScreenProps> = ({ navigation }) => {
@@ -44,7 +44,7 @@ const ChatListScreen: React.FC<ChatListScreenProps> = ({ navigation }) => {
 	);
 };
 
-const chatListStackProps = {
+const chatListStackProps: StackProps<ChatListScreenProps> = {
 	component: ChatListScreen,
 	name: 'ChatListScreen',
 	options: { title: 'Chats' },

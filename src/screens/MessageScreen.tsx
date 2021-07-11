@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 
 import MyImage from '../components/MyImage';
 import { MessageType } from '../global/types';
-import { MessageScreenProps } from '../navigation/types';
+import { MessageScreenProps, StackProps } from '../navigation/types';
 
 const MessageScreen: React.FC<MessageScreenProps> = ({ navigation, route }) => {
 	const { message } = route.params;
@@ -27,7 +27,7 @@ const MessageScreen: React.FC<MessageScreenProps> = ({ navigation, route }) => {
 	return <Container>{content}</Container>;
 };
 
-const MessageStackProps = {
+const MessageStackProps: StackProps<MessageScreenProps> = {
 	component: MessageScreen,
 	name: 'MessageScreen',
 	options: { title: '' },
