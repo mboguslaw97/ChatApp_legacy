@@ -1,17 +1,18 @@
 import {
 	Button,
 	FormControl,
-	HStack,
 	Input,
+	ScrollView,
 	Tabs,
 	Text,
 	useToast,
 } from 'native-base';
 import React, { useState } from 'react';
-import { ScrollView } from 'react-native';
 import { useSelector } from 'react-redux';
 
-import Tag from '../components/Tag';
+import MaxUsersInput from '../components/MaxUsersInput';
+import TagInput from '../components/TagInput';
+import TopicInput from '../components/TopicInput';
 import { User } from '../global/types';
 import { CreateChatScreenProps, StackProps } from '../navigation/types';
 import { ReduxStore } from '../store';
@@ -23,18 +24,8 @@ const CreateChatScreen: React.FC<CreateChatScreenProps> = ({ navigation }) => {
 	const currentUser = useSelector<ReduxStore, User>(state => state.currentUser);
 
 	const [topic, setTopic] = useState('');
-	const [maxUsers, setMaxUsers] = useState(10);
-	const [tag, setTag] = useState('');
+	const [maxUsers, setMaxUsers] = useState(0);
 	const [tags, setTags] = useState<string[]>([]);
-
-	const addTag = () => {
-		const tag2 = tag.trim();
-		if (tag2 && !tags.includes(tag2)) setTags([...tags, tag2]);
-		setTag('');
-	};
-
-	const removeTag = (tag2: string) =>
-		setTags(tags.filter(tag3 => tag3 !== tag2));
 
 	const onSubmit = async () => {
 		if (!topic) return;
@@ -61,21 +52,6 @@ const CreateChatScreen: React.FC<CreateChatScreenProps> = ({ navigation }) => {
 			});
 	};
 
-	const TopicInput = ({ isRequired = false }: { isRequired?: boolean }) => {
-		const label = isRequired ? 'Topic' : 'Topic (Optional)';
-		return (
-			<FormControl isRequired={isRequired}>
-				<FormControl.Label>{label}</FormControl.Label>
-				<Input
-					maxLength={500}
-					multiline
-					onChangeText={text => setTopic(text)}
-					value={topic}
-				/>
-			</FormControl>
-		);
-	};
-
 	const Description = ({ value }: { value: string }) => (
 		<Text mb={5} mx={5}>
 			{value}
@@ -98,36 +74,13 @@ const CreateChatScreen: React.FC<CreateChatScreenProps> = ({ navigation }) => {
 			<Tabs.Bar>
 				<Tabs.Tab>Private</Tabs.Tab>
 			</Tabs.Bar>
-
 			<Tabs.Views>
 				<Tabs.View>
 					<ScrollView style={{ height: '100%' }}>
 						<Description value="Public chat rooms are available to all users via the discover tab. Anyone can join a public chat room." />
-						<TopicInput isRequired />
-						<FormControl isRequired>
-							<FormControl.Label>Max Users</FormControl.Label>
-							<Input
-								defaultValue="10"
-								keyboardType="numeric"
-								maxLength={3}
-								onChangeText={(text: string) => setMaxUsers(parseInt(text, 10))}
-								placeholder="Max Users"
-							/>
-						</FormControl>
-						<FormControl>
-							<FormControl.Label>Add Tags</FormControl.Label>
-							<Input
-								maxLength={25}
-								onChangeText={(text: string) => setTag(text)}
-								onSubmitEditing={addTag}
-								value={tag}
-							/>
-						</FormControl>
-						<HStack flexWrap="wrap" mb={2} mx={3} space={2}>
-							{tags.map(tag2 => (
-								<Tag key={tag2} onClose={removeTag} value={tag2} />
-							))}
-						</HStack>
+						<TopicInput isRequired setTopic={setTopic} />
+						<MaxUsersInput setMaxUsers={setMaxUsers} />
+						<TagInput setTags={setTags} tags={tags} />
 						<InviteFriendsButton />
 						<SubmitButton />
 					</ScrollView>
@@ -135,7 +88,7 @@ const CreateChatScreen: React.FC<CreateChatScreenProps> = ({ navigation }) => {
 				<Tabs.View>
 					<ScrollView style={{ height: '100%' }}>
 						<Description value="Only invited users can view or join a private chat room" />
-						<TopicInput />
+						<TopicInput setTopic={setTopic} />
 						<InviteFriendsButton />
 						<SubmitButton />
 					</ScrollView>

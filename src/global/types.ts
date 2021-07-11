@@ -12,7 +12,13 @@ export type ChatRoom = {
 	messages: {
 		items: Message[];
 	};
-	name?: string;
+	name: string;
+	maxUsers: number;
+	isPublic: boolean;
+	tags: string[];
+	moderators: {
+		items: User[];
+	};
 };
 
 export type ChatRoomUser = {

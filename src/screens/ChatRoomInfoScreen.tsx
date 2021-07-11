@@ -1,7 +1,9 @@
 import { Button, FormControl, Input, useToast, VStack } from 'native-base';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
+import MaxUsersInput from '../components/MaxUsersInput';
+import TagInput from '../components/TagInput';
 import { ChatRoomInfoScreenProps, StackProps } from '../navigation/types';
 import { ReduxStore } from '../store';
 import { leaveChatRoom } from '../utils/helper';
@@ -14,13 +16,15 @@ const ChatRoomInfoScreen: React.FC<ChatRoomInfoScreenProps> = ({
 
 	const toast = useToast();
 
+	const [tags, setTags] = useState<string[]>(chatRoom.tags);
+
 	const currentUserId = useSelector<ReduxStore, string>(state => {
 		return state.currentUser.id;
 	});
 
-	useEffect(() => {
-		navigation.setOptions({ title: 'Room Info' });
-	}, [navigation]);
+	const isOwner = chatRoom.moderators.items
+		.map(user => user.id)
+		.includes(currentUserId);
 
 	const users = chatRoom.chatRoomUsers.items
 		.filter(chatRoomUser => chatRoomUser.userId !== currentUserId)
@@ -32,6 +36,10 @@ const ChatRoomInfoScreen: React.FC<ChatRoomInfoScreenProps> = ({
 				<FormControl.Label>Topic</FormControl.Label>
 				<Input defaultValue={chatRoom.name} isDisabled />
 			</FormControl>
+			{!!chatRoom.maxUsers && <MaxUsersInput maxUsers={chatRoom.maxUsers} />}
+			{chatRoom.isPublic && (
+				<TagInput setTags={isOwner ? setTags : undefined} tags={tags} />
+			)}
 			<Button
 				onPress={() => navigation.navigate('ContactListScreen', { users })}
 			>
