@@ -1,9 +1,5 @@
-Fix MyImage
-Fix circular dependency
-
 Private/public rooms
 Create dm
-Speed up chatroom with lots of images
 Sort browse chat rooms
 Query pagination
 Support the dev
@@ -14,14 +10,14 @@ Ads
 Better message timestamps
 Invite friends to new chat
 Add friend on profile screen
+Create random chat
 Add hashtags to post
 Invite friend to room
-Settings page
-Custom login page
-Android textinput KeyboardAvoidingView
 Search feature
+Settings page
 Message reactions
-Create random chat
+Speed up chatroom with lots of images
+Android textinput KeyboardAvoidingView
 
 Maybe:
   Remove .items from types

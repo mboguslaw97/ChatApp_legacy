@@ -126,7 +126,12 @@ const InputToolbar: React.FC<Props> = ({
 						)}
 						{(!!text || !!image) && (
 							<IconButton
-								icon={<Icon as={<MaterialCommunityIcons name="send" />} />}
+								icon={
+									<Icon
+										as={<MaterialCommunityIcons name="send" />}
+										color={colors.primary}
+									/>
+								}
 								onPress={sendMessage}
 							/>
 						)}

@@ -49,6 +49,9 @@ const getPath = (key: string) =>
 // TODO: What happens when image is pushed out of cash?
 export const fetchFile = async (key: string): Promise<string> => {
 	const path = getPath(key);
+
+	if (Platform.OS === 'web') return Storage.get(key) as Promise<string>;
+
 	return FileSystem.getInfoAsync(path).then(image => {
 		if (image.exists) return image.uri;
 		console.log('Fetching image from S3');

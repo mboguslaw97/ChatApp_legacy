@@ -34,7 +34,11 @@ const ChatRoomInfoScreen: React.FC<ChatRoomInfoScreenProps> = ({
 			>
 				Members
 			</Button>
-			<Button onPress={() => leaveChatRoom(chatRoom, currentUserId, toast)}>
+			<Button
+				colorScheme="secondary"
+				onPress={() => leaveChatRoom(chatRoom, currentUserId, toast)}
+				variant="outline"
+			>
 				Leave Room
 			</Button>
 		</Box>

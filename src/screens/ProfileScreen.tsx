@@ -102,27 +102,23 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation, route }) => {
 					/>
 				) : null,
 		});
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [
 		avatar,
 		bio,
 		currentUser,
 		displayName,
 		navigation,
-		toast,
 		user,
 		userIsCurrentUser,
 	]);
 
-	const logout = () => {
-		Auth.signOut();
-	};
-
 	return (
 		<KeyboardAvoidingView behavior="position">
 			<ScrollView>
-				<Center>
+				<Center mt={4}>
 					<AvatarButton
-						onPress={onOpen}
+						onPress={userIsCurrentUser ? onOpen : undefined}
 						size="large"
 						source={{ s3Key: avatar }}
 					/>
@@ -156,8 +152,14 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation, route }) => {
 						<Button onPress={() => navigator.navigate('ContactListScreen')}>
 							Friends
 						</Button>
-						<Button onPress={onOpen}>Change Avatar</Button>
-						<Button onPress={logout}>Logout</Button>
+						{/* <Button onPress={onOpen}>Change Avatar</Button> */}
+						<Button
+							colorScheme="secondary"
+							onPress={() => Auth.signOut()}
+							variant="outline"
+						>
+							Logout
+						</Button>
 					</>
 				)}
 				<Spacer p={10} />

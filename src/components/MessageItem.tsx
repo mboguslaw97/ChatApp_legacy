@@ -46,7 +46,7 @@ const MessageItem: React.FC<Props> = ({ message }) => {
 	const borderBottomRightRadius = isCurrentUser ? 0 : borderRadius;
 
 	return (
-		<HStack justifyContent={alignment} mb={5} mx={2}>
+		<HStack justifyContent={alignment} mb={5} mx={2} space={2}>
 			{!isCurrentUser && (
 				<Container>
 					<TouchableOpacity onPress={onPressAvatar}>

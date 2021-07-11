@@ -7,6 +7,7 @@ import { LogBox, Platform } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Provider as ReduxProvider } from 'react-redux';
 
+import amplifyTheme from './amplifyTheme';
 import config from './aws-exports';
 import AppContainer from './components/AppContainer';
 import nativeBaseTheme from './nativeBaseTheme';
@@ -25,12 +26,12 @@ Amplify.configure({
 	Analytics: { disabled: true },
 });
 
-const customTheme = extendTheme(nativeBaseTheme);
+const customNativeBaseTheme = extendTheme(nativeBaseTheme);
 
 const App: React.FC = () => {
 	return (
 		// <React.StrictMode>
-		<NativeBaseProvider theme={customTheme}>
+		<NativeBaseProvider theme={customNativeBaseTheme}>
 			<ReduxProvider store={store}>
 				<SafeAreaProvider>
 					<AppContainer />
@@ -41,4 +42,5 @@ const App: React.FC = () => {
 	);
 };
 
-export default withAuthenticator(App);
+// https://docs.amplify.aws/lib/auth/customui/q/platform/js
+export default withAuthenticator(App, false, [], null, amplifyTheme);
