@@ -1,7 +1,6 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { Box, Icon, IconButton } from 'native-base';
+import { Box, FlatList, Icon, IconButton } from 'native-base';
 import React, { useEffect } from 'react';
-import { FlatList } from 'react-native';
 import { useSelector } from 'react-redux';
 
 import ChatRoomItem from '../components/ChatRoomItem';

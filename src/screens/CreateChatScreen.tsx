@@ -1,12 +1,4 @@
-import {
-	Button,
-	FormControl,
-	Input,
-	ScrollView,
-	Tabs,
-	Text,
-	useToast,
-} from 'native-base';
+import { Button, ScrollView, Tabs, Text, useToast } from 'native-base';
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 

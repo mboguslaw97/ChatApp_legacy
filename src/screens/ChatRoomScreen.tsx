@@ -1,7 +1,7 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { Icon, IconButton } from 'native-base';
+import { FlatList, Icon, IconButton, KeyboardAvoidingView } from 'native-base';
 import React, { useEffect } from 'react';
-import { FlatList, KeyboardAvoidingView, Platform } from 'react-native';
+import { Platform } from 'react-native';
 import { useSelector } from 'react-redux';
 
 import InputToolbar from '../components/InputToolbar';

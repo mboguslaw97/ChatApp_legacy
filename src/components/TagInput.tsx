@@ -13,12 +13,12 @@ const TagInput: React.FC<Props> = ({ tags, setTags }) => {
 
 	const addTag = () => {
 		const tag2 = tag.trim();
-		if (tag2 && !tags.includes(tag2)) setTags([...tags, tag2]);
+		if (setTags && tag2 && !tags.includes(tag2)) setTags([...tags, tag2]);
 		setTag('');
 	};
 
 	const removeTag = (tag2: string) =>
-		setTags(tags.filter(tag3 => tag3 !== tag2));
+		setTags && setTags(tags.filter(tag3 => tag3 !== tag2));
 
 	return (
 		<>

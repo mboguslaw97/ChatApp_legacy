@@ -9,13 +9,13 @@ import {
 	Icon,
 	IconButton,
 	Input,
+	KeyboardAvoidingView,
 	Spacer,
 	Text,
 	useDisclose,
 	useToast,
 } from 'native-base';
 import React, { useEffect, useState } from 'react';
-import { KeyboardAvoidingView } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { useSelector } from 'react-redux';
 

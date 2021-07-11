@@ -1,6 +1,5 @@
-import { Box } from 'native-base';
+import { Box, FlatList } from 'native-base';
 import React, { useEffect } from 'react';
-import { FlatList } from 'react-native';
 import { useSelector } from 'react-redux';
 
 import UserListItem from '../components/UserListItem';
