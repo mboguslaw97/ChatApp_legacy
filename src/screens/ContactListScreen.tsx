@@ -4,7 +4,11 @@ import { useSelector } from 'react-redux';
 
 import UserListItem from '../components/UserListItem';
 import { User } from '../global/types';
-import { ContactListScreenProps, StackProps } from '../navigation/types';
+import {
+	ContactListScreenProps,
+	ScreenNames,
+	StackProps,
+} from '../navigation/types';
 import { ReduxStore } from '../store';
 
 const ContactListScreen: React.FC<ContactListScreenProps> = ({
@@ -34,7 +38,7 @@ const ContactListScreen: React.FC<ContactListScreenProps> = ({
 
 const contactListStackProps: StackProps<ContactListScreenProps> = {
 	component: ContactListScreen,
-	name: 'ContactListScreen',
+	name: ScreenNames.ContactListScreen,
 	options: { title: 'Contacts' },
 };
 

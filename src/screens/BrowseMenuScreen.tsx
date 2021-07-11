@@ -4,7 +4,11 @@ import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
 import ChatRoomItem from '../components/ChatRoomItem';
-import { BrowseMenuScreenProps, StackProps } from '../navigation/types';
+import {
+	BrowseMenuScreenProps,
+	ScreenNames,
+	StackProps,
+} from '../navigation/types';
 import { BrowseChatRooms, ReduxStore } from '../store';
 
 const BrowseMenuScreen: React.FC<BrowseMenuScreenProps> = ({ navigation }) => {
@@ -23,7 +27,7 @@ const BrowseMenuScreen: React.FC<BrowseMenuScreenProps> = ({ navigation }) => {
 							variant="header"
 						/>
 					}
-					onPress={() => navigation.navigate('CreateChatScreen')}
+					onPress={() => navigation.navigate(ScreenNames.CreateChatScreen)}
 				/>
 			),
 		});
@@ -43,7 +47,7 @@ const BrowseMenuScreen: React.FC<BrowseMenuScreenProps> = ({ navigation }) => {
 
 const browseMenuStackProps: StackProps<BrowseMenuScreenProps> = {
 	component: BrowseMenuScreen,
-	name: 'BrowseMenuScreen',
+	name: ScreenNames.BrowseMenuScreen,
 	options: { title: 'Browse' },
 };
 

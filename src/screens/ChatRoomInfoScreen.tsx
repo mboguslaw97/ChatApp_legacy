@@ -4,7 +4,11 @@ import { useSelector } from 'react-redux';
 
 import MaxUsersInput from '../components/MaxUsersInput';
 import TagInput from '../components/TagInput';
-import { ChatRoomInfoScreenProps, StackProps } from '../navigation/types';
+import {
+	ChatRoomInfoScreenProps,
+	ScreenNames,
+	StackProps,
+} from '../navigation/types';
 import { ReduxStore } from '../store';
 import { leaveChatRoom } from '../utils/helper';
 
@@ -41,7 +45,9 @@ const ChatRoomInfoScreen: React.FC<ChatRoomInfoScreenProps> = ({
 				<TagInput setTags={isOwner ? setTags : undefined} tags={tags} />
 			)}
 			<Button
-				onPress={() => navigation.navigate('ContactListScreen', { users })}
+				onPress={() =>
+					navigation.navigate(ScreenNames.ContactListScreen, { users })
+				}
 			>
 				Members
 			</Button>
@@ -58,7 +64,7 @@ const ChatRoomInfoScreen: React.FC<ChatRoomInfoScreenProps> = ({
 
 const chatRoomInfoStackProps: StackProps<ChatRoomInfoScreenProps> = {
 	component: ChatRoomInfoScreen,
-	name: 'ChatRoomInfoScreen',
+	name: ScreenNames.ChatRoomInfoScreen,
 	options: { title: 'Room Info' },
 };
 

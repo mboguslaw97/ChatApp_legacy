@@ -7,7 +7,11 @@ import { useSelector } from 'react-redux';
 import InputToolbar from '../components/InputToolbar';
 import MessageItem from '../components/MessageItem';
 import { User } from '../global/types';
-import { ChatRoomScreenProps, StackProps } from '../navigation/types';
+import {
+	ChatRoomScreenProps,
+	ScreenNames,
+	StackProps,
+} from '../navigation/types';
 import { BrowseChatRooms, ReduxStore } from '../store';
 
 const ChatRoomScreen: React.FC<ChatRoomScreenProps> = ({
@@ -47,7 +51,7 @@ const ChatRoomScreen: React.FC<ChatRoomScreenProps> = ({
 					}
 					onPress={() => {
 						if (chatRoom)
-							navigation.navigate('ChatRoomInfoScreen', { chatRoom });
+							navigation.navigate(ScreenNames.ChatRoomInfoScreen, { chatRoom });
 					}}
 				/>
 			),
@@ -96,7 +100,7 @@ const ChatRoomScreen: React.FC<ChatRoomScreenProps> = ({
 
 const chatRoomStackProps: StackProps<ChatRoomScreenProps> = {
 	component: ChatRoomScreen,
-	name: 'ChatRoomScreen',
+	name: ScreenNames.ChatRoomScreen,
 };
 
 export default chatRoomStackProps;

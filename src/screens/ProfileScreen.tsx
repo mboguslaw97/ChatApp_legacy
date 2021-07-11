@@ -26,7 +26,11 @@ import FollowButton from '../components/FollowButton';
 import { colors } from '../global/constants';
 import { User } from '../global/types';
 import { getUser as getUserGql } from '../graphql/queries';
-import { ProfileScreenProps, StackProps } from '../navigation/types';
+import {
+	ProfileScreenProps,
+	ScreenNames,
+	StackProps,
+} from '../navigation/types';
 import { ReduxStore } from '../store';
 import { updateUser } from '../utils/api/mutations';
 import { getUser } from '../utils/api/queries';
@@ -181,7 +185,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation, route }) => {
 
 const ProfileStackProps: StackProps<ProfileScreenProps> = {
 	component: ProfileScreen,
-	name: 'ProfileScreen',
+	name: ScreenNames.ProfileScreen,
 	options: { title: 'Profile' },
 };
 

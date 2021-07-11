@@ -6,7 +6,11 @@ import MaxUsersInput from '../components/MaxUsersInput';
 import TagInput from '../components/TagInput';
 import TopicInput from '../components/TopicInput';
 import { User } from '../global/types';
-import { CreateChatScreenProps, StackProps } from '../navigation/types';
+import {
+	CreateChatScreenProps,
+	ScreenNames,
+	StackProps,
+} from '../navigation/types';
 import { ReduxStore } from '../store';
 import { createChatRoom, createChatRoomUser } from '../utils/api/mutations';
 
@@ -38,7 +42,7 @@ const CreateChatScreen: React.FC<CreateChatScreenProps> = ({ navigation }) => {
 			.then(chatRoomUser => {
 				if (!chatRoomUser.chatRoomId) throw Error();
 				navigation.goBack();
-				navigation.navigate('ChatRoomScreen', {
+				navigation.navigate(ScreenNames.ChatRoomScreen, {
 					chatRoomId: chatRoomUser.chatRoomId,
 				});
 			});
@@ -92,7 +96,7 @@ const CreateChatScreen: React.FC<CreateChatScreenProps> = ({ navigation }) => {
 
 const createChatStackProps: StackProps<CreateChatScreenProps> = {
 	component: CreateChatScreen,
-	name: 'CreateChatScreen',
+	name: ScreenNames.CreateChatScreen,
 	options: { title: 'New Chat' },
 };
 

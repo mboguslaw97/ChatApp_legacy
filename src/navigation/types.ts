@@ -14,16 +14,28 @@ export type ChatsProps = StackScreenProps<BottomTabParamList, 'Chats'>;
 export type ProfileProps = StackScreenProps<BottomTabParamList, 'Profile'>;
 export type SearchProps = StackScreenProps<BottomTabParamList, 'Search'>;
 
+export enum ScreenNames {
+	BrowseMenuScreen = 'BrowseMenuScreen',
+	ChatListScreen = 'ChatListScreen',
+	ChatRoomInfoScreen = 'ChatRoomInfoScreen',
+	ChatRoomScreen = 'ChatRoomScreen',
+	ContactListScreen = 'ContactListScreen',
+	CreateChatScreen = 'CreateChatScreen',
+	MessageScreen = 'MessageScreen',
+	ProfileScreen = 'ProfileScreen',
+	SettingsScreen = 'SettingsScreen',
+}
+
 export type ScreenProps = {
-	BrowseMenuScreen: undefined;
-	ChatListScreen: undefined;
-	ChatRoomInfoScreen: { chatRoom: ChatRoom };
-	ChatRoomScreen: { chatRoomId: string };
-	ContactListScreen: { users?: User[] };
-	CreateChatScreen: undefined;
-	MessageScreen: { message: Message };
-	ProfileScreen: { userId: string };
-	SettingsScreen: undefined;
+	[ScreenNames.BrowseMenuScreen]: undefined;
+	[ScreenNames.ChatListScreen]: undefined;
+	[ScreenNames.ChatRoomInfoScreen]: { chatRoom: ChatRoom };
+	[ScreenNames.ChatRoomScreen]: { chatRoomId: string };
+	[ScreenNames.ContactListScreen]: { users?: User[] };
+	[ScreenNames.CreateChatScreen]: undefined;
+	[ScreenNames.MessageScreen]: { message: Message };
+	[ScreenNames.ProfileScreen]: { userId: string };
+	[ScreenNames.SettingsScreen]: undefined;
 };
 
 export type StackProps<T> = {
@@ -34,39 +46,45 @@ export type StackProps<T> = {
 
 export type BrowseMenuScreenProps = StackScreenProps<
 	ScreenProps,
-	'BrowseMenuScreen'
+	ScreenNames.BrowseMenuScreen
 >;
 
 export type ChatListScreenProps = StackScreenProps<
 	ScreenProps,
-	'ChatListScreen'
+	ScreenNames.ChatListScreen
 >;
 
 export type ChatRoomScreenProps = StackScreenProps<
 	ScreenProps,
-	'ChatRoomScreen'
+	ScreenNames.ChatRoomScreen
 >;
 
 export type ChatRoomInfoScreenProps = StackScreenProps<
 	ScreenProps,
-	'ChatRoomInfoScreen'
+	ScreenNames.ChatRoomInfoScreen
 >;
 
 export type ContactListScreenProps = StackScreenProps<
 	ScreenProps,
-	'ContactListScreen'
+	ScreenNames.ContactListScreen
 >;
 
 export type CreateChatScreenProps = StackScreenProps<
 	ScreenProps,
-	'CreateChatScreen'
+	ScreenNames.CreateChatScreen
 >;
 
-export type MessageScreenProps = StackScreenProps<ScreenProps, 'MessageScreen'>;
+export type MessageScreenProps = StackScreenProps<
+	ScreenProps,
+	ScreenNames.MessageScreen
+>;
 
-export type ProfileScreenProps = StackScreenProps<ScreenProps, 'ProfileScreen'>;
+export type ProfileScreenProps = StackScreenProps<
+	ScreenProps,
+	ScreenNames.ProfileScreen
+>;
 
 export type SettingsScreenProps = StackScreenProps<
 	ScreenProps,
-	'SettingsScreen'
+	ScreenNames.SettingsScreen
 >;
