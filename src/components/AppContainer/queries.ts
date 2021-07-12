@@ -10,8 +10,10 @@ export const getUser = /* GraphQL */ `
 			chatRoomUsers {
 				items {
 					id
+					isModerator
 					chatRoom {
 						id
+						isPublic
 						messages {
 							items {
 								content
@@ -28,8 +30,9 @@ export const getUser = /* GraphQL */ `
 						}
 						chatRoomUsers {
 							items {
-								chatRoomId
 								id
+								chatRoomId
+								isModerator
 								user {
 									avatar
 									displayName
@@ -40,6 +43,7 @@ export const getUser = /* GraphQL */ `
 							}
 						}
 						name
+						tags
 						updatedAt
 					}
 					chatRoomId

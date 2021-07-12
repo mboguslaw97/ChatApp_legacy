@@ -1,6 +1,9 @@
-Screen enum
+Use classes with/instead of redux?
+Modify types instead of creating new ones: https://stackoverflow.com/questions/41285211/overriding-interface-property-type-defined-in-typescript-d-ts-file
 Icon util to make it easier to use the same icons across app
-Use classes instead of redux?
+Improve toaster strategy
+Dm friend
+Invite friend to chatroom
 Private/public rooms
 Create dm
 Sort browse chat rooms
@@ -11,11 +14,7 @@ Limit size of messages
 Send videos
 Ads
 Better message timestamps
-Invite friends to new chat
-Add friend on profile screen
 Create random chat
-Add hashtags to post
-Invite friend to room
 Search feature
 Settings page
 Message reactions

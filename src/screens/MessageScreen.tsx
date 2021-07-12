@@ -18,10 +18,10 @@ const MessageScreen: React.FC<MessageScreenProps> = ({ navigation, route }) => {
 
 	let content;
 	switch (message.type) {
-		case MessageType.Text:
+		case MessageType.text:
 			content = <Text>{message.content}</Text>;
 			break;
-		case MessageType.Image:
+		case MessageType.image:
 			content = <MyImage source={{ s3Key: message.content }} />;
 			break;
 		default:

@@ -7,10 +7,11 @@ type ChatRoom
 	]) {
 	chatRoomUsers: [ChatRoomUser]! @connection(keyName: "byChatRoom", fields: ["id"])
 	id: ID!
+	isPublic: Boolean!
 	maxUsers: Int!
 	messages: [Message]! @connection(keyName: "byChatRoom", fields: ["id"])
 	name: String!
-	type: String!
+	tags: [String]!
 }
 
 type ChatRoomUser
@@ -54,6 +55,11 @@ type Contact
 	id: ID!
 }
 
+enum MessageType {
+  text
+	image
+}
+
 type Message
 	@model
 	@key(
@@ -67,7 +73,7 @@ type Message
 	content: String!
 	createdAt: String!
 	id: ID!
-	type: String!
+	type: MessageType!
 	user: User! @connection(fields: ["userId"])
 	userId: ID!
 }

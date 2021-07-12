@@ -63,9 +63,9 @@ const ChatRoomItem: React.FC<Props> = ({ chatRoom }) => {
 		lastMessage && moment(lastMessage.createdAt).format('MM/DD/YYYY');
 
 	let lastMessageText = 'No messages yet';
-	if (lastMessage?.type === MessageType.Text)
+	if (lastMessage?.type === MessageType.text)
 		lastMessageText = lastMessage.content;
-	if (lastMessage?.type === MessageType.Image)
+	if (lastMessage?.type === MessageType.image)
 		lastMessageText = `${lastMessage.user.name} sent an image`;
 
 	return (

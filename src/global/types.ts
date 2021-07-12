@@ -1,30 +1,26 @@
 import { IToastProps } from 'native-base/lib/typescript/components/composites/Toast/types';
 
+import { MessageType } from '../API';
+
 export type Toast = {
 	show: (props: IToastProps) => void;
 };
 
 export type ChatRoom = {
-	chatRoomUsers: {
-		items: ChatRoomUser[];
-	};
+	chatRoomUsers: { items: ChatRoomUser[] };
 	id: string;
-	messages: {
-		items: Message[];
-	};
-	name: string;
-	maxUsers: number;
 	isPublic: boolean;
+	maxUsers: number;
+	messages: { items: Message[] };
+	name: string;
 	tags: string[];
-	moderators: {
-		items: User[];
-	};
 };
 
 export type ChatRoomUser = {
 	chatRoom: ChatRoom;
 	chatRoomId: string;
 	id: string;
+	isModerator: boolean;
 	user: User;
 	userId: string;
 };
@@ -37,10 +33,7 @@ export type Contact = {
 	id: string;
 };
 
-export enum MessageType {
-	Text = 'text',
-	Image = 'image',
-}
+export { MessageType };
 
 export type Message = {
 	chatRoom: ChatRoom;
@@ -56,17 +49,11 @@ export type Message = {
 export type User = {
 	avatar: string;
 	bio: string;
-	chatRoomUsers: {
-		items: ChatRoomUser[];
-	};
+	chatRoomUsers: { items: ChatRoomUser[] };
 	displayName: string;
 	email: string;
-	followees: {
-		items: Contact[];
-	};
-	followers: {
-		items: Contact[];
-	};
+	followees: { items: Contact[] };
+	followers: { items: Contact[] };
 	id: string;
 	name: string;
 	phone: string;

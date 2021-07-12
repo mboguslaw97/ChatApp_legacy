@@ -10,3 +10,6 @@ amplify CATEGORY ACTION
 To see a list of commands:
   amplify
   amplify CATEGORY
+
+amplify api push
+amplify codegen

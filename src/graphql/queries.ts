@@ -107,11 +107,13 @@ export const getMessage = /* GraphQL */ `
       updatedAt
       chatRoom {
         id
+        isPublic
         maxUsers
         messages {
           nextToken
         }
         name
+        tags
         createdAt
         updatedAt
         owner
@@ -160,8 +162,10 @@ export const listMessages = /* GraphQL */ `
         updatedAt
         chatRoom {
           id
+          isPublic
           maxUsers
           name
+          tags
           createdAt
           updatedAt
           owner
@@ -308,8 +312,10 @@ export const messagesByChatRoom = /* GraphQL */ `
         updatedAt
         chatRoom {
           id
+          isPublic
           maxUsers
           name
+          tags
           createdAt
           updatedAt
           owner
@@ -335,6 +341,7 @@ export const getChatRoom = /* GraphQL */ `
   query GetChatRoom($id: ID!) {
     getChatRoom(id: $id) {
       id
+      isPublic
       maxUsers
       messages {
         items {
@@ -350,6 +357,7 @@ export const getChatRoom = /* GraphQL */ `
         nextToken
       }
       name
+      tags
       createdAt
       updatedAt
       owner
@@ -377,11 +385,13 @@ export const listChatRooms = /* GraphQL */ `
     listChatRooms(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
+        isPublic
         maxUsers
         messages {
           nextToken
         }
         name
+        tags
         createdAt
         updatedAt
         owner
@@ -404,11 +414,13 @@ export const getChatRoomUser = /* GraphQL */ `
       updatedAt
       chatRoom {
         id
+        isPublic
         maxUsers
         messages {
           nextToken
         }
         name
+        tags
         createdAt
         updatedAt
         owner
@@ -456,8 +468,10 @@ export const listChatRoomUsers = /* GraphQL */ `
         updatedAt
         chatRoom {
           id
+          isPublic
           maxUsers
           name
+          tags
           createdAt
           updatedAt
           owner
@@ -503,8 +517,10 @@ export const chatRoomUsersByUser = /* GraphQL */ `
         updatedAt
         chatRoom {
           id
+          isPublic
           maxUsers
           name
+          tags
           createdAt
           updatedAt
           owner
@@ -550,8 +566,10 @@ export const chatRoomUsersByChatRoom = /* GraphQL */ `
         updatedAt
         chatRoom {
           id
+          isPublic
           maxUsers
           name
+          tags
           createdAt
           updatedAt
           owner

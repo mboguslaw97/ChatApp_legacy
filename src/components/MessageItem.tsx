@@ -62,7 +62,7 @@ const MessageItem: React.FC<Props> = ({ message }) => {
 				</Container>
 			)}
 			<VStack alignItems={alignment} pr={2} width="100%">
-				{message.type === MessageType.Text && (
+				{message.type === MessageType.text && (
 					<ConditionalWrapper
 						condition={maxLineCountReached}
 						wrapper={children => (
@@ -89,7 +89,7 @@ const MessageItem: React.FC<Props> = ({ message }) => {
 						</Container>
 					</ConditionalWrapper>
 				)}
-				{message.type === MessageType.Image && (
+				{message.type === MessageType.image && (
 					<TouchableOpacity onPress={onPressContent}>
 						<MyImage
 							source={{ s3Key: message.content }}

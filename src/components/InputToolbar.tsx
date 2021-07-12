@@ -53,10 +53,10 @@ const InputToolbar: React.FC<Props> = ({
 		let type;
 		if (text) {
 			content = text;
-			type = MessageType.Text;
+			type = MessageType.text;
 		} else if (image) {
 			content = image;
-			type = MessageType.Image;
+			type = MessageType.image;
 		}
 
 		if (content && type)

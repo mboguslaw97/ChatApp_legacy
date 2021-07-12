@@ -55,7 +55,7 @@ export const createMessage = factory<Message, APIt.CreateMessageInput>({
 	gql: CustomGQL.createMessage,
 	key: 'createMessage',
 	process: async input => {
-		if (input.type === MessageType.Image)
+		if (input.type === MessageType.image)
 			input.content = await storeImage(input.content);
 		if (!input.content) throw new Error('content is undefined');
 	},

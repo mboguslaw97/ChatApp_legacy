@@ -26,8 +26,9 @@ const ChatRoomInfoScreen: React.FC<ChatRoomInfoScreenProps> = ({
 		return state.currentUser.id;
 	});
 
-	const isOwner = chatRoom.moderators.items
-		.map(user => user.id)
+	const isOwner = chatRoom.chatRoomUsers.items
+		.filter(chatRoomUser => chatRoomUser.isModerator)
+		.map(chatRoomUser => chatRoomUser.userId)
 		.includes(currentUserId);
 
 	const users = chatRoom.chatRoomUsers.items

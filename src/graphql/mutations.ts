@@ -9,6 +9,7 @@ export const createChatRoom = /* GraphQL */ `
   ) {
     createChatRoom(input: $input, condition: $condition) {
       id
+      isPublic
       maxUsers
       messages {
         items {
@@ -24,6 +25,7 @@ export const createChatRoom = /* GraphQL */ `
         nextToken
       }
       name
+      tags
       createdAt
       updatedAt
       owner
@@ -49,6 +51,7 @@ export const updateChatRoom = /* GraphQL */ `
   ) {
     updateChatRoom(input: $input, condition: $condition) {
       id
+      isPublic
       maxUsers
       messages {
         items {
@@ -64,6 +67,7 @@ export const updateChatRoom = /* GraphQL */ `
         nextToken
       }
       name
+      tags
       createdAt
       updatedAt
       owner
@@ -89,6 +93,7 @@ export const deleteChatRoom = /* GraphQL */ `
   ) {
     deleteChatRoom(input: $input, condition: $condition) {
       id
+      isPublic
       maxUsers
       messages {
         items {
@@ -104,6 +109,7 @@ export const deleteChatRoom = /* GraphQL */ `
         nextToken
       }
       name
+      tags
       createdAt
       updatedAt
       owner
@@ -136,11 +142,13 @@ export const createChatRoomUser = /* GraphQL */ `
       updatedAt
       chatRoom {
         id
+        isPublic
         maxUsers
         messages {
           nextToken
         }
         name
+        tags
         createdAt
         updatedAt
         owner
@@ -186,11 +194,13 @@ export const updateChatRoomUser = /* GraphQL */ `
       updatedAt
       chatRoom {
         id
+        isPublic
         maxUsers
         messages {
           nextToken
         }
         name
+        tags
         createdAt
         updatedAt
         owner
@@ -236,11 +246,13 @@ export const deleteChatRoomUser = /* GraphQL */ `
       updatedAt
       chatRoom {
         id
+        isPublic
         maxUsers
         messages {
           nextToken
         }
         name
+        tags
         createdAt
         updatedAt
         owner
@@ -452,11 +464,13 @@ export const createMessage = /* GraphQL */ `
       updatedAt
       chatRoom {
         id
+        isPublic
         maxUsers
         messages {
           nextToken
         }
         name
+        tags
         createdAt
         updatedAt
         owner
@@ -503,11 +517,13 @@ export const updateMessage = /* GraphQL */ `
       updatedAt
       chatRoom {
         id
+        isPublic
         maxUsers
         messages {
           nextToken
         }
         name
+        tags
         createdAt
         updatedAt
         owner
@@ -554,11 +570,13 @@ export const deleteMessage = /* GraphQL */ `
       updatedAt
       chatRoom {
         id
+        isPublic
         maxUsers
         messages {
           nextToken
         }
         name
+        tags
         createdAt
         updatedAt
         owner

@@ -46,15 +46,12 @@ export const pickImage = async (
 const getPath = (key: string) =>
 	`${FileSystem.cacheDirectory}${shorthash.unique(key)}`;
 
-// TODO: What happens when image is pushed out of cash?
 export const fetchFile = async (key: string): Promise<string> => {
-	const path = getPath(key);
-
 	if (Platform.OS === 'web') return Storage.get(key) as Promise<string>;
 
+	const path = getPath(key);
 	return FileSystem.getInfoAsync(path).then(image => {
 		if (image.exists) return image.uri;
-		console.log('Fetching image from S3');
 		return Storage.get(key)
 			.then(url => FileSystem.downloadAsync(url as string, path))
 			.then(newImage => newImage.uri);

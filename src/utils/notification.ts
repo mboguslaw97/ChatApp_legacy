@@ -9,6 +9,8 @@ export const registerForPushNotification = async (
 ): Promise<void> => {
 	let token;
 	if (Constants.isDevice) {
+		if (Platform.OS === 'web') return;
+
 		const { status: existingStatus } =
 			await Notifications.getPermissionsAsync();
 		let finalStatus = existingStatus;

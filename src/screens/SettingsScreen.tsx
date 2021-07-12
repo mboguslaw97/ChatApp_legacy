@@ -8,6 +8,7 @@ import {
 } from '../navigation/types';
 
 const SettingsScreen: React.FC<SettingsScreenProps> = () => {
+	// TODO
 	return <Button>Support the Developer!</Button>;
 };
 

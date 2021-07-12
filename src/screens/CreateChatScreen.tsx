@@ -22,12 +22,13 @@ const CreateChatScreen: React.FC<CreateChatScreenProps> = ({ navigation }) => {
 	const [topic, setTopic] = useState('');
 	const [maxUsers, setMaxUsers] = useState(0);
 	const [tags, setTags] = useState<string[]>([]);
+	const [tabIndex, setTabIndex] = useState(0);
 
 	const onSubmit = async () => {
 		if (!topic) return;
 
 		// TODO: lambda should create chatRoomUser if chatRoom is created
-		createChatRoom({ maxUsers, name: topic }, toast)
+		createChatRoom({ isPublic: !tabIndex, maxUsers, name: topic, tags }, toast)
 			.then(chatRoom2 => {
 				if (!chatRoom2.id) throw Error();
 				return createChatRoomUser(
@@ -55,7 +56,12 @@ const CreateChatScreen: React.FC<CreateChatScreenProps> = ({ navigation }) => {
 	);
 
 	const InviteFriendsButton = () => (
-		<Button colorScheme="secondary" onPress={onSubmit} variant="outline">
+		<Button
+			colorScheme="secondary"
+			// TODO
+			onPress={() => console.log('Implement this!')}
+			variant="outline"
+		>
 			Invite Friends
 		</Button>
 	);
@@ -63,7 +69,7 @@ const CreateChatScreen: React.FC<CreateChatScreenProps> = ({ navigation }) => {
 	const SubmitButton = () => <Button onPress={onSubmit}>Create</Button>;
 
 	return (
-		<Tabs isFitted>
+		<Tabs isFitted onChange={(i: number) => setTabIndex(i)}>
 			<Tabs.Bar>
 				<Tabs.Tab>Public</Tabs.Tab>
 			</Tabs.Bar>
