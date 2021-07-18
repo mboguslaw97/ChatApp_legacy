@@ -1,4 +1,3 @@
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import moment from 'moment';
 import {
@@ -6,7 +5,6 @@ import {
 	Center,
 	Divider,
 	HStack,
-	Icon,
 	Text,
 	useToast,
 	VStack,
@@ -20,6 +18,7 @@ import { colors } from '../global/constants';
 import { Selectors, Store } from '../store';
 import { deleteChatRoomUser } from '../utils/api/mutations';
 import AvatarButton from './AvatarButton';
+import MyIcon from './MyIcon';
 
 type Props = {
 	chatRoomId: string;
@@ -69,7 +68,7 @@ const ChatRoomItem: React.FC<Props> = ({ chatRoomId }) => {
 				}
 			>
 				<Center bg={colors.red} flex={1} w={20}>
-					<Icon as={<MaterialCommunityIcons name="trash-can-outline" />} />
+					<MyIcon name="trash-can-outline" />
 				</Center>
 			</TouchableOpacity>
 		);

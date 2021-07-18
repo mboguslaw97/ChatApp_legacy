@@ -1,4 +1,3 @@
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/core';
 import { Auth } from 'aws-amplify';
 import {
@@ -6,7 +5,6 @@ import {
 	Center,
 	FormControl,
 	HStack,
-	Icon,
 	IconButton,
 	Input,
 	KeyboardAvoidingView,
@@ -23,6 +21,7 @@ import { UpdateUserInput } from '../API';
 import AvatarButton from '../components/AvatarButton';
 import CameraActionSheet from '../components/CameraActionSheet';
 import FollowButton from '../components/FollowButton';
+import MyIcon from '../components/MyIcon';
 import { colors } from '../global/constants';
 import { getUser as getUserGql } from '../graphql/queries';
 import {
@@ -98,9 +97,9 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation, route }) => {
 				displayName.length < 25 ? (
 					<IconButton
 						icon={
-							<Icon
-								as={<MaterialCommunityIcons name="content-save" />}
+							<MyIcon
 								color={colors.primary}
+								name="content-save"
 								// @ts-ignore
 								variant="header"
 							/>

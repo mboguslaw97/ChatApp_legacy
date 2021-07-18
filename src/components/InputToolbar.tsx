@@ -1,9 +1,7 @@
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 import {
 	Button,
 	Container,
 	HStack,
-	Icon,
 	IconButton,
 	Input,
 	useDisclose,
@@ -16,6 +14,7 @@ import { colors } from '../global/constants';
 import { Actions, Selectors, Store } from '../store';
 import { createChatRoomUser, createMessage } from '../utils/api/mutations';
 import CameraActionSheet from './CameraActionSheet';
+import MyIcon from './MyIcon';
 import MyImage from './MyImage';
 
 type Props = {
@@ -108,12 +107,7 @@ const InputToolbar: React.FC<Props> = ({ chatRoomId, currentUserIsInRoom }) => {
 						)}
 						{!text && !image && (
 							<IconButton
-								icon={
-									<Icon
-										as={<MaterialCommunityIcons name="camera" />}
-										color={colors.primary}
-									/>
-								}
+								icon={<MyIcon color={colors.primary} name="camera" />}
 								onPress={() => {
 									// Keyboard.dismiss();
 									onOpen();
@@ -122,19 +116,14 @@ const InputToolbar: React.FC<Props> = ({ chatRoomId, currentUserIsInRoom }) => {
 						)}
 						{!!image && (
 							<IconButton
-								icon={<Icon as={<MaterialCommunityIcons name="close" />} />}
+								icon={<MyIcon name="close" />}
 								onPress={removeImage}
 								style={{ marginRight: 20 }}
 							/>
 						)}
 						{(!!text || !!image) && (
 							<IconButton
-								icon={
-									<Icon
-										as={<MaterialCommunityIcons name="send" />}
-										color={colors.primary}
-									/>
-								}
+								icon={<MyIcon color={colors.primary} name="send" />}
 								onPress={sendMessage}
 							/>
 						)}

@@ -1,11 +1,11 @@
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { FlatList, Icon, IconButton, KeyboardAvoidingView } from 'native-base';
+import { FlatList, IconButton, KeyboardAvoidingView } from 'native-base';
 import React, { useEffect } from 'react';
 import { Platform } from 'react-native';
 import { useSelector } from 'react-redux';
 
 import InputToolbar from '../components/InputToolbar';
 import MessageItem from '../components/MessageItem';
+import MyIcon from '../components/MyIcon';
 import {
 	ChatRoomScreenProps,
 	ScreenName,
@@ -33,13 +33,8 @@ const ChatRoomScreen: React.FC<ChatRoomScreenProps> = ({
 		navigation.setOptions({
 			headerRight: () => (
 				<IconButton
-					icon={
-						<Icon
-							as={<MaterialCommunityIcons name="information-outline" />}
-							// @ts-ignore
-							variant="header"
-						/>
-					}
+					// @ts-ignore
+					icon={<MyIcon name="information-outline" variant="header" />}
 					onPress={() => {
 						navigation.navigate(ScreenName.ChatRoomInfo, {
 							chatRoomId,

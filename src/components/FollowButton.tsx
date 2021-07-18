@@ -1,5 +1,4 @@
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { Icon, useToast } from 'native-base';
+import { useToast } from 'native-base';
 import React from 'react';
 import { TouchableOpacity } from 'react-native';
 import { useSelector } from 'react-redux';
@@ -7,6 +6,7 @@ import { useSelector } from 'react-redux';
 import { colors } from '../global/constants';
 import { Selectors, Store } from '../store';
 import { createContact, deleteContact } from '../utils/api/mutations';
+import MyIcon from './MyIcon';
 
 type Props = {
 	onPress?: () => void;
@@ -32,12 +32,7 @@ const FollowButton: React.FC<Props> = ({ userId }) => {
 
 	return (
 		<TouchableOpacity onPress={toggleContact}>
-			<Icon
-				as={
-					<MaterialCommunityIcons name={contact ? 'heart' : 'heart-outline'} />
-				}
-				color={colors.red}
-			/>
+			<MyIcon color={colors.red} name={contact ? 'heart' : 'heart-outline'} />
 		</TouchableOpacity>
 	);
 };

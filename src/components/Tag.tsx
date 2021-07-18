@@ -1,6 +1,7 @@
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { Badge, HStack, Icon, IconButton, Text } from 'native-base';
+import { Badge, HStack, IconButton, Text } from 'native-base';
 import React from 'react';
+
+import MyIcon from './MyIcon';
 
 type Props = {
 	value: string;
@@ -14,9 +15,7 @@ const Tag: React.FC<Props> = ({ value, onClose }) => {
 				<Text>{value}</Text>
 				{!!onClose && (
 					<IconButton
-						icon={
-							<Icon as={<MaterialCommunityIcons name="close" />} size="xs" />
-						}
+						icon={<MyIcon name="close" size="xs" />}
 						onPress={() => onClose(value)}
 						style={{ marginLeft: 5 }}
 					/>

@@ -1,9 +1,9 @@
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { Box, FlatList, Icon, IconButton } from 'native-base';
+import { Box, FlatList, IconButton } from 'native-base';
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
 import ChatRoomItem from '../components/ChatRoomItem';
+import MyIcon from '../components/MyIcon';
 import {
 	ChatListScreenProps,
 	ScreenName,
@@ -20,13 +20,8 @@ const ChatListScreen: React.FC<ChatListScreenProps> = ({ navigation }) => {
 		navigation.setOptions({
 			headerRight: () => (
 				<IconButton
-					icon={
-						<Icon
-							as={<MaterialCommunityIcons name="plus" />}
-							// @ts-ignore
-							variant="header"
-						/>
-					}
+					// @ts-ignore
+					icon={<MyIcon name="plus" variant="header" />}
 					onPress={() => navigation.navigate(ScreenName.CreateChat)}
 				/>
 			),

@@ -1,7 +1,7 @@
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React from 'react';
 
+import MyIcon from '../components/MyIcon';
 import BrowseStack from './BrowseStack';
 import ChatsStack from './ChatsStack';
 import ProfileStack from './ProfileStack';
@@ -25,13 +25,9 @@ const BottomTab: React.FC = () => {
 				options={{
 					tabBarIcon: ({ color, focused, size }: TabBarIconProps) =>
 						focused ? (
-							<MaterialCommunityIcons color={color} name="chat" size={size} />
+							<MyIcon color={color} name="chat" size={size} />
 						) : (
-							<MaterialCommunityIcons
-								color={color}
-								name="chat-outline"
-								size={size}
-							/>
+							<MyIcon color={color} name="chat-outline" size={size} />
 						),
 				}}
 			/>
@@ -40,8 +36,7 @@ const BottomTab: React.FC = () => {
 				name="Browse"
 				options={{
 					tabBarIcon: ({ color, size }: TabBarIconProps) => (
-						// <MaterialIcons name="library-books" size={size} color={color} />
-						<MaterialCommunityIcons color={color} name="magnify" size={size} />
+						<MyIcon color={color} name="magnify" size={size} />
 					),
 				}}
 			/>
@@ -51,17 +46,9 @@ const BottomTab: React.FC = () => {
 				options={{
 					tabBarIcon: ({ color, focused, size }: TabBarIconProps) =>
 						focused ? (
-							<MaterialCommunityIcons
-								color={color}
-								name="account-circle"
-								size={size}
-							/>
+							<MyIcon color={color} name="account-circle" size={size} />
 						) : (
-							<MaterialCommunityIcons
-								color={color}
-								name="account-circle-outline"
-								size={size}
-							/>
+							<MyIcon color={color} name="account-circle-outline" size={size} />
 						),
 				}}
 			/>
@@ -71,13 +58,9 @@ const BottomTab: React.FC = () => {
 				options={{
 					tabBarIcon: ({ color, focused, size }: TabBarIconProps) =>
 						focused ? (
-							<MaterialCommunityIcons color={color} name="cog" size={size} />
+							<MyIcon color={color} name="cog" size={size} />
 						) : (
-							<MaterialCommunityIcons
-								color={color}
-								name="cog-outline"
-								size={size}
-							/>
+							<MyIcon color={color} name="cog-outline" size={size} />
 						),
 				}}
 			/>
