@@ -14,9 +14,9 @@ import { TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import { useSelector } from 'react-redux';
 
+import Backend from '../backend';
 import { colors } from '../global/constants';
 import { Selectors, Store } from '../store';
-import { deleteChatRoomUser } from '../utils/api/mutations';
 import AvatarButton from './AvatarButton';
 import MyIcon from './MyIcon';
 
@@ -64,7 +64,8 @@ const ChatRoomItem: React.FC<Props> = ({ chatRoomId }) => {
 		return (
 			<TouchableOpacity
 				onPress={() =>
-					chatRoomUserId && deleteChatRoomUser({ id: chatRoomUserId }, toast)
+					chatRoomUserId &&
+					Backend.deleteChatRoomUser({ id: chatRoomUserId }, toast)
 				}
 			>
 				<Center bg={colors.red} flex={1} w={20}>

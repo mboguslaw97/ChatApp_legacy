@@ -3,9 +3,9 @@ import React from 'react';
 import { TouchableOpacity } from 'react-native';
 import { useSelector } from 'react-redux';
 
+import Backend from '../backend';
 import { colors } from '../global/constants';
 import { Selectors, Store } from '../store';
-import { createContact, deleteContact } from '../utils/api/mutations';
 import MyIcon from './MyIcon';
 
 type Props = {
@@ -25,9 +25,12 @@ const FollowButton: React.FC<Props> = ({ userId }) => {
 	);
 
 	const toggleContact = () => {
-		if (contact) deleteContact({ id: contact.id }, toast);
+		if (contact) Backend.deleteContact({ id: contact.id }, toast);
 		else if (currentUser?.id)
-			createContact({ followeeId: userId, followerId: currentUser.id }, toast);
+			Backend.createContact(
+				{ followeeId: userId, followerId: currentUser.id },
+				toast
+			);
 	};
 
 	return (

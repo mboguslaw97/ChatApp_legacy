@@ -7,11 +7,11 @@ import { LogBox, Platform } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Provider as ReduxProvider } from 'react-redux';
 
-import amplifyTheme from './amplifyTheme';
+import AppContainer from './App2';
 import config from './aws-exports';
-import AppContainer from './components/AppContainer';
-import nativeBaseTheme from './nativeBaseTheme';
 import store from './store';
+import amplifyTheme from './themes/amplifyTheme';
+import nativeBaseTheme from './themes/nativeBaseTheme';
 
 if (Platform.OS !== 'web')
 	LogBox.ignoreLogs([

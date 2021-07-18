@@ -2,7 +2,7 @@ import Constants from 'expo-constants';
 import * as Notifications from 'expo-notifications';
 import { Platform } from 'react-native';
 
-import { updateUser } from './api/mutations';
+import Backend from '../backend';
 
 export const registerForPushNotification = async (
 	userId: string
@@ -23,7 +23,7 @@ export const registerForPushNotification = async (
 			return;
 		}
 		token = (await Notifications.getExpoPushTokenAsync()).data;
-		updateUser({ id: userId, pushToken: token });
+		Backend.updateUser({ id: userId, pushToken: token });
 	} else {
 		alert('Must use physical device for Push Notifications');
 	}

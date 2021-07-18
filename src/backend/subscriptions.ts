@@ -2,9 +2,9 @@ import { GraphQLResult } from '@aws-amplify/api';
 import { API, graphqlOperation } from 'aws-amplify';
 import Observable from 'zen-observable';
 
-import * as APIt from '../../../API';
-import * as GQL from '../../../graphql/subscriptions';
-import * as CustomGQL from './graphql';
+import * as APIt from '../API';
+import * as GQL from '../graphql/subscriptions';
+import * as GQL2 from '../graphql2/subscriptions';
 
 type Args<T> = {
 	gql?: string;
@@ -50,7 +50,7 @@ export const onCreateChatRoomUserByUserId = factory<
 	APIt.ChatRoomUser,
 	APIt.OnCreateChatRoomUserByUserIdSubscriptionVariables
 >({
-	gql: CustomGQL.onCreateChatRoomUserByUserId,
+	gql: GQL2.onCreateChatRoomUserByUserId,
 	key: 'onCreateChatRoomUserByUserId',
 	// process: processChatRoomUser,
 });
@@ -75,7 +75,7 @@ export const onCreateMessage = factory<
 	APIt.Message,
 	APIt.OnCreateMessageByChatRoomIdSubscriptionVariables
 >({
-	gql: CustomGQL.onCreateMessageByChatRoomId,
+	gql: GQL2.onCreateMessageByChatRoomId,
 	key: 'onCreateMessageByChatRoomId',
 	// process: processMessage,
 });
@@ -91,7 +91,7 @@ export const onDeleteChatRoomUserByUserId = factory<
 	APIt.ChatRoomUser,
 	APIt.OnDeleteChatRoomUserByUserIdSubscriptionVariables
 >({
-	gql: CustomGQL.onDeleteChatRoomUserByUserId,
+	gql: GQL2.onDeleteChatRoomUserByUserId,
 	key: 'onDeleteChatRoomUserByUserId',
 });
 

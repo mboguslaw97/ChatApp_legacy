@@ -17,7 +17,7 @@ export const setCurrentUserId = (
 	state.currentUserId = action.payload;
 };
 
-// x@ts-ignore
+// @ts-ignore
 const onUpdateMerge = (x, y) =>
 	_.isArray(x) ? _.uniq(x.concat(y)) : undefined;
 
@@ -35,7 +35,7 @@ export const updateItems = (
 	else normAndMerge(state, action.payload);
 };
 
-// x@ts-ignore
+// @ts-ignore
 const onDeleteMerge = (x, y) => (_.isArray(x) ? _.difference(x, y) : undefined);
 
 export const deleteItem = (

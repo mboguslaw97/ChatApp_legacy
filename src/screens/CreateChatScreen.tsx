@@ -2,6 +2,7 @@ import { Button, ScrollView, Tabs, Text, useToast } from 'native-base';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
+import Backend from '../backend';
 import MaxUsersInput from '../components/MaxUsersInput';
 import TagInput from '../components/TagInput';
 import TopicInput from '../components/TopicInput';
@@ -11,7 +12,6 @@ import {
 	StackProps,
 } from '../navigation/types';
 import { Actions, Selectors, Store } from '../store';
-import { createChatRoom, createChatRoomUser } from '../utils/api/mutations';
 
 const CreateChatScreen: React.FC<CreateChatScreenProps> = ({ navigation }) => {
 	const dispatch = useDispatch();
@@ -30,11 +30,14 @@ const CreateChatScreen: React.FC<CreateChatScreenProps> = ({ navigation }) => {
 		if (!topic) return;
 
 		// TODO: lambda should create chatRoomUser if chatRoom is created
-		createChatRoom({ isPublic: !tabIndex, maxUsers, name: topic, tags }, toast)
+		Backend.createChatRoom(
+			{ isPublic: !tabIndex, maxUsers, name: topic, tags },
+			toast
+		)
 			.then(chatRoom => {
 				if (!currentUserId || !chatRoom.id) throw Error();
 				dispatch(Actions.updateItems(chatRoom));
-				return createChatRoomUser(
+				return Backend.createChatRoomUser(
 					{
 						chatRoomId: chatRoom.id,
 						isModerator: true,

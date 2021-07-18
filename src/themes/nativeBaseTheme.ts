@@ -1,4 +1,4 @@
-import { colors } from './global/constants';
+import { colors } from '../global/constants';
 
 const nativeBaseTheme = {
 	colors: {

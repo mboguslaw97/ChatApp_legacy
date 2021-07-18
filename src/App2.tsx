@@ -3,13 +3,11 @@ import { useToast } from 'native-base';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import Navigation from '../../navigation';
-import { Actions, Selectors, Store } from '../../store';
-import API from '../../utils/api';
-import { createUser } from '../../utils/api/mutations';
-import { getUser, listBrowseChatRooms } from '../../utils/api/queries';
-import { registerForPushNotification } from '../../utils/notification';
-import { getUser as getUserGql } from './queries';
+import Backend from './backend';
+import GraphQL2 from './graphql2';
+import Navigation from './navigation';
+import { Actions, Selectors, Store } from './store';
+import { registerForPushNotification } from './utils/notification';
 
 const AppContainer: React.FC = () => {
 	const dispatch = useDispatch();
@@ -23,10 +21,10 @@ const AppContainer: React.FC = () => {
 		(async () => {
 			const userAuth = await Auth.currentAuthenticatedUser();
 			const userId = userAuth.attributes.sub;
-			let user = await getUser(getUserGql, userId);
+			let user = await Backend.getUser(GraphQL2.getUserFull, userId);
 
 			if (!user) {
-				await createUser(
+				await Backend.createUser(
 					{
 						avatar: 'avatars/72cfc72f-5008-420d-aec6-2d4d15a8f512.png',
 						bio: 'Just joined ChatApp!',
@@ -37,7 +35,7 @@ const AppContainer: React.FC = () => {
 					},
 					toast
 				);
-				user = await getUser(getUserGql, userId);
+				user = await Backend.getUser(GraphQL2.getUserFull, userId);
 			}
 
 			if (user) {
@@ -48,7 +46,7 @@ const AppContainer: React.FC = () => {
 				dispatch(Actions.setCurrentUserId(user.id));
 			}
 
-			const browseChatRooms = await listBrowseChatRooms();
+			const browseChatRooms = await Backend.listBrowseChatRooms();
 			if (browseChatRooms) {
 				dispatch(
 					Actions.setBrowseChatRoomIds(
@@ -67,36 +65,36 @@ const AppContainer: React.FC = () => {
 	useEffect(() => {
 		if (!currentUser) return;
 		const subscriptions = [
-			API.onCreateChatRoomUserByUserId(
+			Backend.onCreateChatRoomUserByUserId(
 				chatRoomUser => dispatch(Actions.updateItems(chatRoomUser)),
 				{ userId: currentUser.id }
 			),
-			API.onCreateFollowee(
+			Backend.onCreateFollowee(
 				contact =>
 					dispatch(Actions.updateItems({ ...contact, __typename: 'Follower' })),
 				{
 					followeeId: currentUser.id,
 				}
 			),
-			API.onCreateFollower(
+			Backend.onCreateFollower(
 				contact =>
 					dispatch(Actions.updateItems({ ...contact, __typename: 'Followee' })),
 				{
 					followerId: currentUser.id,
 				}
 			),
-			API.onDeleteChatRoomUserByUserId(
+			Backend.onDeleteChatRoomUserByUserId(
 				chatRoomUser => dispatch(Actions.deleteItem(chatRoomUser)),
 				{ userId: currentUser.id }
 			),
-			API.onDeleteFollowee(
+			Backend.onDeleteFollowee(
 				contact =>
 					dispatch(Actions.deleteItem({ ...contact, __typename: 'Follower' })),
 				{
 					followeeId: currentUser.id,
 				}
 			),
-			API.onDeleteFollower(
+			Backend.onDeleteFollower(
 				contact =>
 					dispatch(Actions.deleteItem({ ...contact, __typename: 'Followee' })),
 				{
@@ -120,9 +118,12 @@ const AppContainer: React.FC = () => {
 			)
 		);
 		const subscriptions = chatRoomIds.map(chatRoomId =>
-			API.onCreateMessage(message => dispatch(Actions.updateItems(message)), {
-				chatRoomId,
-			})
+			Backend.onCreateMessage(
+				message => dispatch(Actions.updateItems(message)),
+				{
+					chatRoomId,
+				}
+			)
 		);
 		return () =>
 			subscriptions.forEach(

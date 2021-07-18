@@ -1,3 +1,7 @@
+Bugs: 
+Avatar refreshes when typeing on profile screen. useRef instead?
+
+Features:
 Dm friend
 Invite friend to chatroom
 Private/public rooms
@@ -18,16 +22,10 @@ Assign different chatRoomUsers different colors
 Android textinput KeyboardAvoidingView
 
 Debt:
-Use XYZ.f() when calling GQL or Selector or Action
-Organize GQL
-Organize AppContainer
-Use classes with of redux?
-Bug: Avatar refreshes when typeing on profile screen. useRef instead?
-Icon util to make it easier to use the same icons across app
+Move functions retrieving info from items to separate file?
 Improve toaster strategy
 
-
-Maybe:
-  Remove .items from types
-  Logging
+DevOps:
+Logging
+Monitering
 

@@ -1,12 +1,12 @@
 import { GraphQLResult } from '@aws-amplify/api';
 import { API, graphqlOperation } from 'aws-amplify';
 
-import * as APIt from '../../../API';
-import { Toast } from '../../../global/types';
-import * as GQL from '../../../graphql/mutations';
-import { Store } from '../../../store';
-import { storeImage } from '../../storage';
-import * as CustomGQL from './graphql';
+import * as APIt from '../API';
+import { Toast } from '../global/types';
+import * as GQL from '../graphql/mutations';
+import * as GQL2 from '../graphql2/mutations';
+import { Store } from '../store';
+import { storeImage } from '../utils/storage';
 
 type Args<S> = {
 	gql?: string;
@@ -43,14 +43,14 @@ export const createChatRoom = factory<Store.ChatRoom, APIt.CreateChatRoomInput>(
 export const createChatRoomUser = factory<
 	Store.ChatRoomUser,
 	APIt.CreateChatRoomUserInput
->({ gql: CustomGQL.createChatRoomUser, key: 'createChatRoomUser' });
+>({ gql: GQL2.createChatRoomUser, key: 'createChatRoomUser' });
 
 export const createContact = factory<Store.Contact, APIt.CreateContactInput>({
 	key: 'createContact',
 });
 
 export const createMessage = factory<Store.Message, APIt.CreateMessageInput>({
-	gql: CustomGQL.createMessage,
+	gql: GQL2.createMessage,
 	key: 'createMessage',
 	process: async input => {
 		if (input.type === Store.MessageType.image)

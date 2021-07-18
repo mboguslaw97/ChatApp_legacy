@@ -10,9 +10,9 @@ import {
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
+import Backend from '../backend';
 import { colors } from '../global/constants';
 import { Actions, Selectors, Store } from '../store';
-import { createChatRoomUser, createMessage } from '../utils/api/mutations';
 import CameraActionSheet from './CameraActionSheet';
 import MyIcon from './MyIcon';
 import MyImage from './MyImage';
@@ -35,7 +35,7 @@ const InputToolbar: React.FC<Props> = ({ chatRoomId, currentUserIsInRoom }) => {
 
 	const joinRoom = async () => {
 		if (currentUserId)
-			createChatRoomUser(
+			Backend.createChatRoomUser(
 				{
 					chatRoomId,
 					isModerator: false,
@@ -61,7 +61,7 @@ const InputToolbar: React.FC<Props> = ({ chatRoomId, currentUserIsInRoom }) => {
 		}
 
 		if (currentUserId && content && type)
-			createMessage(
+			Backend.createMessage(
 				{
 					chatRoomId,
 					content,

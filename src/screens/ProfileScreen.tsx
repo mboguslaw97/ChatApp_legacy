@@ -18,6 +18,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { useSelector } from 'react-redux';
 
 import { UpdateUserInput } from '../API';
+import Backend from '../backend';
 import AvatarButton from '../components/AvatarButton';
 import CameraActionSheet from '../components/CameraActionSheet';
 import FollowButton from '../components/FollowButton';
@@ -30,8 +31,6 @@ import {
 	StackProps,
 } from '../navigation/types';
 import { Selectors, Store } from '../store';
-import { updateUser } from '../utils/api/mutations';
-import { getUser } from '../utils/api/queries';
 import { formatHandler } from '../utils/helper';
 import { storeImage } from '../utils/storage';
 
@@ -56,7 +55,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation, route }) => {
 		if (userId && userId !== currentUser.id) {
 			setIsCurrentUser(false);
 			(async () => {
-				const tmpUser = await getUser(getUserGql, userId);
+				const tmpUser = await Backend.getUser(getUserGql, userId);
 				setUser(tmpUser);
 			})();
 		} else {
@@ -84,7 +83,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation, route }) => {
 			if (avatar !== user?.avatar && avatar)
 				input.avatar = await storeImage(avatar);
 
-			updateUser(input, toast).then(() =>
+			Backend.updateUser(input, toast).then(() =>
 				toast.show({ status: 'success', title: 'Profile saved!' })
 			);
 		};

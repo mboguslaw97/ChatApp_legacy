@@ -57,7 +57,6 @@ export const onDeleteChatRoomUserByChatRoomId = /* GraphQL */ `
 export const onCreateContactByFolloweeId = /* GraphQL */ `
   subscription OnCreateContactByFolloweeId($followeeId: ID!) {
     onCreateContactByFolloweeId(followeeId: $followeeId) {
-      __typename
       followeeId
       followerId
       id
@@ -70,7 +69,6 @@ export const onCreateContactByFolloweeId = /* GraphQL */ `
 export const onDeleteContactByFolloweeId = /* GraphQL */ `
   subscription OnDeleteContactByFolloweeId($followeeId: ID!) {
     onDeleteContactByFolloweeId(followeeId: $followeeId) {
-      __typename
       followeeId
       followerId
       id
@@ -83,7 +81,6 @@ export const onDeleteContactByFolloweeId = /* GraphQL */ `
 export const onCreateContactByFollowerId = /* GraphQL */ `
   subscription OnCreateContactByFollowerId($followerId: ID!) {
     onCreateContactByFollowerId(followerId: $followerId) {
-      __typename
       followeeId
       followerId
       id
@@ -96,7 +93,6 @@ export const onCreateContactByFollowerId = /* GraphQL */ `
 export const onDeleteContactByFollowerId = /* GraphQL */ `
   subscription OnDeleteContactByFollowerId($followerId: ID!) {
     onDeleteContactByFollowerId(followerId: $followerId) {
-      __typename
       followeeId
       followerId
       id

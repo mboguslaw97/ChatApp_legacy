@@ -2,10 +2,10 @@ import * as Mutations from './mutations';
 import * as Queries from './queries';
 import * as Subscriptions from './subscriptions';
 
-const API = {
+const Backend = {
 	...Mutations,
 	...Queries,
 	...Subscriptions,
 };
 
-export default API;
+export default Backend;

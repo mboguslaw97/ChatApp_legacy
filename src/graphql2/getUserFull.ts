@@ -1,4 +1,4 @@
-export const getUser = /* GraphQL */ `
+const getUserFull = /* GraphQL */ `
 	query GetUser($id: ID!) {
 		getUser(id: $id) {
 			__typename
@@ -122,3 +122,5 @@ export const getUser = /* GraphQL */ `
 		}
 	}
 `;
+
+export default getUserFull;

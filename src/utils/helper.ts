@@ -1,6 +1,6 @@
+import Backend from '../backend';
 import { Toast } from '../global/types';
 import { Store } from '../store';
-import { deleteChatRoomUser } from './api/mutations';
 
 export type ValueOf<T> = T[keyof T];
 
@@ -49,5 +49,5 @@ export const leaveChatRoom = (
 	);
 
 	if (currentChatRoomUser?.id)
-		deleteChatRoomUser({ id: currentChatRoomUser.id }, toast);
+		Backend.deleteChatRoomUser({ id: currentChatRoomUser.id }, toast);
 };
