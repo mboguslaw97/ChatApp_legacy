@@ -2,6 +2,7 @@ import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { TouchableOpacity } from 'react-native';
 
+import { ScreenName } from '../navigation/types';
 import MyImage, { Source } from './MyImage';
 
 type Props = {
@@ -15,7 +16,7 @@ const AvatarButton: React.FC<Props> = ({ onPress, size, source, userId }) => {
 	const navigation = useNavigation();
 
 	const onPress2 =
-		onPress ?? (() => navigation.navigate('ProfileScreen', { userId }));
+		onPress ?? (() => navigation.navigate(ScreenName.Profile, { userId }));
 
 	const radius = size === 'small' ? 50 : 100;
 

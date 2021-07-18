@@ -11,43 +11,7 @@ export const onCreateChatRoomUserByUserId = /* GraphQL */ `
       userId
       createdAt
       updatedAt
-      chatRoom {
-        id
-        isPublic
-        maxUsers
-        messages {
-          nextToken
-        }
-        name
-        tags
-        createdAt
-        updatedAt
-        owner
-        chatRoomUsers {
-          nextToken
-        }
-      }
       owner
-      user {
-        avatar
-        bio
-        displayName
-        followees {
-          nextToken
-        }
-        followers {
-          nextToken
-        }
-        id
-        name
-        pushToken
-        createdAt
-        updatedAt
-        chatRoomUsers {
-          nextToken
-        }
-        owner
-      }
     }
   }
 `;
@@ -60,43 +24,7 @@ export const onDeleteChatRoomUserByUserId = /* GraphQL */ `
       userId
       createdAt
       updatedAt
-      chatRoom {
-        id
-        isPublic
-        maxUsers
-        messages {
-          nextToken
-        }
-        name
-        tags
-        createdAt
-        updatedAt
-        owner
-        chatRoomUsers {
-          nextToken
-        }
-      }
       owner
-      user {
-        avatar
-        bio
-        displayName
-        followees {
-          nextToken
-        }
-        followers {
-          nextToken
-        }
-        id
-        name
-        pushToken
-        createdAt
-        updatedAt
-        chatRoomUsers {
-          nextToken
-        }
-        owner
-      }
     }
   }
 `;
@@ -109,43 +37,7 @@ export const onCreateChatRoomUserByChatRoomId = /* GraphQL */ `
       userId
       createdAt
       updatedAt
-      chatRoom {
-        id
-        isPublic
-        maxUsers
-        messages {
-          nextToken
-        }
-        name
-        tags
-        createdAt
-        updatedAt
-        owner
-        chatRoomUsers {
-          nextToken
-        }
-      }
       owner
-      user {
-        avatar
-        bio
-        displayName
-        followees {
-          nextToken
-        }
-        followers {
-          nextToken
-        }
-        id
-        name
-        pushToken
-        createdAt
-        updatedAt
-        chatRoomUsers {
-          nextToken
-        }
-        owner
-      }
     }
   }
 `;
@@ -158,251 +50,59 @@ export const onDeleteChatRoomUserByChatRoomId = /* GraphQL */ `
       userId
       createdAt
       updatedAt
-      chatRoom {
-        id
-        isPublic
-        maxUsers
-        messages {
-          nextToken
-        }
-        name
-        tags
-        createdAt
-        updatedAt
-        owner
-        chatRoomUsers {
-          nextToken
-        }
-      }
       owner
-      user {
-        avatar
-        bio
-        displayName
-        followees {
-          nextToken
-        }
-        followers {
-          nextToken
-        }
-        id
-        name
-        pushToken
-        createdAt
-        updatedAt
-        chatRoomUsers {
-          nextToken
-        }
-        owner
-      }
     }
   }
 `;
 export const onCreateContactByFolloweeId = /* GraphQL */ `
   subscription OnCreateContactByFolloweeId($followeeId: ID!) {
     onCreateContactByFolloweeId(followeeId: $followeeId) {
+      __typename
       followeeId
       followerId
       id
       createdAt
       updatedAt
       owner
-      followee {
-        avatar
-        bio
-        displayName
-        followees {
-          nextToken
-        }
-        followers {
-          nextToken
-        }
-        id
-        name
-        pushToken
-        createdAt
-        updatedAt
-        chatRoomUsers {
-          nextToken
-        }
-        owner
-      }
-      follower {
-        avatar
-        bio
-        displayName
-        followees {
-          nextToken
-        }
-        followers {
-          nextToken
-        }
-        id
-        name
-        pushToken
-        createdAt
-        updatedAt
-        chatRoomUsers {
-          nextToken
-        }
-        owner
-      }
     }
   }
 `;
 export const onDeleteContactByFolloweeId = /* GraphQL */ `
   subscription OnDeleteContactByFolloweeId($followeeId: ID!) {
     onDeleteContactByFolloweeId(followeeId: $followeeId) {
+      __typename
       followeeId
       followerId
       id
       createdAt
       updatedAt
       owner
-      followee {
-        avatar
-        bio
-        displayName
-        followees {
-          nextToken
-        }
-        followers {
-          nextToken
-        }
-        id
-        name
-        pushToken
-        createdAt
-        updatedAt
-        chatRoomUsers {
-          nextToken
-        }
-        owner
-      }
-      follower {
-        avatar
-        bio
-        displayName
-        followees {
-          nextToken
-        }
-        followers {
-          nextToken
-        }
-        id
-        name
-        pushToken
-        createdAt
-        updatedAt
-        chatRoomUsers {
-          nextToken
-        }
-        owner
-      }
     }
   }
 `;
 export const onCreateContactByFollowerId = /* GraphQL */ `
   subscription OnCreateContactByFollowerId($followerId: ID!) {
     onCreateContactByFollowerId(followerId: $followerId) {
+      __typename
       followeeId
       followerId
       id
       createdAt
       updatedAt
       owner
-      followee {
-        avatar
-        bio
-        displayName
-        followees {
-          nextToken
-        }
-        followers {
-          nextToken
-        }
-        id
-        name
-        pushToken
-        createdAt
-        updatedAt
-        chatRoomUsers {
-          nextToken
-        }
-        owner
-      }
-      follower {
-        avatar
-        bio
-        displayName
-        followees {
-          nextToken
-        }
-        followers {
-          nextToken
-        }
-        id
-        name
-        pushToken
-        createdAt
-        updatedAt
-        chatRoomUsers {
-          nextToken
-        }
-        owner
-      }
     }
   }
 `;
 export const onDeleteContactByFollowerId = /* GraphQL */ `
   subscription OnDeleteContactByFollowerId($followerId: ID!) {
     onDeleteContactByFollowerId(followerId: $followerId) {
+      __typename
       followeeId
       followerId
       id
       createdAt
       updatedAt
       owner
-      followee {
-        avatar
-        bio
-        displayName
-        followees {
-          nextToken
-        }
-        followers {
-          nextToken
-        }
-        id
-        name
-        pushToken
-        createdAt
-        updatedAt
-        chatRoomUsers {
-          nextToken
-        }
-        owner
-      }
-      follower {
-        avatar
-        bio
-        displayName
-        followees {
-          nextToken
-        }
-        followers {
-          nextToken
-        }
-        id
-        name
-        pushToken
-        createdAt
-        updatedAt
-        chatRoomUsers {
-          nextToken
-        }
-        owner
-      }
     }
   }
 `;
@@ -416,43 +116,7 @@ export const onCreateMessageByChatRoomId = /* GraphQL */ `
       type
       userId
       updatedAt
-      chatRoom {
-        id
-        isPublic
-        maxUsers
-        messages {
-          nextToken
-        }
-        name
-        tags
-        createdAt
-        updatedAt
-        owner
-        chatRoomUsers {
-          nextToken
-        }
-      }
       owner
-      user {
-        avatar
-        bio
-        displayName
-        followees {
-          nextToken
-        }
-        followers {
-          nextToken
-        }
-        id
-        name
-        pushToken
-        createdAt
-        updatedAt
-        chatRoomUsers {
-          nextToken
-        }
-        owner
-      }
     }
   }
 `;
@@ -465,46 +129,6 @@ export const onCreateContact = /* GraphQL */ `
       createdAt
       updatedAt
       owner
-      followee {
-        avatar
-        bio
-        displayName
-        followees {
-          nextToken
-        }
-        followers {
-          nextToken
-        }
-        id
-        name
-        pushToken
-        createdAt
-        updatedAt
-        chatRoomUsers {
-          nextToken
-        }
-        owner
-      }
-      follower {
-        avatar
-        bio
-        displayName
-        followees {
-          nextToken
-        }
-        followers {
-          nextToken
-        }
-        id
-        name
-        pushToken
-        createdAt
-        updatedAt
-        chatRoomUsers {
-          nextToken
-        }
-        owner
-      }
     }
   }
 `;
@@ -517,46 +141,6 @@ export const onUpdateContact = /* GraphQL */ `
       createdAt
       updatedAt
       owner
-      followee {
-        avatar
-        bio
-        displayName
-        followees {
-          nextToken
-        }
-        followers {
-          nextToken
-        }
-        id
-        name
-        pushToken
-        createdAt
-        updatedAt
-        chatRoomUsers {
-          nextToken
-        }
-        owner
-      }
-      follower {
-        avatar
-        bio
-        displayName
-        followees {
-          nextToken
-        }
-        followers {
-          nextToken
-        }
-        id
-        name
-        pushToken
-        createdAt
-        updatedAt
-        chatRoomUsers {
-          nextToken
-        }
-        owner
-      }
     }
   }
 `;
@@ -569,46 +153,6 @@ export const onDeleteContact = /* GraphQL */ `
       createdAt
       updatedAt
       owner
-      followee {
-        avatar
-        bio
-        displayName
-        followees {
-          nextToken
-        }
-        followers {
-          nextToken
-        }
-        id
-        name
-        pushToken
-        createdAt
-        updatedAt
-        chatRoomUsers {
-          nextToken
-        }
-        owner
-      }
-      follower {
-        avatar
-        bio
-        displayName
-        followees {
-          nextToken
-        }
-        followers {
-          nextToken
-        }
-        id
-        name
-        pushToken
-        createdAt
-        updatedAt
-        chatRoomUsers {
-          nextToken
-        }
-        owner
-      }
     }
   }
 `;
@@ -622,43 +166,7 @@ export const onCreateMessage = /* GraphQL */ `
       type
       userId
       updatedAt
-      chatRoom {
-        id
-        isPublic
-        maxUsers
-        messages {
-          nextToken
-        }
-        name
-        tags
-        createdAt
-        updatedAt
-        owner
-        chatRoomUsers {
-          nextToken
-        }
-      }
       owner
-      user {
-        avatar
-        bio
-        displayName
-        followees {
-          nextToken
-        }
-        followers {
-          nextToken
-        }
-        id
-        name
-        pushToken
-        createdAt
-        updatedAt
-        chatRoomUsers {
-          nextToken
-        }
-        owner
-      }
     }
   }
 `;
@@ -672,43 +180,7 @@ export const onUpdateMessage = /* GraphQL */ `
       type
       userId
       updatedAt
-      chatRoom {
-        id
-        isPublic
-        maxUsers
-        messages {
-          nextToken
-        }
-        name
-        tags
-        createdAt
-        updatedAt
-        owner
-        chatRoomUsers {
-          nextToken
-        }
-      }
       owner
-      user {
-        avatar
-        bio
-        displayName
-        followees {
-          nextToken
-        }
-        followers {
-          nextToken
-        }
-        id
-        name
-        pushToken
-        createdAt
-        updatedAt
-        chatRoomUsers {
-          nextToken
-        }
-        owner
-      }
     }
   }
 `;
@@ -722,43 +194,7 @@ export const onDeleteMessage = /* GraphQL */ `
       type
       userId
       updatedAt
-      chatRoom {
-        id
-        isPublic
-        maxUsers
-        messages {
-          nextToken
-        }
-        name
-        tags
-        createdAt
-        updatedAt
-        owner
-        chatRoomUsers {
-          nextToken
-        }
-      }
       owner
-      user {
-        avatar
-        bio
-        displayName
-        followees {
-          nextToken
-        }
-        followers {
-          nextToken
-        }
-        id
-        name
-        pushToken
-        createdAt
-        updatedAt
-        chatRoomUsers {
-          nextToken
-        }
-        owner
-      }
     }
   }
 `;
@@ -768,36 +204,11 @@ export const onCreateChatRoom = /* GraphQL */ `
       id
       isPublic
       maxUsers
-      messages {
-        items {
-          chatRoomId
-          content
-          createdAt
-          id
-          type
-          userId
-          updatedAt
-          owner
-        }
-        nextToken
-      }
       name
       tags
       createdAt
       updatedAt
       owner
-      chatRoomUsers {
-        items {
-          chatRoomId
-          id
-          isModerator
-          userId
-          createdAt
-          updatedAt
-          owner
-        }
-        nextToken
-      }
     }
   }
 `;
@@ -807,36 +218,11 @@ export const onUpdateChatRoom = /* GraphQL */ `
       id
       isPublic
       maxUsers
-      messages {
-        items {
-          chatRoomId
-          content
-          createdAt
-          id
-          type
-          userId
-          updatedAt
-          owner
-        }
-        nextToken
-      }
       name
       tags
       createdAt
       updatedAt
       owner
-      chatRoomUsers {
-        items {
-          chatRoomId
-          id
-          isModerator
-          userId
-          createdAt
-          updatedAt
-          owner
-        }
-        nextToken
-      }
     }
   }
 `;
@@ -846,36 +232,11 @@ export const onDeleteChatRoom = /* GraphQL */ `
       id
       isPublic
       maxUsers
-      messages {
-        items {
-          chatRoomId
-          content
-          createdAt
-          id
-          type
-          userId
-          updatedAt
-          owner
-        }
-        nextToken
-      }
       name
       tags
       createdAt
       updatedAt
       owner
-      chatRoomUsers {
-        items {
-          chatRoomId
-          id
-          isModerator
-          userId
-          createdAt
-          updatedAt
-          owner
-        }
-        nextToken
-      }
     }
   }
 `;
@@ -888,43 +249,7 @@ export const onCreateChatRoomUser = /* GraphQL */ `
       userId
       createdAt
       updatedAt
-      chatRoom {
-        id
-        isPublic
-        maxUsers
-        messages {
-          nextToken
-        }
-        name
-        tags
-        createdAt
-        updatedAt
-        owner
-        chatRoomUsers {
-          nextToken
-        }
-      }
       owner
-      user {
-        avatar
-        bio
-        displayName
-        followees {
-          nextToken
-        }
-        followers {
-          nextToken
-        }
-        id
-        name
-        pushToken
-        createdAt
-        updatedAt
-        chatRoomUsers {
-          nextToken
-        }
-        owner
-      }
     }
   }
 `;
@@ -937,43 +262,7 @@ export const onUpdateChatRoomUser = /* GraphQL */ `
       userId
       createdAt
       updatedAt
-      chatRoom {
-        id
-        isPublic
-        maxUsers
-        messages {
-          nextToken
-        }
-        name
-        tags
-        createdAt
-        updatedAt
-        owner
-        chatRoomUsers {
-          nextToken
-        }
-      }
       owner
-      user {
-        avatar
-        bio
-        displayName
-        followees {
-          nextToken
-        }
-        followers {
-          nextToken
-        }
-        id
-        name
-        pushToken
-        createdAt
-        updatedAt
-        chatRoomUsers {
-          nextToken
-        }
-        owner
-      }
     }
   }
 `;
@@ -986,43 +275,7 @@ export const onDeleteChatRoomUser = /* GraphQL */ `
       userId
       createdAt
       updatedAt
-      chatRoom {
-        id
-        isPublic
-        maxUsers
-        messages {
-          nextToken
-        }
-        name
-        tags
-        createdAt
-        updatedAt
-        owner
-        chatRoomUsers {
-          nextToken
-        }
-      }
       owner
-      user {
-        avatar
-        bio
-        displayName
-        followees {
-          nextToken
-        }
-        followers {
-          nextToken
-        }
-        id
-        name
-        pushToken
-        createdAt
-        updatedAt
-        chatRoomUsers {
-          nextToken
-        }
-        owner
-      }
     }
   }
 `;
@@ -1032,45 +285,11 @@ export const onCreateUser = /* GraphQL */ `
       avatar
       bio
       displayName
-      followees {
-        items {
-          followeeId
-          followerId
-          id
-          createdAt
-          updatedAt
-          owner
-        }
-        nextToken
-      }
-      followers {
-        items {
-          followeeId
-          followerId
-          id
-          createdAt
-          updatedAt
-          owner
-        }
-        nextToken
-      }
       id
       name
       pushToken
       createdAt
       updatedAt
-      chatRoomUsers {
-        items {
-          chatRoomId
-          id
-          isModerator
-          userId
-          createdAt
-          updatedAt
-          owner
-        }
-        nextToken
-      }
       owner
     }
   }
@@ -1081,45 +300,11 @@ export const onUpdateUser = /* GraphQL */ `
       avatar
       bio
       displayName
-      followees {
-        items {
-          followeeId
-          followerId
-          id
-          createdAt
-          updatedAt
-          owner
-        }
-        nextToken
-      }
-      followers {
-        items {
-          followeeId
-          followerId
-          id
-          createdAt
-          updatedAt
-          owner
-        }
-        nextToken
-      }
       id
       name
       pushToken
       createdAt
       updatedAt
-      chatRoomUsers {
-        items {
-          chatRoomId
-          id
-          isModerator
-          userId
-          createdAt
-          updatedAt
-          owner
-        }
-        nextToken
-      }
       owner
     }
   }
@@ -1130,45 +315,11 @@ export const onDeleteUser = /* GraphQL */ `
       avatar
       bio
       displayName
-      followees {
-        items {
-          followeeId
-          followerId
-          id
-          createdAt
-          updatedAt
-          owner
-        }
-        nextToken
-      }
-      followers {
-        items {
-          followeeId
-          followerId
-          id
-          createdAt
-          updatedAt
-          owner
-        }
-        nextToken
-      }
       id
       name
       pushToken
       createdAt
       updatedAt
-      chatRoomUsers {
-        items {
-          chatRoomId
-          id
-          isModerator
-          userId
-          createdAt
-          updatedAt
-          owner
-        }
-        nextToken
-      }
       owner
     }
   }

@@ -1,3 +1,13 @@
+export const onDeleteChatRoomUserByUserId = /* GraphQL */ `
+	subscription OnDeleteChatRoomUserByUserId($userId: ID!) {
+		onDeleteChatRoomUserByUserId(userId: $userId) {
+			__typename
+			chatRoomId
+			id
+			userId
+		}
+	}
+`;
 export const onCreateMessageByChatRoomId = /* GraphQL */ `
 	subscription OnCreateMessageByChatRoomId($chatRoomId: ID!) {
 		onCreateMessageByChatRoomId(chatRoomId: $chatRoomId) {

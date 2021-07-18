@@ -1,12 +1,14 @@
+Use Normalizr
 Use classes with/instead of redux?
 Modify types instead of creating new ones: https://stackoverflow.com/questions/41285211/overriding-interface-property-type-defined-in-typescript-d-ts-file
+
+Bug: Avatar refreshes when typeing on profile screen. useRef instead?
 Icon util to make it easier to use the same icons across app
 Improve toaster strategy
 Dm friend
 Invite friend to chatroom
 Private/public rooms
 Create dm
-Sort browse chat rooms
 Query pagination
 Support the dev
 Encrypt messages
@@ -19,6 +21,7 @@ Search feature
 Settings page
 Message reactions
 Speed up chatroom with lots of images
+Assign different chatRoomUsers different colors
 Android textinput KeyboardAvoidingView
 
 Maybe:

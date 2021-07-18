@@ -3,7 +3,6 @@ import { API, graphqlOperation } from 'aws-amplify';
 import Observable from 'zen-observable';
 
 import * as APIt from '../../../API';
-import { ChatRoomUser, Contact, Message } from '../../../global/types';
 import * as GQL from '../../../graphql/subscriptions';
 import * as CustomGQL from './graphql';
 
@@ -22,21 +21,25 @@ const factory =
 		const { gql, key } = args;
 		const subscription = API.graphql(graphqlOperation(gql ?? GQL[key], vars));
 		if (!(subscription instanceof Observable)) return;
+
 		return subscription.subscribe({
 			next: async (payload: Payload<T>) => {
 				const { data, errors } = payload.value;
 				if (errors) console.warn(errors);
+
 				if (!data) return;
+
 				const result = data[key];
 				// if (process) result = await process(result);
 				if (!result) return;
+
 				callback(result);
 			},
 		});
 	};
 
 export const onCreateChatRoomUserByChatRoomId = factory<
-	ChatRoomUser,
+	APIt.ChatRoomUser,
 	APIt.OnCreateChatRoomUserByChatRoomIdSubscriptionVariables
 >({
 	key: 'onCreateChatRoomUserByChatRoomId',
@@ -44,7 +47,7 @@ export const onCreateChatRoomUserByChatRoomId = factory<
 });
 
 export const onCreateChatRoomUserByUserId = factory<
-	ChatRoomUser,
+	APIt.ChatRoomUser,
 	APIt.OnCreateChatRoomUserByUserIdSubscriptionVariables
 >({
 	gql: CustomGQL.onCreateChatRoomUserByUserId,
@@ -53,7 +56,7 @@ export const onCreateChatRoomUserByUserId = factory<
 });
 
 export const onCreateFollowee = factory<
-	Contact,
+	APIt.Contact,
 	APIt.OnCreateContactByFolloweeIdSubscriptionVariables
 >({
 	key: 'onCreateContactByFolloweeId',
@@ -61,7 +64,7 @@ export const onCreateFollowee = factory<
 });
 
 export const onCreateFollower = factory<
-	Contact,
+	APIt.Contact,
 	APIt.OnCreateContactByFollowerIdSubscriptionVariables
 >({
 	key: 'onCreateContactByFollowerId',
@@ -69,7 +72,7 @@ export const onCreateFollower = factory<
 });
 
 export const onCreateMessage = factory<
-	Message,
+	APIt.Message,
 	APIt.OnCreateMessageByChatRoomIdSubscriptionVariables
 >({
 	gql: CustomGQL.onCreateMessageByChatRoomId,
@@ -78,28 +81,29 @@ export const onCreateMessage = factory<
 });
 
 export const onDeleteChatRoomUserByChatRoomId = factory<
-	ChatRoomUser,
+	APIt.ChatRoomUser,
 	APIt.OnDeleteChatRoomUserByChatRoomIdSubscriptionVariables
 >({
 	key: 'onDeleteChatRoomUserByChatRoomId',
 });
 
 export const onDeleteChatRoomUserByUserId = factory<
-	ChatRoomUser,
+	APIt.ChatRoomUser,
 	APIt.OnDeleteChatRoomUserByUserIdSubscriptionVariables
 >({
+	gql: CustomGQL.onDeleteChatRoomUserByUserId,
 	key: 'onDeleteChatRoomUserByUserId',
 });
 
 export const onDeleteFollowee = factory<
-	Contact,
+	APIt.Contact,
 	APIt.OnDeleteContactByFolloweeIdSubscriptionVariables
 >({
 	key: 'onDeleteContactByFolloweeId',
 });
 
 export const onDeleteFollower = factory<
-	Contact,
+	APIt.Contact,
 	APIt.OnDeleteContactByFollowerIdSubscriptionVariables
 >({
 	key: 'onDeleteContactByFollowerId',

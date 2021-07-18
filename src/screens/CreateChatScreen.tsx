@@ -1,23 +1,25 @@
 import { Button, ScrollView, Tabs, Text, useToast } from 'native-base';
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import MaxUsersInput from '../components/MaxUsersInput';
 import TagInput from '../components/TagInput';
 import TopicInput from '../components/TopicInput';
-import { User } from '../global/types';
 import {
 	CreateChatScreenProps,
-	ScreenNames,
+	ScreenName,
 	StackProps,
 } from '../navigation/types';
-import { ReduxStore } from '../store';
+import { Actions, Selectors, Store } from '../store';
 import { createChatRoom, createChatRoomUser } from '../utils/api/mutations';
 
 const CreateChatScreen: React.FC<CreateChatScreenProps> = ({ navigation }) => {
+	const dispatch = useDispatch();
 	const toast = useToast();
 
-	const currentUser = useSelector<ReduxStore, User>(state => state.currentUser);
+	const currentUserId = useSelector<Store.State, string | undefined>(
+		Selectors.getCurrentUserId
+	);
 
 	const [topic, setTopic] = useState('');
 	const [maxUsers, setMaxUsers] = useState(0);
@@ -29,21 +31,23 @@ const CreateChatScreen: React.FC<CreateChatScreenProps> = ({ navigation }) => {
 
 		// TODO: lambda should create chatRoomUser if chatRoom is created
 		createChatRoom({ isPublic: !tabIndex, maxUsers, name: topic, tags }, toast)
-			.then(chatRoom2 => {
-				if (!chatRoom2.id) throw Error();
+			.then(chatRoom => {
+				if (!currentUserId || !chatRoom.id) throw Error();
+				dispatch(Actions.updateItems(chatRoom));
 				return createChatRoomUser(
 					{
-						chatRoomId: chatRoom2.id,
+						chatRoomId: chatRoom.id,
 						isModerator: true,
-						userId: currentUser.id,
+						userId: currentUserId,
 					},
 					toast
 				);
 			})
 			.then(chatRoomUser => {
 				if (!chatRoomUser.chatRoomId) throw Error();
+				dispatch(Actions.updateItems(chatRoomUser));
 				navigation.goBack();
-				navigation.navigate(ScreenNames.ChatRoomScreen, {
+				navigation.navigate(ScreenName.ChatRoom, {
 					chatRoomId: chatRoomUser.chatRoomId,
 				});
 			});
@@ -102,7 +106,7 @@ const CreateChatScreen: React.FC<CreateChatScreenProps> = ({ navigation }) => {
 
 const createChatStackProps: StackProps<CreateChatScreenProps> = {
 	component: CreateChatScreen,
-	name: ScreenNames.CreateChatScreen,
+	name: ScreenName.CreateChat,
 	options: { title: 'New Chat' },
 };
 

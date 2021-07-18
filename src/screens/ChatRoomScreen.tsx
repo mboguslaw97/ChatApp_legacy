@@ -6,13 +6,12 @@ import { useSelector } from 'react-redux';
 
 import InputToolbar from '../components/InputToolbar';
 import MessageItem from '../components/MessageItem';
-import { User } from '../global/types';
 import {
 	ChatRoomScreenProps,
-	ScreenNames,
+	ScreenName,
 	StackProps,
 } from '../navigation/types';
-import { BrowseChatRooms, ReduxStore } from '../store';
+import { Selectors, Store } from '../store';
 
 const ChatRoomScreen: React.FC<ChatRoomScreenProps> = ({
 	navigation,
@@ -20,23 +19,15 @@ const ChatRoomScreen: React.FC<ChatRoomScreenProps> = ({
 }) => {
 	const { chatRoomId } = route.params;
 
-	const currentUser = useSelector<ReduxStore, User>(state => state.currentUser);
-	const browseChatRooms = useSelector<ReduxStore, BrowseChatRooms>(
-		state => state.browseChatRooms
+	const currentUserId = useSelector<Store.State, string | undefined>(
+		Selectors.getCurrentUserId
 	);
-
-	const chatRoom =
-		currentUser.chatRoomUsers.items.find(
-			chatRoomUser => chatRoomUser.chatRoomId === chatRoomId
-		)?.chatRoom ??
-		browseChatRooms.find(chatRoom2 => chatRoom2.id === chatRoomId);
-
-	const currentUserIsInRoom =
-		chatRoom?.chatRoomUsers.items.some(
-			chatRoomUser => chatRoomUser.userId === currentUser.id
-		) ?? false;
-
-	const messages = chatRoom ? chatRoom.messages.items : [];
+	const chatRoom = useSelector<Store.State, Store.ChatRoom>(
+		Selectors.getItem(chatRoomId, { [Store.IdKey.chatRoomUserIds]: {} })
+	);
+	const currentUserIsInRoom = chatRoom.chatRoomUsers.some(
+		chatRoomUser => chatRoomUser.userId === currentUserId
+	);
 
 	useEffect(() => {
 		navigation.setOptions({
@@ -50,14 +41,15 @@ const ChatRoomScreen: React.FC<ChatRoomScreenProps> = ({
 						/>
 					}
 					onPress={() => {
-						if (chatRoom)
-							navigation.navigate(ScreenNames.ChatRoomInfoScreen, { chatRoom });
+						navigation.navigate(ScreenName.ChatRoomInfo, {
+							chatRoomId,
+						});
 					}}
 				/>
 			),
 			title: chatRoom && chatRoom.name ? chatRoom.name : 'Chat Room',
 		});
-	}, [navigation, chatRoom]);
+	}, [navigation, chatRoomId, chatRoom]);
 
 	return (
 		<KeyboardAvoidingView
@@ -74,14 +66,13 @@ const ChatRoomScreen: React.FC<ChatRoomScreenProps> = ({
 			style={{ flex: 1 }}
 		>
 			<FlatList
-				data={messages?.slice().reverse() ?? []}
+				data={chatRoom.messageIds?.reverse()}
 				inverted
-				keyExtractor={item => item.id}
-				renderItem={({ item }) => <MessageItem message={item} />}
+				keyExtractor={item => item}
+				renderItem={({ item }) => <MessageItem messageId={item} />}
 			/>
 			<InputToolbar
 				chatRoomId={chatRoomId}
-				currentUserId={currentUser.id}
 				currentUserIsInRoom={currentUserIsInRoom}
 			/>
 
@@ -100,7 +91,7 @@ const ChatRoomScreen: React.FC<ChatRoomScreenProps> = ({
 
 const chatRoomStackProps: StackProps<ChatRoomScreenProps> = {
 	component: ChatRoomScreen,
-	name: ScreenNames.ChatRoomScreen,
+	name: ScreenName.ChatRoom,
 };
 
 export default chatRoomStackProps;

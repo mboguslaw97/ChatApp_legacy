@@ -5,31 +5,24 @@ import { TouchableOpacity } from 'react-native';
 import { useSelector } from 'react-redux';
 
 import { colors } from '../global/constants';
-import { User } from '../global/types';
-import { ReduxStore } from '../store';
+import { ScreenName } from '../navigation/types';
+import { Selectors, Store } from '../store';
 import { formatHandler } from '../utils/helper';
 import AvatarButton from './AvatarButton';
 import FollowButton from './FollowButton';
 
 type Props = {
 	onPress?: () => void;
-	user: User;
+	userId: string;
 };
 
-const UserListItem: React.FC<Props> = ({ user, onPress }) => {
+const UserListItem: React.FC<Props> = ({ userId, onPress }) => {
 	const navigation = useNavigation();
-
-	const currentUserId = useSelector<ReduxStore, string>(state => {
-		return state.currentUser.id;
-	});
-
-	if (user.id === currentUserId) {
-		console.warn(`Tried to create ${UserListItem.name} for currnetUser`);
-		return null;
-	}
+	const user = useSelector<Store.State, Store.User>(Selectors.getItem(userId));
 
 	if (!onPress)
-		onPress = () => navigation.navigate('ProfileScreen', { userId: user.id });
+		onPress = () =>
+			navigation.navigate(ScreenName.Profile, { userId: user.id });
 
 	return (
 		<TouchableOpacity onPress={onPress}>
@@ -43,7 +36,7 @@ const UserListItem: React.FC<Props> = ({ user, onPress }) => {
 					{user.displayName && <Text>{user.displayName}</Text>}
 					<Text color={colors.gray}>{formatHandler(user.name)}</Text>
 				</HStack>
-				<FollowButton user={user} />
+				<FollowButton userId={user.id} />
 			</HStack>
 			<Divider />
 		</TouchableOpacity>

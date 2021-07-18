@@ -1,4 +1,5 @@
-import { ChatRoom, Toast } from '../global/types';
+import { Toast } from '../global/types';
+import { Store } from '../store';
 import { deleteChatRoomUser } from './api/mutations';
 
 export type ValueOf<T> = T[keyof T];
@@ -39,11 +40,11 @@ export const range = (
 
 // TODO: Lambda should delete chatroom if no users left?
 export const leaveChatRoom = (
-	chatRoom: ChatRoom,
+	chatRoom: Store.ChatRoom,
 	currentUserId: string,
 	toast: Toast
 ): void => {
-	const currentChatRoomUser = chatRoom?.chatRoomUsers.items.find(
+	const currentChatRoomUser = chatRoom?.chatRoomUsers.find(
 		chatRoomUser => chatRoomUser.userId === currentUserId
 	);
 

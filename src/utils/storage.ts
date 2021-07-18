@@ -17,9 +17,11 @@ const requestPermissionAsync = async (
 	permissionType: keyof typeof typeRequestMap
 ): Promise<boolean> => {
 	if (Platform.OS === 'web') return true;
+
 	const permissionRequest = typeRequestMap[permissionType];
 	const { status } = await permissionRequest();
 	if (status === 'granted') return true;
+
 	alert(`Sorry, we need ${permissionType} permissions to make this work!`);
 	return false;
 };
@@ -34,12 +36,14 @@ export const pickImage = async (
 ): Promise<string> => {
 	const permissionGrated = await requestPermissionAsync(method);
 	if (!permissionGrated) return '';
+
 	const launch = methodLaunchMap[method];
 	const result = await launch({
 		allowsEditing: true,
 		mediaTypes: ImagePicker.MediaTypeOptions.Images,
 	});
 	if (result.cancelled) return '';
+
 	return result.uri;
 };
 
@@ -52,6 +56,7 @@ export const fetchFile = async (key: string): Promise<string> => {
 	const path = getPath(key);
 	return FileSystem.getInfoAsync(path).then(image => {
 		if (image.exists) return image.uri;
+
 		return Storage.get(key)
 			.then(url => FileSystem.downloadAsync(url as string, path))
 			.then(newImage => newImage.uri);

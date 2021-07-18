@@ -17,36 +17,56 @@ import Swipeable from 'react-native-gesture-handler/Swipeable';
 import { useSelector } from 'react-redux';
 
 import { colors } from '../global/constants';
-import { ChatRoom, MessageType } from '../global/types';
-import { ReduxStore } from '../store';
-import { leaveChatRoom } from '../utils/helper';
+import { Selectors, Store } from '../store';
+import { deleteChatRoomUser } from '../utils/api/mutations';
 import AvatarButton from './AvatarButton';
 
 type Props = {
-	chatRoom: ChatRoom;
+	chatRoomId: string;
 };
 
-const ChatRoomItem: React.FC<Props> = ({ chatRoom }) => {
+const ChatRoomItem: React.FC<Props> = ({ chatRoomId }) => {
 	const navigation = useNavigation();
 	const toast = useToast();
 
-	const currentUserId = useSelector<ReduxStore, string>(state => {
-		return state.currentUser.id;
-	});
+	const currentUserid = useSelector<Store.State, string | undefined>(
+		Selectors.getCurrentUserId
+	);
+	const chatRoom = useSelector<Store.State, Store.ChatRoom | undefined>(
+		Selectors.getItem(chatRoomId, {
+			[Store.IdKey.chatRoomUserIds]: {},
+			[Store.IdKey.messageIds]: {},
+		})
+	);
 
-	const currentUserIsInRoom =
-		chatRoom &&
-		chatRoom.chatRoomUsers.items.find(
-			chatRoomUser => chatRoomUser.userId === currentUserId
-		);
+	const chatRoomUserId = chatRoom?.chatRoomUsers.find(
+		chatRoomUser => chatRoomUser.userId === currentUserid
+	)?.id;
+	const lastMessage = chatRoom?.messages.slice(-1)[0];
+	const lastMessageUser = useSelector<Store.State, Store.User | undefined>(
+		Selectors.getItem(lastMessage?.userId)
+	);
+
+	const chatRoomName = chatRoom?.name ?? 'Unnamed Group';
+	const lastMessageTime =
+		lastMessage && moment(lastMessage.createdAt).format('MM/DD/YYYY');
+
+	let lastMessageText = 'No messages yet';
+	if (lastMessage?.type === Store.MessageType.text)
+		lastMessageText = lastMessage.content;
+
+	if (lastMessage?.type === Store.MessageType.image)
+		lastMessageText = `${lastMessageUser?.name} sent an image`;
 
 	const openChatRoom = () =>
-		navigation.navigate('ChatRoomScreen', { chatRoomId: chatRoom.id });
+		navigation.navigate('ChatRoomScreen', { chatRoomId });
 
 	const renderRightActions = () => {
 		return (
 			<TouchableOpacity
-				onPress={() => leaveChatRoom(chatRoom, currentUserId, toast)}
+				onPress={() =>
+					chatRoomUserId && deleteChatRoomUser({ id: chatRoomUserId }, toast)
+				}
 			>
 				<Center bg={colors.red} flex={1} w={20}>
 					<Icon as={<MaterialCommunityIcons name="trash-can-outline" />} />
@@ -55,22 +75,9 @@ const ChatRoomItem: React.FC<Props> = ({ chatRoom }) => {
 		);
 	};
 
-	const chatRoomName = chatRoom?.name ?? 'Unnamed Group';
-	const messages = chatRoom?.messages.items;
-	const lastMessage =
-		messages && messages.length ? messages.slice(-1)[0] : undefined;
-	const lastMessageTime =
-		lastMessage && moment(lastMessage.createdAt).format('MM/DD/YYYY');
-
-	let lastMessageText = 'No messages yet';
-	if (lastMessage?.type === MessageType.text)
-		lastMessageText = lastMessage.content;
-	if (lastMessage?.type === MessageType.image)
-		lastMessageText = `${lastMessage.user.name} sent an image`;
-
 	return (
 		<Swipeable
-			renderRightActions={currentUserIsInRoom ? renderRightActions : undefined}
+			renderRightActions={chatRoomUserId ? renderRightActions : undefined}
 		>
 			<TouchableWithoutFeedback onPress={openChatRoom}>
 				<Box px={2}>
@@ -78,7 +85,7 @@ const ChatRoomItem: React.FC<Props> = ({ chatRoom }) => {
 						{!!lastMessage && (
 							<AvatarButton
 								size="small"
-								source={{ s3Key: lastMessage?.user.avatar }}
+								source={{ s3Key: lastMessageUser?.avatar }}
 								userId={lastMessage?.userId}
 							/>
 						)}

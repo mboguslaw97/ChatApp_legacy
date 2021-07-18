@@ -3,9 +3,8 @@ import { useToast } from 'native-base';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { ChatRoomUser } from '../../global/types';
 import Navigation from '../../navigation';
-import { Actions, ReduxStore } from '../../store';
+import { Actions, Selectors, Store } from '../../store';
 import API from '../../utils/api';
 import { createUser } from '../../utils/api/mutations';
 import { getUser, listBrowseChatRooms } from '../../utils/api/queries';
@@ -16,11 +15,8 @@ const AppContainer: React.FC = () => {
 	const dispatch = useDispatch();
 	const toast = useToast();
 
-	const currentUserId = useSelector<ReduxStore, string>(
-		state => state.currentUser.id
-	);
-	const chatRoomUsers = useSelector<ReduxStore, ChatRoomUser[]>(
-		state => state.currentUser.chatRoomUsers.items
+	const currentUser = useSelector<Store.State, Store.User | undefined>(
+		Selectors.getCurrentUser({ [Store.IdKey.chatRoomUserIds]: {} })
 	);
 
 	useEffect(() => {
@@ -48,62 +44,83 @@ const AppContainer: React.FC = () => {
 				registerForPushNotification(user.id);
 				user.email = userAuth.attributes.email;
 				user.phone = userAuth.attributes.phone_number;
-				dispatch(Actions.setCurrentUser(user));
+				dispatch(Actions.updateItems(user));
+				dispatch(Actions.setCurrentUserId(user.id));
 			}
 
 			const browseChatRooms = await listBrowseChatRooms();
-			if (browseChatRooms)
-				dispatch(Actions.setBrowseChatRooms(browseChatRooms));
+			if (browseChatRooms) {
+				dispatch(
+					Actions.setBrowseChatRoomIds(
+						browseChatRooms.map((chatRoom: Store.ChatRoom) => chatRoom.id)
+					)
+				);
+				dispatch(Actions.updateItems(browseChatRooms));
+			}
 		})();
+		// Adding toast to deps causes error
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [dispatch]);
+	}, []);
 
 	// If currentUserId = contact.followeeId, then the contact is a follower relative to the currentUser
 	// If currentUserId = contact.followerId, then the contact is a followee relative to the currentUser
 	useEffect(() => {
-		if (!currentUserId) return;
+		if (!currentUser) return;
 		const subscriptions = [
 			API.onCreateChatRoomUserByUserId(
-				chatRoomUser => dispatch(Actions.createChatRoomUser(chatRoomUser)),
-				{ userId: currentUserId }
+				chatRoomUser => dispatch(Actions.updateItems(chatRoomUser)),
+				{ userId: currentUser.id }
 			),
 			API.onCreateFollowee(
-				contact => dispatch(Actions.createFollower(contact)),
-				{ followeeId: currentUserId }
+				contact =>
+					dispatch(Actions.updateItems({ ...contact, __typename: 'Follower' })),
+				{
+					followeeId: currentUser.id,
+				}
 			),
 			API.onCreateFollower(
-				contact => dispatch(Actions.createFollowee(contact)),
-				{ followerId: currentUserId }
+				contact =>
+					dispatch(Actions.updateItems({ ...contact, __typename: 'Followee' })),
+				{
+					followerId: currentUser.id,
+				}
 			),
 			API.onDeleteChatRoomUserByUserId(
-				chatRoomUser => dispatch(Actions.deleteChatRoomUser(chatRoomUser)),
-				{ userId: currentUserId }
+				chatRoomUser => dispatch(Actions.deleteItem(chatRoomUser)),
+				{ userId: currentUser.id }
 			),
 			API.onDeleteFollowee(
-				contact => dispatch(Actions.deleteFollower(contact)),
-				{ followeeId: currentUserId }
+				contact =>
+					dispatch(Actions.deleteItem({ ...contact, __typename: 'Follower' })),
+				{
+					followeeId: currentUser.id,
+				}
 			),
 			API.onDeleteFollower(
-				contact => dispatch(Actions.deleteFollowee(contact)),
-				{ followerId: currentUserId }
+				contact =>
+					dispatch(Actions.deleteItem({ ...contact, __typename: 'Followee' })),
+				{
+					followerId: currentUser.id,
+				}
 			),
 		];
 		return () =>
 			subscriptions.forEach(
 				subscription => subscription && subscription.unsubscribe()
 			);
-	}, [currentUserId, dispatch]);
+	}, [currentUser, dispatch]);
 
 	useEffect(() => {
+		if (!currentUser) return;
 		const chatRoomIds = Array.from(
 			new Set(
-				chatRoomUsers
+				currentUser.chatRoomUsers
 					.filter(chatRoomUser => chatRoomUser.chatRoomId)
 					.map(chatRoomUser => chatRoomUser.chatRoomId)
 			)
 		);
 		const subscriptions = chatRoomIds.map(chatRoomId =>
-			API.onCreateMessage(message => dispatch(Actions.createMessage(message)), {
+			API.onCreateMessage(message => dispatch(Actions.updateItems(message)), {
 				chatRoomId,
 			})
 		);
@@ -111,7 +128,7 @@ const AppContainer: React.FC = () => {
 			subscriptions.forEach(
 				subscription => subscription && subscription.unsubscribe()
 			);
-	}, [chatRoomUsers, dispatch]);
+	}, [currentUser, dispatch]);
 
 	return <Navigation />;
 };

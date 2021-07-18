@@ -2,19 +2,19 @@ import { Button } from 'native-base';
 import React from 'react';
 
 import {
-	ScreenNames,
+	ScreenName,
 	SettingsScreenProps,
 	StackProps,
 } from '../navigation/types';
 
 const SettingsScreen: React.FC<SettingsScreenProps> = () => {
-	// TODO
+	// TODO: Implement button
 	return <Button>Support the Developer!</Button>;
 };
 
 const settingsStackProps: StackProps<SettingsScreenProps> = {
 	component: SettingsScreen,
-	name: ScreenNames.SettingsScreen,
+	name: ScreenName.Settings,
 	options: { title: 'Settings' },
 };
 

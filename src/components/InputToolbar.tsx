@@ -10,38 +10,40 @@ import {
 	useToast,
 } from 'native-base';
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { colors } from '../global/constants';
-import { MessageType } from '../global/types';
+import { Actions, Selectors, Store } from '../store';
 import { createChatRoomUser, createMessage } from '../utils/api/mutations';
 import CameraActionSheet from './CameraActionSheet';
 import MyImage from './MyImage';
 
 type Props = {
 	chatRoomId: string;
-	currentUserId: string;
 	currentUserIsInRoom: boolean;
 };
 
-const InputToolbar: React.FC<Props> = ({
-	chatRoomId,
-	currentUserId,
-	currentUserIsInRoom,
-}) => {
+const InputToolbar: React.FC<Props> = ({ chatRoomId, currentUserIsInRoom }) => {
+	const dispatch = useDispatch();
+	const currentUserId = useSelector<Store.State, string | undefined>(
+		Selectors.getCurrentUserId
+	);
+
 	const { isOpen, onOpen, onClose } = useDisclose();
 	const toast = useToast();
 	const [text, setText] = useState('');
 	const [image, setImage] = useState('');
 
 	const joinRoom = async () => {
-		createChatRoomUser(
-			{
-				chatRoomId,
-				isModerator: false,
-				userId: currentUserId,
-			},
-			toast
-		);
+		if (currentUserId)
+			createChatRoomUser(
+				{
+					chatRoomId,
+					isModerator: false,
+					userId: currentUserId,
+				},
+				toast
+			).then(chatRoomUser => dispatch(Actions.updateItems(chatRoomUser)));
 	};
 
 	const removeImage = () => {
@@ -53,13 +55,13 @@ const InputToolbar: React.FC<Props> = ({
 		let type;
 		if (text) {
 			content = text;
-			type = MessageType.text;
+			type = Store.MessageType.text;
 		} else if (image) {
 			content = image;
-			type = MessageType.image;
+			type = Store.MessageType.image;
 		}
 
-		if (content && type)
+		if (currentUserId && content && type)
 			createMessage(
 				{
 					chatRoomId,
@@ -68,7 +70,9 @@ const InputToolbar: React.FC<Props> = ({
 					userId: currentUserId,
 				},
 				toast
-			);
+			).then(message => {
+				dispatch(Actions.updateItems(message));
+			});
 
 		setText('');
 		setImage('');

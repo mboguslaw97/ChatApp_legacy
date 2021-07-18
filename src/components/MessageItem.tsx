@@ -7,29 +7,38 @@ import { TouchableOpacity } from 'react-native';
 import { useSelector } from 'react-redux';
 
 import { colors } from '../global/constants';
-import { Message, MessageType } from '../global/types';
-import { ReduxStore } from '../store';
+import { ScreenName } from '../navigation/types';
+import { Selectors, Store } from '../store';
 import ConditionalWrapper from './ConditionalWrapper';
 import MyImage from './MyImage';
 
 const maxLineCount = 10;
 
 type Props = {
-	message: Message;
+	messageId: string;
 };
 
-const MessageItem: React.FC<Props> = ({ message }) => {
+const MessageItem: React.FC<Props> = ({ messageId }) => {
 	const navigation = useNavigation();
-
-	const currentUserId = useSelector<ReduxStore, string>(state => {
-		return state.currentUser.id;
-	});
-	const isCurrentUser = message.userId === currentUserId;
 
 	const [maxLineCountReached, setMaxLineCountReached] = useState(false);
 
+	const currentUserId = useSelector<Store.State, string | undefined>(
+		Selectors.getCurrentUserId
+	);
+	const message = useSelector<Store.State, Store.Message>(
+		Selectors.getItem(messageId, { [Store.IdKey.userId]: {} })
+	);
+
+	const isCurrentUser = message.userId === currentUserId;
+	const time = moment(message.createdAt).format('MM/DD/YYYY');
+	const alignment = isCurrentUser ? 'flex-end' : 'flex-start';
+	const borderRadius = 7;
+	const borderBottomLeftRadius = isCurrentUser ? borderRadius : 0;
+	const borderBottomRightRadius = isCurrentUser ? 0 : borderRadius;
+
 	const onPressAvatar = () =>
-		navigation.navigate('ProfileScreen', { userId: message.userId });
+		navigation.navigate(ScreenName.Profile, { userId: message.userId });
 
 	const onPressContent = () =>
 		navigation.navigate('MessageScreen', { message });
@@ -38,16 +47,10 @@ const MessageItem: React.FC<Props> = ({ message }) => {
 	const onTextLayout = e =>
 		setMaxLineCountReached(e.nativeEvent.lines.length === maxLineCount);
 
-	const time = moment(message.createdAt).format('MM/DD/YYYY');
-
-	const alignment = isCurrentUser ? 'flex-end' : 'flex-start';
-	const borderRadius = 7;
-	const borderBottomLeftRadius = isCurrentUser ? borderRadius : 0;
-	const borderBottomRightRadius = isCurrentUser ? 0 : borderRadius;
-
 	return (
 		<HStack justifyContent={alignment} mb={5} mx={2} space={2}>
 			{!isCurrentUser && (
+				// Todo: Use AvatarButton
 				<Container>
 					<TouchableOpacity onPress={onPressAvatar}>
 						<MyImage
@@ -62,7 +65,7 @@ const MessageItem: React.FC<Props> = ({ message }) => {
 				</Container>
 			)}
 			<VStack alignItems={alignment} pr={2} width="100%">
-				{message.type === MessageType.text && (
+				{message.type === Store.MessageType.text && (
 					<ConditionalWrapper
 						condition={maxLineCountReached}
 						wrapper={children => (
@@ -89,7 +92,7 @@ const MessageItem: React.FC<Props> = ({ message }) => {
 						</Container>
 					</ConditionalWrapper>
 				)}
-				{message.type === MessageType.image && (
+				{message.type === Store.MessageType.image && (
 					<TouchableOpacity onPress={onPressContent}>
 						<MyImage
 							source={{ s3Key: message.content }}

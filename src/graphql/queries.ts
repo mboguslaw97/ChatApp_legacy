@@ -11,46 +11,6 @@ export const getContact = /* GraphQL */ `
       createdAt
       updatedAt
       owner
-      followee {
-        avatar
-        bio
-        displayName
-        followees {
-          nextToken
-        }
-        followers {
-          nextToken
-        }
-        id
-        name
-        pushToken
-        createdAt
-        updatedAt
-        chatRoomUsers {
-          nextToken
-        }
-        owner
-      }
-      follower {
-        avatar
-        bio
-        displayName
-        followees {
-          nextToken
-        }
-        followers {
-          nextToken
-        }
-        id
-        name
-        pushToken
-        createdAt
-        updatedAt
-        chatRoomUsers {
-          nextToken
-        }
-        owner
-      }
     }
   }
 `;
@@ -61,36 +21,6 @@ export const listContacts = /* GraphQL */ `
     $nextToken: String
   ) {
     listContacts(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        followeeId
-        followerId
-        id
-        createdAt
-        updatedAt
-        owner
-        followee {
-          avatar
-          bio
-          displayName
-          id
-          name
-          pushToken
-          createdAt
-          updatedAt
-          owner
-        }
-        follower {
-          avatar
-          bio
-          displayName
-          id
-          name
-          pushToken
-          createdAt
-          updatedAt
-          owner
-        }
-      }
       nextToken
     }
   }
@@ -105,43 +35,7 @@ export const getMessage = /* GraphQL */ `
       type
       userId
       updatedAt
-      chatRoom {
-        id
-        isPublic
-        maxUsers
-        messages {
-          nextToken
-        }
-        name
-        tags
-        createdAt
-        updatedAt
-        owner
-        chatRoomUsers {
-          nextToken
-        }
-      }
       owner
-      user {
-        avatar
-        bio
-        displayName
-        followees {
-          nextToken
-        }
-        followers {
-          nextToken
-        }
-        id
-        name
-        pushToken
-        createdAt
-        updatedAt
-        chatRoomUsers {
-          nextToken
-        }
-        owner
-      }
     }
   }
 `;
@@ -152,37 +46,6 @@ export const listMessages = /* GraphQL */ `
     $nextToken: String
   ) {
     listMessages(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        chatRoomId
-        content
-        createdAt
-        id
-        type
-        userId
-        updatedAt
-        chatRoom {
-          id
-          isPublic
-          maxUsers
-          name
-          tags
-          createdAt
-          updatedAt
-          owner
-        }
-        owner
-        user {
-          avatar
-          bio
-          displayName
-          id
-          name
-          pushToken
-          createdAt
-          updatedAt
-          owner
-        }
-      }
       nextToken
     }
   }
@@ -202,36 +65,6 @@ export const contactsByFollower = /* GraphQL */ `
       limit: $limit
       nextToken: $nextToken
     ) {
-      items {
-        followeeId
-        followerId
-        id
-        createdAt
-        updatedAt
-        owner
-        followee {
-          avatar
-          bio
-          displayName
-          id
-          name
-          pushToken
-          createdAt
-          updatedAt
-          owner
-        }
-        follower {
-          avatar
-          bio
-          displayName
-          id
-          name
-          pushToken
-          createdAt
-          updatedAt
-          owner
-        }
-      }
       nextToken
     }
   }
@@ -251,36 +84,6 @@ export const contactsByFollowee = /* GraphQL */ `
       limit: $limit
       nextToken: $nextToken
     ) {
-      items {
-        followeeId
-        followerId
-        id
-        createdAt
-        updatedAt
-        owner
-        followee {
-          avatar
-          bio
-          displayName
-          id
-          name
-          pushToken
-          createdAt
-          updatedAt
-          owner
-        }
-        follower {
-          avatar
-          bio
-          displayName
-          id
-          name
-          pushToken
-          createdAt
-          updatedAt
-          owner
-        }
-      }
       nextToken
     }
   }
@@ -302,37 +105,6 @@ export const messagesByChatRoom = /* GraphQL */ `
       limit: $limit
       nextToken: $nextToken
     ) {
-      items {
-        chatRoomId
-        content
-        createdAt
-        id
-        type
-        userId
-        updatedAt
-        chatRoom {
-          id
-          isPublic
-          maxUsers
-          name
-          tags
-          createdAt
-          updatedAt
-          owner
-        }
-        owner
-        user {
-          avatar
-          bio
-          displayName
-          id
-          name
-          pushToken
-          createdAt
-          updatedAt
-          owner
-        }
-      }
       nextToken
     }
   }
@@ -343,36 +115,11 @@ export const getChatRoom = /* GraphQL */ `
       id
       isPublic
       maxUsers
-      messages {
-        items {
-          chatRoomId
-          content
-          createdAt
-          id
-          type
-          userId
-          updatedAt
-          owner
-        }
-        nextToken
-      }
       name
       tags
       createdAt
       updatedAt
       owner
-      chatRoomUsers {
-        items {
-          chatRoomId
-          id
-          isModerator
-          userId
-          createdAt
-          updatedAt
-          owner
-        }
-        nextToken
-      }
     }
   }
 `;
@@ -383,22 +130,6 @@ export const listChatRooms = /* GraphQL */ `
     $nextToken: String
   ) {
     listChatRooms(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        id
-        isPublic
-        maxUsers
-        messages {
-          nextToken
-        }
-        name
-        tags
-        createdAt
-        updatedAt
-        owner
-        chatRoomUsers {
-          nextToken
-        }
-      }
       nextToken
     }
   }
@@ -412,43 +143,7 @@ export const getChatRoomUser = /* GraphQL */ `
       userId
       createdAt
       updatedAt
-      chatRoom {
-        id
-        isPublic
-        maxUsers
-        messages {
-          nextToken
-        }
-        name
-        tags
-        createdAt
-        updatedAt
-        owner
-        chatRoomUsers {
-          nextToken
-        }
-      }
       owner
-      user {
-        avatar
-        bio
-        displayName
-        followees {
-          nextToken
-        }
-        followers {
-          nextToken
-        }
-        id
-        name
-        pushToken
-        createdAt
-        updatedAt
-        chatRoomUsers {
-          nextToken
-        }
-        owner
-      }
     }
   }
 `;
@@ -459,36 +154,6 @@ export const listChatRoomUsers = /* GraphQL */ `
     $nextToken: String
   ) {
     listChatRoomUsers(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        chatRoomId
-        id
-        isModerator
-        userId
-        createdAt
-        updatedAt
-        chatRoom {
-          id
-          isPublic
-          maxUsers
-          name
-          tags
-          createdAt
-          updatedAt
-          owner
-        }
-        owner
-        user {
-          avatar
-          bio
-          displayName
-          id
-          name
-          pushToken
-          createdAt
-          updatedAt
-          owner
-        }
-      }
       nextToken
     }
   }
@@ -508,36 +173,6 @@ export const chatRoomUsersByUser = /* GraphQL */ `
       limit: $limit
       nextToken: $nextToken
     ) {
-      items {
-        chatRoomId
-        id
-        isModerator
-        userId
-        createdAt
-        updatedAt
-        chatRoom {
-          id
-          isPublic
-          maxUsers
-          name
-          tags
-          createdAt
-          updatedAt
-          owner
-        }
-        owner
-        user {
-          avatar
-          bio
-          displayName
-          id
-          name
-          pushToken
-          createdAt
-          updatedAt
-          owner
-        }
-      }
       nextToken
     }
   }
@@ -557,36 +192,6 @@ export const chatRoomUsersByChatRoom = /* GraphQL */ `
       limit: $limit
       nextToken: $nextToken
     ) {
-      items {
-        chatRoomId
-        id
-        isModerator
-        userId
-        createdAt
-        updatedAt
-        chatRoom {
-          id
-          isPublic
-          maxUsers
-          name
-          tags
-          createdAt
-          updatedAt
-          owner
-        }
-        owner
-        user {
-          avatar
-          bio
-          displayName
-          id
-          name
-          pushToken
-          createdAt
-          updatedAt
-          owner
-        }
-      }
       nextToken
     }
   }
@@ -597,45 +202,11 @@ export const getUser = /* GraphQL */ `
       avatar
       bio
       displayName
-      followees {
-        items {
-          followeeId
-          followerId
-          id
-          createdAt
-          updatedAt
-          owner
-        }
-        nextToken
-      }
-      followers {
-        items {
-          followeeId
-          followerId
-          id
-          createdAt
-          updatedAt
-          owner
-        }
-        nextToken
-      }
       id
       name
       pushToken
       createdAt
       updatedAt
-      chatRoomUsers {
-        items {
-          chatRoomId
-          id
-          isModerator
-          userId
-          createdAt
-          updatedAt
-          owner
-        }
-        nextToken
-      }
       owner
     }
   }
@@ -647,26 +218,6 @@ export const listUsers = /* GraphQL */ `
     $nextToken: String
   ) {
     listUsers(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        avatar
-        bio
-        displayName
-        followees {
-          nextToken
-        }
-        followers {
-          nextToken
-        }
-        id
-        name
-        pushToken
-        createdAt
-        updatedAt
-        chatRoomUsers {
-          nextToken
-        }
-        owner
-      }
       nextToken
     }
   }

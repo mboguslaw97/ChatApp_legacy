@@ -1,27 +1,27 @@
 import { Container, Text } from 'native-base';
-import React, { useEffect } from 'react';
+import React from 'react';
+import { useSelector } from 'react-redux';
 
 import MyImage from '../components/MyImage';
-import { MessageType } from '../global/types';
 import {
 	MessageScreenProps,
-	ScreenNames,
+	ScreenName,
 	StackProps,
 } from '../navigation/types';
+import { Selectors, Store } from '../store';
 
-const MessageScreen: React.FC<MessageScreenProps> = ({ navigation, route }) => {
-	const { message } = route.params;
-
-	useEffect(() => {
-		navigation.setOptions({ title: 'Message' });
-	}, [navigation]);
+const MessageScreen: React.FC<MessageScreenProps> = ({ route }) => {
+	const { messageId } = route.params;
+	const message = useSelector<Store.State, Store.Message>(
+		Selectors.getItem(messageId)
+	);
 
 	let content;
 	switch (message.type) {
-		case MessageType.text:
+		case Store.MessageType.text:
 			content = <Text>{message.content}</Text>;
 			break;
-		case MessageType.image:
+		case Store.MessageType.image:
 			content = <MyImage source={{ s3Key: message.content }} />;
 			break;
 		default:
@@ -33,8 +33,8 @@ const MessageScreen: React.FC<MessageScreenProps> = ({ navigation, route }) => {
 
 const MessageStackProps: StackProps<MessageScreenProps> = {
 	component: MessageScreen,
-	name: ScreenNames.MessageScreen,
-	options: { title: '' },
+	name: ScreenName.Message,
+	options: { title: 'Message' },
 };
 
 export default MessageStackProps;

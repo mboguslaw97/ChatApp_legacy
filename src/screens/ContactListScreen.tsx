@@ -3,34 +3,33 @@ import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
 import UserListItem from '../components/UserListItem';
-import { User } from '../global/types';
 import {
 	ContactListScreenProps,
-	ScreenNames,
+	ScreenName,
 	StackProps,
 } from '../navigation/types';
-import { ReduxStore } from '../store';
+import { Selectors, Store } from '../store';
 
 const ContactListScreen: React.FC<ContactListScreenProps> = ({
 	navigation,
 	route,
 }) => {
-	const users = route.params?.users;
-	const followees = useSelector<ReduxStore, User[]>(state =>
-		state.currentUser.followees.items.map(contact => contact.followee)
-	);
-
+	const userIds = route.params?.userIds;
 	useEffect(() => {
-		const title = users ? 'Members' : 'Friends';
+		const title = userIds ? 'Members' : 'Friends';
 		navigation.setOptions({ title });
-	}, [navigation, users]);
+	}, [navigation, userIds]);
+
+	const followees = useSelector<Store.State, Store.Contact[]>(
+		Selectors.getCurrentUser([Store.IdKey.followeeIds])
+	);
 
 	return (
 		<Box>
 			<FlatList
-				data={users ?? followees}
-				keyExtractor={item => item.id}
-				renderItem={({ item }) => <UserListItem user={item} />}
+				data={userIds ?? followees.map(followee => followee.followeeId)}
+				keyExtractor={item => item}
+				renderItem={({ item }) => <UserListItem userId={item} />}
 			/>
 		</Box>
 	);
@@ -38,7 +37,7 @@ const ContactListScreen: React.FC<ContactListScreenProps> = ({
 
 const contactListStackProps: StackProps<ContactListScreenProps> = {
 	component: ContactListScreen,
-	name: ScreenNames.ContactListScreen,
+	name: ScreenName.ContactList,
 	options: { title: 'Contacts' },
 };
 

@@ -4,6 +4,7 @@ export const createMessage = /* GraphQL */ `
 		$condition: ModelMessageConditionInput
 	) {
 		createMessage(input: $input, condition: $condition) {
+			__typename
 			chatRoomId
 			content
 			createdAt
@@ -25,6 +26,7 @@ export const createChatRoomUser = /* GraphQL */ `
 		$condition: ModelChatRoomUserConditionInput
 	) {
 		createChatRoomUser(input: $input, condition: $condition) {
+			__typename
 			chatRoom {
 				chatRoomUsers {
 					items {

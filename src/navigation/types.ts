@@ -1,7 +1,5 @@
 import { StackScreenProps } from '@react-navigation/stack';
 
-import { ChatRoom, Message, User } from '../global/types';
-
 export type BottomTabParamList = {
 	Browse: undefined;
 	Chats: undefined;
@@ -14,28 +12,28 @@ export type ChatsProps = StackScreenProps<BottomTabParamList, 'Chats'>;
 export type ProfileProps = StackScreenProps<BottomTabParamList, 'Profile'>;
 export type SearchProps = StackScreenProps<BottomTabParamList, 'Search'>;
 
-export enum ScreenNames {
-	BrowseMenuScreen = 'BrowseMenuScreen',
-	ChatListScreen = 'ChatListScreen',
-	ChatRoomInfoScreen = 'ChatRoomInfoScreen',
-	ChatRoomScreen = 'ChatRoomScreen',
-	ContactListScreen = 'ContactListScreen',
-	CreateChatScreen = 'CreateChatScreen',
-	MessageScreen = 'MessageScreen',
-	ProfileScreen = 'ProfileScreen',
-	SettingsScreen = 'SettingsScreen',
+export enum ScreenName {
+	BrowseMenu = 'BrowseMenuScreen',
+	ChatList = 'ChatListScreen',
+	ChatRoomInfo = 'ChatRoomInfoScreen',
+	ChatRoom = 'ChatRoomScreen',
+	ContactList = 'ContactListScreen',
+	CreateChat = 'CreateChatScreen',
+	Message = 'MessageScreen',
+	Profile = 'ProfileScreen',
+	Settings = 'SettingsScreen',
 }
 
 export type ScreenProps = {
-	[ScreenNames.BrowseMenuScreen]: undefined;
-	[ScreenNames.ChatListScreen]: undefined;
-	[ScreenNames.ChatRoomInfoScreen]: { chatRoom: ChatRoom };
-	[ScreenNames.ChatRoomScreen]: { chatRoomId: string };
-	[ScreenNames.ContactListScreen]: { users?: User[] };
-	[ScreenNames.CreateChatScreen]: undefined;
-	[ScreenNames.MessageScreen]: { message: Message };
-	[ScreenNames.ProfileScreen]: { userId: string };
-	[ScreenNames.SettingsScreen]: undefined;
+	[ScreenName.BrowseMenu]: undefined;
+	[ScreenName.ChatList]: undefined;
+	[ScreenName.ChatRoomInfo]: { chatRoomId: string };
+	[ScreenName.ChatRoom]: { chatRoomId: string };
+	[ScreenName.ContactList]: { userIds?: string[] };
+	[ScreenName.CreateChat]: undefined;
+	[ScreenName.Message]: { messageId: string };
+	[ScreenName.Profile]: { userId: string };
+	[ScreenName.Settings]: undefined;
 };
 
 export type StackProps<T> = {
@@ -46,45 +44,45 @@ export type StackProps<T> = {
 
 export type BrowseMenuScreenProps = StackScreenProps<
 	ScreenProps,
-	ScreenNames.BrowseMenuScreen
+	ScreenName.BrowseMenu
 >;
 
 export type ChatListScreenProps = StackScreenProps<
 	ScreenProps,
-	ScreenNames.ChatListScreen
+	ScreenName.ChatList
 >;
 
 export type ChatRoomScreenProps = StackScreenProps<
 	ScreenProps,
-	ScreenNames.ChatRoomScreen
+	ScreenName.ChatRoom
 >;
 
 export type ChatRoomInfoScreenProps = StackScreenProps<
 	ScreenProps,
-	ScreenNames.ChatRoomInfoScreen
+	ScreenName.ChatRoomInfo
 >;
 
 export type ContactListScreenProps = StackScreenProps<
 	ScreenProps,
-	ScreenNames.ContactListScreen
+	ScreenName.ContactList
 >;
 
 export type CreateChatScreenProps = StackScreenProps<
 	ScreenProps,
-	ScreenNames.CreateChatScreen
+	ScreenName.CreateChat
 >;
 
 export type MessageScreenProps = StackScreenProps<
 	ScreenProps,
-	ScreenNames.MessageScreen
+	ScreenName.Message
 >;
 
 export type ProfileScreenProps = StackScreenProps<
 	ScreenProps,
-	ScreenNames.ProfileScreen
+	ScreenName.Profile
 >;
 
 export type SettingsScreenProps = StackScreenProps<
 	ScreenProps,
-	ScreenNames.SettingsScreen
+	ScreenName.Settings
 >;

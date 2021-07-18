@@ -24,14 +24,13 @@ import AvatarButton from '../components/AvatarButton';
 import CameraActionSheet from '../components/CameraActionSheet';
 import FollowButton from '../components/FollowButton';
 import { colors } from '../global/constants';
-import { User } from '../global/types';
 import { getUser as getUserGql } from '../graphql/queries';
 import {
 	ProfileScreenProps,
-	ScreenNames,
+	ScreenName,
 	StackProps,
 } from '../navigation/types';
-import { ReduxStore } from '../store';
+import { Selectors, Store } from '../store';
 import { updateUser } from '../utils/api/mutations';
 import { getUser } from '../utils/api/queries';
 import { formatHandler } from '../utils/helper';
@@ -44,12 +43,14 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation, route }) => {
 	const toast = useToast();
 	const { isOpen, onOpen, onClose } = useDisclose();
 
-	const currentUser = useSelector<ReduxStore, User>(state => state.currentUser);
+	const currentUser = useSelector<Store.State, Store.User>(
+		Selectors.getCurrentUser()
+	);
 
 	const [avatar, setAvatar] = useState<string | undefined>();
 	const [bio, setBio] = useState('');
 	const [displayName, setDisplayName] = useState('');
-	const [user, setUser] = useState<User>();
+	const [user, setUser] = useState<Store.User>();
 	const [isCurrentUser, setIsCurrentUser] = useState(false);
 
 	useEffect(() => {
@@ -122,7 +123,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation, route }) => {
 					/>
 					<HStack mt={2} space={2}>
 						<Text fontSize="xl">{formatHandler(user?.name)}</Text>
-						{!isCurrentUser && user && <FollowButton user={user} />}
+						{!isCurrentUser && user && <FollowButton userId={userId} />}
 					</HStack>
 				</Center>
 				<FormControl>
@@ -144,7 +145,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation, route }) => {
 					<FormControl.Label>Bio</FormControl.Label>
 					<Input
 						defaultValue={bio}
-						onChangeText={(text: string) => setBio(text)}
+						// onChangeText={(text: string) => setBio(text)}
 					/>
 				</FormControl>
 
@@ -185,7 +186,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation, route }) => {
 
 const ProfileStackProps: StackProps<ProfileScreenProps> = {
 	component: ProfileScreen,
-	name: ScreenNames.ProfileScreen,
+	name: ScreenName.Profile,
 	options: { title: 'Profile' },
 };
 

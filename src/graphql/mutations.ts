@@ -11,36 +11,11 @@ export const createChatRoom = /* GraphQL */ `
       id
       isPublic
       maxUsers
-      messages {
-        items {
-          chatRoomId
-          content
-          createdAt
-          id
-          type
-          userId
-          updatedAt
-          owner
-        }
-        nextToken
-      }
       name
       tags
       createdAt
       updatedAt
       owner
-      chatRoomUsers {
-        items {
-          chatRoomId
-          id
-          isModerator
-          userId
-          createdAt
-          updatedAt
-          owner
-        }
-        nextToken
-      }
     }
   }
 `;
@@ -53,36 +28,11 @@ export const updateChatRoom = /* GraphQL */ `
       id
       isPublic
       maxUsers
-      messages {
-        items {
-          chatRoomId
-          content
-          createdAt
-          id
-          type
-          userId
-          updatedAt
-          owner
-        }
-        nextToken
-      }
       name
       tags
       createdAt
       updatedAt
       owner
-      chatRoomUsers {
-        items {
-          chatRoomId
-          id
-          isModerator
-          userId
-          createdAt
-          updatedAt
-          owner
-        }
-        nextToken
-      }
     }
   }
 `;
@@ -95,36 +45,11 @@ export const deleteChatRoom = /* GraphQL */ `
       id
       isPublic
       maxUsers
-      messages {
-        items {
-          chatRoomId
-          content
-          createdAt
-          id
-          type
-          userId
-          updatedAt
-          owner
-        }
-        nextToken
-      }
       name
       tags
       createdAt
       updatedAt
       owner
-      chatRoomUsers {
-        items {
-          chatRoomId
-          id
-          isModerator
-          userId
-          createdAt
-          updatedAt
-          owner
-        }
-        nextToken
-      }
     }
   }
 `;
@@ -140,43 +65,7 @@ export const createChatRoomUser = /* GraphQL */ `
       userId
       createdAt
       updatedAt
-      chatRoom {
-        id
-        isPublic
-        maxUsers
-        messages {
-          nextToken
-        }
-        name
-        tags
-        createdAt
-        updatedAt
-        owner
-        chatRoomUsers {
-          nextToken
-        }
-      }
       owner
-      user {
-        avatar
-        bio
-        displayName
-        followees {
-          nextToken
-        }
-        followers {
-          nextToken
-        }
-        id
-        name
-        pushToken
-        createdAt
-        updatedAt
-        chatRoomUsers {
-          nextToken
-        }
-        owner
-      }
     }
   }
 `;
@@ -192,43 +81,7 @@ export const updateChatRoomUser = /* GraphQL */ `
       userId
       createdAt
       updatedAt
-      chatRoom {
-        id
-        isPublic
-        maxUsers
-        messages {
-          nextToken
-        }
-        name
-        tags
-        createdAt
-        updatedAt
-        owner
-        chatRoomUsers {
-          nextToken
-        }
-      }
       owner
-      user {
-        avatar
-        bio
-        displayName
-        followees {
-          nextToken
-        }
-        followers {
-          nextToken
-        }
-        id
-        name
-        pushToken
-        createdAt
-        updatedAt
-        chatRoomUsers {
-          nextToken
-        }
-        owner
-      }
     }
   }
 `;
@@ -244,43 +97,7 @@ export const deleteChatRoomUser = /* GraphQL */ `
       userId
       createdAt
       updatedAt
-      chatRoom {
-        id
-        isPublic
-        maxUsers
-        messages {
-          nextToken
-        }
-        name
-        tags
-        createdAt
-        updatedAt
-        owner
-        chatRoomUsers {
-          nextToken
-        }
-      }
       owner
-      user {
-        avatar
-        bio
-        displayName
-        followees {
-          nextToken
-        }
-        followers {
-          nextToken
-        }
-        id
-        name
-        pushToken
-        createdAt
-        updatedAt
-        chatRoomUsers {
-          nextToken
-        }
-        owner
-      }
     }
   }
 `;
@@ -296,46 +113,6 @@ export const createContact = /* GraphQL */ `
       createdAt
       updatedAt
       owner
-      followee {
-        avatar
-        bio
-        displayName
-        followees {
-          nextToken
-        }
-        followers {
-          nextToken
-        }
-        id
-        name
-        pushToken
-        createdAt
-        updatedAt
-        chatRoomUsers {
-          nextToken
-        }
-        owner
-      }
-      follower {
-        avatar
-        bio
-        displayName
-        followees {
-          nextToken
-        }
-        followers {
-          nextToken
-        }
-        id
-        name
-        pushToken
-        createdAt
-        updatedAt
-        chatRoomUsers {
-          nextToken
-        }
-        owner
-      }
     }
   }
 `;
@@ -351,46 +128,6 @@ export const updateContact = /* GraphQL */ `
       createdAt
       updatedAt
       owner
-      followee {
-        avatar
-        bio
-        displayName
-        followees {
-          nextToken
-        }
-        followers {
-          nextToken
-        }
-        id
-        name
-        pushToken
-        createdAt
-        updatedAt
-        chatRoomUsers {
-          nextToken
-        }
-        owner
-      }
-      follower {
-        avatar
-        bio
-        displayName
-        followees {
-          nextToken
-        }
-        followers {
-          nextToken
-        }
-        id
-        name
-        pushToken
-        createdAt
-        updatedAt
-        chatRoomUsers {
-          nextToken
-        }
-        owner
-      }
     }
   }
 `;
@@ -406,46 +143,6 @@ export const deleteContact = /* GraphQL */ `
       createdAt
       updatedAt
       owner
-      followee {
-        avatar
-        bio
-        displayName
-        followees {
-          nextToken
-        }
-        followers {
-          nextToken
-        }
-        id
-        name
-        pushToken
-        createdAt
-        updatedAt
-        chatRoomUsers {
-          nextToken
-        }
-        owner
-      }
-      follower {
-        avatar
-        bio
-        displayName
-        followees {
-          nextToken
-        }
-        followers {
-          nextToken
-        }
-        id
-        name
-        pushToken
-        createdAt
-        updatedAt
-        chatRoomUsers {
-          nextToken
-        }
-        owner
-      }
     }
   }
 `;
@@ -462,43 +159,7 @@ export const createMessage = /* GraphQL */ `
       type
       userId
       updatedAt
-      chatRoom {
-        id
-        isPublic
-        maxUsers
-        messages {
-          nextToken
-        }
-        name
-        tags
-        createdAt
-        updatedAt
-        owner
-        chatRoomUsers {
-          nextToken
-        }
-      }
       owner
-      user {
-        avatar
-        bio
-        displayName
-        followees {
-          nextToken
-        }
-        followers {
-          nextToken
-        }
-        id
-        name
-        pushToken
-        createdAt
-        updatedAt
-        chatRoomUsers {
-          nextToken
-        }
-        owner
-      }
     }
   }
 `;
@@ -515,43 +176,7 @@ export const updateMessage = /* GraphQL */ `
       type
       userId
       updatedAt
-      chatRoom {
-        id
-        isPublic
-        maxUsers
-        messages {
-          nextToken
-        }
-        name
-        tags
-        createdAt
-        updatedAt
-        owner
-        chatRoomUsers {
-          nextToken
-        }
-      }
       owner
-      user {
-        avatar
-        bio
-        displayName
-        followees {
-          nextToken
-        }
-        followers {
-          nextToken
-        }
-        id
-        name
-        pushToken
-        createdAt
-        updatedAt
-        chatRoomUsers {
-          nextToken
-        }
-        owner
-      }
     }
   }
 `;
@@ -568,43 +193,7 @@ export const deleteMessage = /* GraphQL */ `
       type
       userId
       updatedAt
-      chatRoom {
-        id
-        isPublic
-        maxUsers
-        messages {
-          nextToken
-        }
-        name
-        tags
-        createdAt
-        updatedAt
-        owner
-        chatRoomUsers {
-          nextToken
-        }
-      }
       owner
-      user {
-        avatar
-        bio
-        displayName
-        followees {
-          nextToken
-        }
-        followers {
-          nextToken
-        }
-        id
-        name
-        pushToken
-        createdAt
-        updatedAt
-        chatRoomUsers {
-          nextToken
-        }
-        owner
-      }
     }
   }
 `;
@@ -617,45 +206,11 @@ export const createUser = /* GraphQL */ `
       avatar
       bio
       displayName
-      followees {
-        items {
-          followeeId
-          followerId
-          id
-          createdAt
-          updatedAt
-          owner
-        }
-        nextToken
-      }
-      followers {
-        items {
-          followeeId
-          followerId
-          id
-          createdAt
-          updatedAt
-          owner
-        }
-        nextToken
-      }
       id
       name
       pushToken
       createdAt
       updatedAt
-      chatRoomUsers {
-        items {
-          chatRoomId
-          id
-          isModerator
-          userId
-          createdAt
-          updatedAt
-          owner
-        }
-        nextToken
-      }
       owner
     }
   }
@@ -669,45 +224,11 @@ export const updateUser = /* GraphQL */ `
       avatar
       bio
       displayName
-      followees {
-        items {
-          followeeId
-          followerId
-          id
-          createdAt
-          updatedAt
-          owner
-        }
-        nextToken
-      }
-      followers {
-        items {
-          followeeId
-          followerId
-          id
-          createdAt
-          updatedAt
-          owner
-        }
-        nextToken
-      }
       id
       name
       pushToken
       createdAt
       updatedAt
-      chatRoomUsers {
-        items {
-          chatRoomId
-          id
-          isModerator
-          userId
-          createdAt
-          updatedAt
-          owner
-        }
-        nextToken
-      }
       owner
     }
   }
@@ -721,45 +242,11 @@ export const deleteUser = /* GraphQL */ `
       avatar
       bio
       displayName
-      followees {
-        items {
-          followeeId
-          followerId
-          id
-          createdAt
-          updatedAt
-          owner
-        }
-        nextToken
-      }
-      followers {
-        items {
-          followeeId
-          followerId
-          id
-          createdAt
-          updatedAt
-          owner
-        }
-        nextToken
-      }
       id
       name
       pushToken
       createdAt
       updatedAt
-      chatRoomUsers {
-        items {
-          chatRoomId
-          id
-          isModerator
-          userId
-          createdAt
-          updatedAt
-          owner
-        }
-        nextToken
-      }
       owner
     }
   }

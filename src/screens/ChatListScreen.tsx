@@ -4,19 +4,17 @@ import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
 import ChatRoomItem from '../components/ChatRoomItem';
-import { User } from '../global/types';
 import {
 	ChatListScreenProps,
-	ScreenNames,
+	ScreenName,
 	StackProps,
 } from '../navigation/types';
-import { ReduxStore } from '../store';
+import { Selectors, Store } from '../store';
 
 const ChatListScreen: React.FC<ChatListScreenProps> = ({ navigation }) => {
-	const currentUser = useSelector<ReduxStore, User>(state => state.currentUser);
-	const chatRooms = currentUser
-		? currentUser.chatRoomUsers?.items.map(item => item.chatRoom)
-		: [];
+	const chatRoomIds = useSelector<Store.State, Store.ChatRoomUser[]>(
+		Selectors.getCurrentUser([Store.IdKey.chatRoomUserIds], [])
+	).map(chatRoomUser => chatRoomUser.chatRoomId);
 
 	useEffect(() => {
 		navigation.setOptions({
@@ -29,7 +27,7 @@ const ChatListScreen: React.FC<ChatListScreenProps> = ({ navigation }) => {
 							variant="header"
 						/>
 					}
-					onPress={() => navigation.navigate(ScreenNames.CreateChatScreen)}
+					onPress={() => navigation.navigate(ScreenName.CreateChat)}
 				/>
 			),
 		});
@@ -38,9 +36,9 @@ const ChatListScreen: React.FC<ChatListScreenProps> = ({ navigation }) => {
 	return (
 		<Box>
 			<FlatList
-				data={chatRooms}
-				keyExtractor={item => item.id}
-				renderItem={({ item }) => <ChatRoomItem chatRoom={item} />}
+				data={chatRoomIds}
+				keyExtractor={item => item}
+				renderItem={({ item }) => <ChatRoomItem chatRoomId={item} />}
 				style={{ height: '100%' }}
 			/>
 		</Box>
@@ -49,7 +47,7 @@ const ChatListScreen: React.FC<ChatListScreenProps> = ({ navigation }) => {
 
 const chatListStackProps: StackProps<ChatListScreenProps> = {
 	component: ChatListScreen,
-	name: ScreenNames.ChatListScreen,
+	name: ScreenName.ChatList,
 	options: { title: 'Chats' },
 };
 

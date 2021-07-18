@@ -2,16 +2,9 @@ import { GraphQLResult } from '@aws-amplify/api';
 import { API, graphqlOperation } from 'aws-amplify';
 
 import * as APIt from '../../../API';
-import {
-	ChatRoom,
-	ChatRoomUser,
-	Contact,
-	Message,
-	MessageType,
-	Toast,
-	User,
-} from '../../../global/types';
+import { Toast } from '../../../global/types';
 import * as GQL from '../../../graphql/mutations';
+import { Store } from '../../../store';
 import { storeImage } from '../../storage';
 import * as CustomGQL from './graphql';
 
@@ -26,11 +19,14 @@ const factory =
 	async (input: S, toast?: Toast) => {
 		const { gql, key, process } = args;
 		if (process) await process(input);
+
 		type GqlPromise = Promise<GraphQLResult<{ [key: string]: T }>>;
 		const { data } = await (API.graphql(
 			graphqlOperation(gql ?? GQL[key], { input })
 		) as GqlPromise);
+
 		if (data && data[key]) return data[key];
+
 		toast?.show({
 			status: 'error',
 			title: 'There was an error processing your request',
@@ -38,42 +34,45 @@ const factory =
 		throw Error('Invalid response');
 	};
 
-export const createChatRoom = factory<ChatRoom, APIt.CreateChatRoomInput>({
-	key: 'createChatRoom',
-});
+export const createChatRoom = factory<Store.ChatRoom, APIt.CreateChatRoomInput>(
+	{
+		key: 'createChatRoom',
+	}
+);
 
 export const createChatRoomUser = factory<
-	ChatRoomUser,
+	Store.ChatRoomUser,
 	APIt.CreateChatRoomUserInput
 >({ gql: CustomGQL.createChatRoomUser, key: 'createChatRoomUser' });
 
-export const createContact = factory<Contact, APIt.CreateContactInput>({
+export const createContact = factory<Store.Contact, APIt.CreateContactInput>({
 	key: 'createContact',
 });
 
-export const createMessage = factory<Message, APIt.CreateMessageInput>({
+export const createMessage = factory<Store.Message, APIt.CreateMessageInput>({
 	gql: CustomGQL.createMessage,
 	key: 'createMessage',
 	process: async input => {
-		if (input.type === MessageType.image)
+		if (input.type === Store.MessageType.image)
 			input.content = await storeImage(input.content);
+
 		if (!input.content) throw new Error('content is undefined');
 	},
 });
 
-export const createUser = factory<User, APIt.CreateUserInput>({
+export const createUser = factory<Store.User, APIt.CreateUserInput>({
 	key: 'createUser',
 });
 
 export const deleteChatRoomUser = factory<
-	ChatRoomUser,
+	Store.ChatRoomUser,
 	APIt.DeleteChatRoomUserInput
 >({ key: 'deleteChatRoomUser' });
 
-export const deleteContact = factory<Contact, APIt.DeleteContactInput>({
+export const deleteContact = factory<Store.Contact, APIt.DeleteContactInput>({
 	key: 'deleteContact',
 });
 
-export const updateUser = factory<User, APIt.UpdateUserInput>({
+export const updateUser = factory<Store.User, APIt.UpdateUserInput>({
 	key: 'updateUser',
 });

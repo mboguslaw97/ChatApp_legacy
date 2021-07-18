@@ -1,53 +1,40 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Icon, useToast } from 'native-base';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { TouchableOpacity } from 'react-native';
 import { useSelector } from 'react-redux';
 
 import { colors } from '../global/constants';
-import { Contact, User } from '../global/types';
-import { ReduxStore } from '../store';
+import { Selectors, Store } from '../store';
 import { createContact, deleteContact } from '../utils/api/mutations';
 
 type Props = {
 	onPress?: () => void;
-	user: User;
+	userId: string;
 };
 
-const UserListItem: React.FC<Props> = ({ user }) => {
+const FollowButton: React.FC<Props> = ({ userId }) => {
 	const toast = useToast();
 
-	const currentUserId = useSelector<ReduxStore, string>(state => {
-		return state.currentUser.id;
-	});
-
-	const followees = useSelector<ReduxStore, Contact[]>(state => {
-		return state.currentUser.followees.items;
-	});
-
-	const [followeeContact, setFolloweeContact] = useState<Contact | undefined>(
-		undefined
+	const currentUser = useSelector<Store.State, Store.User | undefined>(
+		Selectors.getCurrentUser({ [Store.IdKey.followeeIds]: {} })
 	);
 
-	useEffect(() => {
-		setFolloweeContact(
-			followees.find(contact => contact.followeeId === user.id)
-		);
-	}, [followees, user.id]);
+	const contact = currentUser?.followees.find(
+		followee => followee.followeeId === userId
+	);
 
 	const toggleContact = () => {
-		if (followeeContact) deleteContact({ id: followeeContact.id }, toast);
-		else
-			createContact({ followeeId: user.id, followerId: currentUserId }, toast);
+		if (contact) deleteContact({ id: contact.id }, toast);
+		else if (currentUser?.id)
+			createContact({ followeeId: userId, followerId: currentUser.id }, toast);
 	};
 
 	return (
 		<TouchableOpacity onPress={toggleContact}>
 			<Icon
 				as={
-					<MaterialCommunityIcons
-						name={followeeContact ? 'heart' : 'heart-outline'}
-					/>
+					<MaterialCommunityIcons name={contact ? 'heart' : 'heart-outline'} />
 				}
 				color={colors.red}
 			/>
@@ -55,4 +42,4 @@ const UserListItem: React.FC<Props> = ({ user }) => {
 	);
 };
 
-export default UserListItem;
+export default FollowButton;

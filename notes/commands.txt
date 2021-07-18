@@ -5,11 +5,11 @@ git rebase -i HEAD~2
 ACTION = [configure console mock push status update]
 CATEGORY = [api auth codegen storage]
 amplify ACTION
-amplify CATEGORY ACTION
+amplify ACTION CATEGORY
 
 To see a list of commands:
   amplify
   amplify CATEGORY
 
 amplify api push
-amplify codegen
+amplify codegen --maxDepth 1

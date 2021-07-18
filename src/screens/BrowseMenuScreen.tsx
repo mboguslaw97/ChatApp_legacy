@@ -6,14 +6,14 @@ import { useSelector } from 'react-redux';
 import ChatRoomItem from '../components/ChatRoomItem';
 import {
 	BrowseMenuScreenProps,
-	ScreenNames,
+	ScreenName,
 	StackProps,
 } from '../navigation/types';
-import { BrowseChatRooms, ReduxStore } from '../store';
+import { Selectors, Store } from '../store';
 
 const BrowseMenuScreen: React.FC<BrowseMenuScreenProps> = ({ navigation }) => {
-	const browseChatRooms = useSelector<ReduxStore, BrowseChatRooms>(
-		state => state.browseChatRooms
+	const browseChatRooms = useSelector<Store.State, string[]>(
+		Selectors.getBrowseChatRoomIds
 	);
 
 	useEffect(() => {
@@ -27,7 +27,7 @@ const BrowseMenuScreen: React.FC<BrowseMenuScreenProps> = ({ navigation }) => {
 							variant="header"
 						/>
 					}
-					onPress={() => navigation.navigate(ScreenNames.CreateChatScreen)}
+					onPress={() => navigation.navigate(ScreenName.CreateChat)}
 				/>
 			),
 		});
@@ -38,7 +38,7 @@ const BrowseMenuScreen: React.FC<BrowseMenuScreenProps> = ({ navigation }) => {
 			<FlatList
 				data={browseChatRooms}
 				keyExtractor={item => item.id}
-				renderItem={({ item }) => <ChatRoomItem chatRoom={item} />}
+				renderItem={({ item }) => <ChatRoomItem chatRoomId={item} />}
 				style={{ height: '100%' }}
 			/>
 		</Box>
@@ -47,7 +47,7 @@ const BrowseMenuScreen: React.FC<BrowseMenuScreenProps> = ({ navigation }) => {
 
 const browseMenuStackProps: StackProps<BrowseMenuScreenProps> = {
 	component: BrowseMenuScreen,
-	name: ScreenNames.BrowseMenuScreen,
+	name: ScreenName.BrowseMenu,
 	options: { title: 'Browse' },
 };
 

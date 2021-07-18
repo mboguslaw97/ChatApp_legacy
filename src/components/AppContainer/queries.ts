@@ -1,6 +1,7 @@
 export const getUser = /* GraphQL */ `
 	query GetUser($id: ID!) {
 		getUser(id: $id) {
+			__typename
 			avatar
 			bio
 			displayName
@@ -9,18 +10,23 @@ export const getUser = /* GraphQL */ `
 			pushToken
 			chatRoomUsers {
 				items {
+					__typename
 					id
 					isModerator
 					chatRoom {
+						__typename
 						id
 						isPublic
 						messages {
 							items {
+								__typename
+								chatRoomId
 								content
 								createdAt
 								id
 								type
 								user {
+									__typename
 									avatar
 									id
 									name
@@ -30,10 +36,12 @@ export const getUser = /* GraphQL */ `
 						}
 						chatRoomUsers {
 							items {
+								__typename
 								id
 								chatRoomId
 								isModerator
 								user {
+									__typename
 									avatar
 									displayName
 									id
@@ -47,12 +55,15 @@ export const getUser = /* GraphQL */ `
 						updatedAt
 					}
 					chatRoomId
+					userId
 				}
 				nextToken
 			}
 			followees {
 				items {
+					__typename
 					followee {
+						__typename
 						avatar
 						bio
 						displayName
@@ -63,6 +74,7 @@ export const getUser = /* GraphQL */ `
 					}
 					followeeId
 					follower {
+						__typename
 						avatar
 						bio
 						displayName
@@ -79,7 +91,9 @@ export const getUser = /* GraphQL */ `
 			}
 			followers {
 				items {
+					__typename
 					followee {
+						__typename
 						avatar
 						bio
 						displayName
@@ -90,6 +104,7 @@ export const getUser = /* GraphQL */ `
 					}
 					followeeId
 					follower {
+						__typename
 						avatar
 						bio
 						displayName

@@ -6,34 +6,39 @@ import MaxUsersInput from '../components/MaxUsersInput';
 import TagInput from '../components/TagInput';
 import {
 	ChatRoomInfoScreenProps,
-	ScreenNames,
+	ScreenName,
 	StackProps,
 } from '../navigation/types';
-import { ReduxStore } from '../store';
+import { Selectors, Store } from '../store';
 import { leaveChatRoom } from '../utils/helper';
 
 const ChatRoomInfoScreen: React.FC<ChatRoomInfoScreenProps> = ({
 	navigation,
 	route,
 }) => {
-	const { chatRoom } = route.params;
+	const { chatRoomId } = route.params;
 
 	const toast = useToast();
 
+	const currentUserId = useSelector<Store.State, string | undefined>(
+		Selectors.getCurrentUserId
+	);
+	const chatRoom = useSelector<Store.State, Store.ChatRoom>(
+		Selectors.getItem(chatRoomId, { [Store.IdKey.chatRoomUserIds]: {} })
+	);
+
 	const [tags, setTags] = useState<string[]>(chatRoom.tags);
 
-	const currentUserId = useSelector<ReduxStore, string>(state => {
-		return state.currentUser.id;
-	});
+	const isOwner =
+		currentUserId &&
+		chatRoom.chatRoomUsers
+			.filter(chatRoomUser => chatRoomUser.isModerator)
+			.map(chatRoomUser => chatRoomUser.userId)
+			.includes(currentUserId);
 
-	const isOwner = chatRoom.chatRoomUsers.items
-		.filter(chatRoomUser => chatRoomUser.isModerator)
-		.map(chatRoomUser => chatRoomUser.userId)
-		.includes(currentUserId);
-
-	const users = chatRoom.chatRoomUsers.items
+	const userIds = chatRoom.chatRoomUsers
 		.filter(chatRoomUser => chatRoomUser.userId !== currentUserId)
-		.map(chatRoomUser => chatRoomUser.user);
+		.map(chatRoomUser => chatRoomUser.userId);
 
 	return (
 		<VStack pt={5}>
@@ -46,15 +51,16 @@ const ChatRoomInfoScreen: React.FC<ChatRoomInfoScreenProps> = ({
 				<TagInput setTags={isOwner ? setTags : undefined} tags={tags} />
 			)}
 			<Button
-				onPress={() =>
-					navigation.navigate(ScreenNames.ContactListScreen, { users })
-				}
+				onPress={() => navigation.navigate(ScreenName.ContactList, { userIds })}
 			>
 				Members
 			</Button>
 			<Button
 				colorScheme="secondary"
-				onPress={() => leaveChatRoom(chatRoom, currentUserId, toast)}
+				onPress={() => {
+					navigation.navigate(ScreenName.ChatList);
+					if (currentUserId) leaveChatRoom(chatRoom, currentUserId, toast);
+				}}
 				variant="outline"
 			>
 				Leave Room
@@ -65,7 +71,7 @@ const ChatRoomInfoScreen: React.FC<ChatRoomInfoScreenProps> = ({
 
 const chatRoomInfoStackProps: StackProps<ChatRoomInfoScreenProps> = {
 	component: ChatRoomInfoScreen,
-	name: ScreenNames.ChatRoomInfoScreen,
+	name: ScreenName.ChatRoomInfo,
 	options: { title: 'Room Info' },
 };
 

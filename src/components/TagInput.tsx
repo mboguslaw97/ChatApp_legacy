@@ -14,6 +14,7 @@ const TagInput: React.FC<Props> = ({ tags, setTags }) => {
 	const addTag = () => {
 		const tag2 = tag.trim();
 		if (setTags && tag2 && !tags.includes(tag2)) setTags([...tags, tag2]);
+
 		setTag('');
 	};
 
